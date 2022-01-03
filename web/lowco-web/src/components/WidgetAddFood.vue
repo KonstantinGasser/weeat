@@ -119,7 +119,15 @@ export default {
   },
   methods: {
       addFood() {
-        this.$moshaToast("Hello World", {type: 'success', position: 'top-center', timeout: 3000})
+        const payload = {
+            name: this.food_name,
+            category: this.food_cat,
+            kcal: this.food_kcal,
+            carbohydrates: this.food_carbs,
+            fats: this.food_fats,
+            protein: this.food_protein,
+        }
+        console.log(payload)
       }
   },
 };

@@ -74,7 +74,11 @@ export default {
         this.ingredients = this.ingredients.filter(i => (i != item))
       },
       addRecipe() {
-        this.$moshaToast("Hello World", {type: 'success', position: 'top-center', timeout: 3000})
+        const payload = {
+          name: this.recipe_name,
+          ingredients: this.ingredients,
+        }
+        console.log(payload)
       },
   },
 };

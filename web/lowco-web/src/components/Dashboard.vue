@@ -16,7 +16,7 @@
                 </span>
             </div>
             <div class="nothing-there-yet-img">
-                <img class="svg-img" src="../assets/svg/basketball.svg" alt="">
+                <img class="svg-img" src="../assets/svg/cooking.svg" alt="">
             </div>
         </div>
         <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
@@ -40,11 +40,7 @@ export default {
             isAddRecipe: false,
         };
     },
-    methods: {
-        addFruit(){
-            this.food_name = "hello";
-        },
-    }
+    methods: {},
 }
 
 </script>
@@ -60,15 +56,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 15px;
 }
 
 .nothing-there-yet-img {
-  display: grid;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .nothing-there-yet-img .svg-img {
-  width: 100%;
+  width: 80%;
   height: auto;
 }
 
