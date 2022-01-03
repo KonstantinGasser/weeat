@@ -25,7 +25,7 @@ export default {
 
 body {
   background: #fff4f4;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 .justify-center {
   justify-content: center;
@@ -148,19 +148,12 @@ and (-webkit-device-pixel-ratio : 3) {
   font-size: 24px;
 }
 
+.bi:hover {
+  cursor: pointer;
+}
+
 .icon-medium {
-  font-size: 45px;
-}
-
-.nothing-there-yet {
-  display: grid;
-  align-items: center;
-}
-
-.nothing-there-yet .svg-img {
-  width: 100%;
-  height: auto;
-}
-
+    font-size: 45px;
+  }
 
 </style>

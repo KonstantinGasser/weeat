@@ -2,7 +2,7 @@
   <div class="widget">
     <div class="widget-header">
         <span>New Food</span>
-        <i class="bi bi-x icon-medium" @click="$emit('closeWidget')"></i>
+        <i class="bi bi-x icon-medium" @click="$emit('widget_close_new_food')"></i>
     </div>
     <div class="">
       <div class="row g-2 my-1">
