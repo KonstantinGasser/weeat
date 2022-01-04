@@ -103,6 +103,8 @@
 
 <script>
 
+import axios from 'axios'
+
 export default {
   name: "WidgetAddFood",
   setup() {
@@ -119,6 +121,11 @@ export default {
   },
   methods: {
       addFood() {
+        let options = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
         const payload = {
             name: this.food_name,
             category: this.food_cat,
@@ -128,6 +135,8 @@ export default {
             protein: this.food_protein,
         }
         console.log(payload)
+
+        axios.post("http://localhost:8000/records/food", payload, options)
       }
   },
 };

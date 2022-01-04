@@ -4,18 +4,35 @@ import (
 	"net"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
+	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 )
 
+type APIConfFunc func(*API)
+
 type API struct {
-	addr string
+	addr   string
+	router *mux.Router
+	cors   *cors.Cors
+	// allowedOrigins     handlers.CORSOption
+	// allowedHeaders     handlers.CORSOption
+	// allowedMethods     handlers.CORSOption
+	// allowedCredentials handlers.CORSOption
 }
 
-func New(addr string) *API {
-	return &API{
-		addr: addr,
+func New(addr string, origins, methods []string) *API {
+	apisrv := &API{
+		addr:   addr,
+		router: mux.NewRouter(),
+		cors: cors.New(cors.Options{
+			AllowedOrigins: origins,
+			AllowedMethods: methods,
+		}),
 	}
+
+	return apisrv
 }
 
 // Listen starts the HTTP Server and listens on the given
@@ -26,10 +43,11 @@ func (api *API) Listen() error {
 		return errors.Wrap(err, "creating net.Listener")
 	}
 	logrus.Infof("[api.Listen] listening on %q\n", api.addr)
-	return http.Serve(listener, nil)
+
+	return http.Serve(listener, cors.Default().Handler(api.router))
 }
 
-func (api *API) Register(path string, method methodIntercepter, f http.HandlerFunc) {
+func (api *API) Register(path string, f http.HandlerFunc, method string) {
 	logrus.Infof("[api.Register] registered route: %s\n", path)
-	http.HandleFunc(path, method(f))
+	api.router.HandleFunc(path, f).Methods(method)
 }
