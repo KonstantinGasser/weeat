@@ -6,26 +6,28 @@ import (
 	"github.com/KonstantinGasser/weeat/api"
 	"github.com/KonstantinGasser/weeat/core/services/records"
 	"github.com/KonstantinGasser/weeat/handler"
+	"github.com/KonstantinGasser/weeat/pkg/postgres"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
 
-	hostApi := flag.String("api-host", ":8000", "API host address")
-	// hostDB := flag.String("db-host", "localhost", "database hostname")
-	// portDB := flag.Int("db-port", 5432, "database port number")
-	// dbName := flag.String("db-name", "weeat_db", "name of the database")
-	flag.Parse()
+	isProd := flag.Bool("prod", false, "will load env from os.ENV")
+	// flag.Parse()
 
+	cfg, err := initConifg(".", *isProd)
+	if err != nil {
+		logrus.Panic(err)
+	}
 	// create database dependency
-	// weeatDB := postgres.New("postgres", "weeat_secure", *hostDB, *portDB)
-	// if err := weeatDB.Connect(*dbName); err != nil {
-	// 	logrus.Panic(err)
-	// }
+	weeatDB := postgres.New(cfg.Database.User, cfg.Database.Password, cfg.Database.Host, int(cfg.Database.Port))
+	if err := weeatDB.Connect(cfg.Database.DatabaseName); err != nil {
+		logrus.Panic(err)
+	}
 
 	// create API Http server
 	apihttp := api.New(
-		*hostApi,
+		":8000",
 		[]string{"*"},
 		[]string{"OPTIONS", "GET", "POST", "PUT", "DELETE"},
 	)

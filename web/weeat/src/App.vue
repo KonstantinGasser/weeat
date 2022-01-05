@@ -18,9 +18,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  /* margin-top: 25px; */
 }
 
 body {
@@ -62,11 +59,6 @@ and (-webkit-device-pixel-ratio : 3) {
   }
 }
 
-.action-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .headline {
   display: flex;
@@ -84,9 +76,11 @@ and (-webkit-device-pixel-ratio : 3) {
 }
 
 .action-row {
-  display: flex;
-  justify-content: space-evenly;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
 
 .action-row button {
   margin: 0 0;
@@ -95,7 +89,7 @@ and (-webkit-device-pixel-ratio : 3) {
 .action-btn {
   padding: 3px 15px;
 
-  width: 125px;
+  width: 150px;
 
   font-size: 16px;
   font-weight: 600;
@@ -121,16 +115,16 @@ and (-webkit-device-pixel-ratio : 3) {
   overflow: hidden;
   background: #ffffff;
   
-  width: 90%;
-  height: 75%;
+  width: 95%;
+  height: max-content;
 
-  bottom: -75%;
+  bottom: -100%;
   left: 0;
   right: 0;
   margin-left: auto; 
   margin-right: auto;
 
-  padding: 0 15px;
+  padding: 0 15px 15px 15px;
   border-radius: 14px 14px 0 0;
   box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
   transition: 250ms ease-out;

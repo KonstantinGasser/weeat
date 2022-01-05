@@ -3,24 +3,36 @@
         <div class="headline">
             <h1><span>We</span>Eat</h1>
         </div>
-        <div class="action-row">
+        <!-- <div class="action-row">
             <button class="action-btn medium" @click="isAddFood=!isAddFood">Add Food</button>
             <button class="action-btn medium" @click="isAddRecipe=!isAddRecipe">Add Recipe</button>
-            <!-- <div class="btns">
-            </div> -->
-        </div>
-        <div class="dashboard-options">
-            <div class="dashboard-option" @click="isGenerateMeals=!isGenerateMeals">
-                <span>Feeling lucky? 😬</span>
-                <i class="bi bi-dice-6"></i>
-            </div>
-            <div class="dashboard-option">
-                <span>Track intake 🤌</span>
-                <i class="bi bi-bullseye"></i>
+        </div> -->
+        <div class="dashboard">
+            <div class="dashboard-options">
+                <div class="dashboard-option" @click="isAddFood=!isAddFood">
+                    <span>Add Food</span>
+                    <span class="option-icon">🫐</span>
+                    <!-- <i class="bi bi-dice-6"></i> -->
+                </div>
+                <div class="dashboard-option" @click="isAddRecipe=!isAddRecipe">
+                    <span>Add Recipe</span>
+                    <span class="option-icon">🌮</span>
+                    <!-- <i class="bi bi-bullseye"></i> -->
+                </div>
+                <div class="dashboard-option" @click="isGenerateMeals=!isGenerateMeals">
+                    <span>Feeling lucky?</span>
+                    <span class="option-icon">😬</span>
+                    <!-- <i class="bi bi-dice-6"></i> -->
+                </div>
+                <div class="dashboard-option">
+                    <span>Track intake</span>
+                    <span class="option-icon">🍽</span>
+                    <!-- <i class="bi bi-bullseye"></i> -->
+                </div>
             </div>
             <div class="intake-today mt-2">
                 <hr>
-                <h4>{{info_text()}}</h4>
+                <h4>{{info_text()}}<br> you have <span>1600</span> kcal today</h4>
                 <IntakeDoughnut v-bind:chartData="state.chartData" v-bind:chartOptions="state.chartOptions" />
             </div>
             <!-- <div class="nothing-there-yet-text">
@@ -80,7 +92,7 @@ export default defineComponent({
     },
     methods: {
         info_text() {
-            return "Good start, you have " + this.kcal_today + " kcal today"
+            return "Good start,"
         }
     },
 })
@@ -103,7 +115,8 @@ hr {
 }
 
 .dashboard-options .dashboard-option {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -118,12 +131,26 @@ hr {
     font-size: 18px;
 }
 
-.dashboard-option .bi {
-    font-size: 30px;
+.dashboard-option .option-icon {
+    font-size: 35px;
 }
 
-.dashboard-option .bi-dice-6 {
+/* .dashboard-option .bi {
+    font-size: 30px;
+} */
+
+/* .dashboard-option .bi-dice-6 {
     transform: rotate(45deg);
+} */
+
+.intake-today {
+    display: grid;
+    justify-content: center;
+}
+
+.intake-today h4 > span {
+    color: #1fcf80;
+    font-weight: bold;
 }
 
 .nothing-there-yet-text {

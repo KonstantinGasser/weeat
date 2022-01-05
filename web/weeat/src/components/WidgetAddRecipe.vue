@@ -70,7 +70,7 @@ export default {
   methods: {
       closeWidget() {
         this.$emit(this.emit_widget_name)
-        this.$options.unmounted()
+        this.ingredients = []
       },
       addIngredient() {
         this.ingredients.push(this.searched_ingredient)
@@ -106,6 +106,9 @@ export default {
 
 .ingredients .list_header {
   text-align: left;
+  height: 100%;
+  max-height: 470px;
+  overflow-y: scroll;
 }
 
 .list_ingredients {

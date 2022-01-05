@@ -61,9 +61,13 @@
               id="floatingInputGrid3"
               placeholder="Pumkin"
             />
-            <label for="floatingInputGrid">Carbohydrates (gramm)</label>
+            <label for="floatingInputGrid">Carbohydrates (gramm) 🍞</label>
           </div>
         </div>
+        <div class="form-group">
+          <input type="email" class="form-control" id="carbSugar" aria-describedby="sugarHelp" placeholder="Sugur 🍩">
+          <small id="sugarHelp" class="form-text text-muted">Amount of sugar cannot be bigger then total carbs</small>
+      </div>
       </div>
       <div class="row g-2 my-1">
         <div class="col-md">
@@ -76,7 +80,7 @@
               id="floatingInputGrid2"
               placeholder="24"
             />
-            <label for="floatingInputGrid">Fats (gramm)</label>
+            <label for="floatingInputGrid">Fats (gramm) 🧈</label>
           </div>
         </div>
         <div class="col-md">
@@ -89,7 +93,7 @@
               id="floatingInputGrid3"
               placeholder="Pumkin"
             />
-            <label for="floatingInputGrid">Protein (gramm)</label>
+            <label for="floatingInputGrid">Protein (gramm) 🥜</label>
           </div>
         </div>
       </div>
@@ -114,6 +118,7 @@ export default {
         food_cat: 1,
         food_kcal: null,
         food_carbs: null,
+        food_sugar: null,
         foot_protein: null,
         food_fats: null,
     };
