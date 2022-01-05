@@ -11,6 +11,8 @@ import (
 
 func HandleInsertFood(recodsvc *records.Service) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "%s works", r.URL)
+
 		b, err := io.ReadAll(r.Body)
 		if err != nil {
 			logrus.Panic(err)

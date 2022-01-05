@@ -2,7 +2,7 @@
   <div class="widget">
     <div class="widget-header">
         <span>New Recipe</span>
-        <i class="bi bi-x icon-medium" @click="$emit('widget_close_new_recipe')"></i>
+        <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
     <div class="">
       <div class="row g-2 my-1">
@@ -52,19 +52,26 @@
 
 
 <script>
+import axios from 'axios'
 
 export default {
   name: "WidgetAddFood",
-  setup() {
-  },
   data() {
     return {
+        emit_widget_name: "widget_close_new_recipe",
         recipe_name: null,
         searched_ingredient: null,
         ingredients: [],
     };
   },
+  unmounted() {
+    console.log("destroying: new.Recipe")
+  },
   methods: {
+      closeWidget() {
+        this.$emit(this.emit_widget_name)
+        this.$options.unmounted()
+      },
       addIngredient() {
         this.ingredients.push(this.searched_ingredient)
         this.searched_ingredient = null
@@ -74,11 +81,22 @@ export default {
         this.ingredients = this.ingredients.filter(i => (i != item))
       },
       addRecipe() {
+        let options = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
         const payload = {
           name: this.recipe_name,
           ingredients: this.ingredients,
         }
-        console.log(payload)
+        
+        axios.post("http://localhost:8000/records/new/recipe", payload, options).then(resp => {
+          this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
+          this.$emit('widget_close_new_recipe')
+        }).catch(err => {
+          this.$moshaToast(err, {type:'success', position: 'top-center', timeout: 3000})
+        })
       },
   },
 };
@@ -128,9 +146,9 @@ export default {
 }
 
 .recipe_tag.tag_kcal {
-  background: #ffadad25;
-  color: #ffadad;
-  border: 1px solid #ffadad;
+  background: #ef233c25;
+  color: #ef233c;
+  border: 1px solid #ef233c;
 }
 
 .recipe_tag.tag_carbs {

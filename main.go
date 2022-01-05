@@ -27,7 +27,7 @@ func main() {
 	apihttp := api.New(
 		*hostApi,
 		[]string{"*"},
-		[]string{"OPTIONS", "GET", "POST", "PUT"},
+		[]string{"OPTIONS", "GET", "POST", "PUT", "DELETE"},
 	)
 
 	// create service dependencies
@@ -36,21 +36,14 @@ func main() {
 	// setting up routes
 	//
 	// routes: records.Food
-	apihttp.Register("/records/food", handler.HandleInsertFood(
+	apihttp.Register("/records/new/food", handler.HandleInsertFood(
 		recordsvc,
-	), "PUT")
-	// apihttp.Register("/records/food", nil)
-	// apihttp.Register("/records/food", nil)
-	// apihttp.Register("/records/food", nil)
-	// apihttp.Register("records/search", nil)
+	), "POST")
 
 	// routes: records.Recipe
-	apihttp.Register("/records/recipe", handler.HandlerInsertRecipe(
+	apihttp.Register("/records/new/recipe", handler.HandlerInsertRecipe(
 		recordsvc,
-	), "PUT")
-	// apihttp.Register("/records/recipe", nil)
-	// apihttp.Register("/records/recipe", nil)
-	// apihttp.Register("/records/recipe", nil)
+	), "POST")
 
 	// start API Http server
 	if err := apihttp.Listen(); err != nil {

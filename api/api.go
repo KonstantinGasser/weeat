@@ -16,10 +16,6 @@ type API struct {
 	addr   string
 	router *mux.Router
 	cors   *cors.Cors
-	// allowedOrigins     handlers.CORSOption
-	// allowedHeaders     handlers.CORSOption
-	// allowedMethods     handlers.CORSOption
-	// allowedCredentials handlers.CORSOption
 }
 
 func New(addr string, origins, methods []string) *API {

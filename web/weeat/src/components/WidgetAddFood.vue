@@ -2,7 +2,7 @@
   <div class="widget">
     <div class="widget-header">
         <span>New Food</span>
-        <i class="bi bi-x icon-medium" @click="$emit('widget_close_new_food')"></i>
+        <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
     <div class="">
       <div class="row g-2 my-1">
@@ -107,10 +107,9 @@ import axios from 'axios'
 
 export default {
   name: "WidgetAddFood",
-  setup() {
-  },
   data() {
     return {
+        emit_widget_name: "widget_close_new_food",
         food_name: null,
         food_cat: 1,
         food_kcal: null,
@@ -119,7 +118,14 @@ export default {
         food_fats: null,
     };
   },
+  unmounted() {
+    console.log("destroying: new.Food")
+  },
   methods: {
+      closeWidget() {
+        this.$emit(this.emit_widget_name)
+        this.$options.unmounted()
+      },
       addFood() {
         let options = {
             headers: {
@@ -136,7 +142,13 @@ export default {
         }
         console.log(payload)
 
-        axios.post("http://localhost:8000/records/food", payload, options)
+        axios.post("http://localhost:8000/records/new/food", payload, options).then(resp =>{
+          this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
+          this.$emit('widget_close_new_food')
+
+        }).catch(err => {
+          this.$moshaToast(err, {type: 'danger',position: 'top-center', timeout: 3000})
+        })
       }
   },
 };

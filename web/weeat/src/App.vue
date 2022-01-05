@@ -20,12 +20,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 25px; */
 }
 
 body {
   background: #fff4f4;
-  overflow-y: hidden;
+  position: relative;
+  overflow: hidden;
+  /* height: 100%; */
 }
 .justify-center {
   justify-content: center;
@@ -41,7 +43,7 @@ body {
   background: #fff4f4;
   display: grid;
   grid-template-rows: 50px 50px auto;
-  gap: 25px;
+  gap: 10px;
   grid-template: repeat(100px, 100px);
   
   height: 100vh;
@@ -83,17 +85,17 @@ and (-webkit-device-pixel-ratio : 3) {
 
 .action-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .action-row button {
-  margin: 0 10px;
+  margin: 0 0;
 }
 
 .action-btn {
   padding: 3px 15px;
 
-  width: max-content;
+  width: 125px;
 
   font-size: 16px;
   font-weight: 600;
@@ -115,8 +117,8 @@ and (-webkit-device-pixel-ratio : 3) {
 }
 
 .widget {
-  transition: 250ms ease-out;
   position: absolute;
+  overflow: hidden;
   background: #ffffff;
   
   width: 90%;
@@ -131,6 +133,7 @@ and (-webkit-device-pixel-ratio : 3) {
   padding: 0 15px;
   border-radius: 14px 14px 0 0;
   box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
+  transition: 250ms ease-out;
 }
 
 .widget.widget-active {
@@ -146,6 +149,7 @@ and (-webkit-device-pixel-ratio : 3) {
 
 .widget .widget-header span {
   font-size: 24px;
+  text-decoration: underline;
 }
 
 .bi:hover {
@@ -154,6 +158,65 @@ and (-webkit-device-pixel-ratio : 3) {
 
 .icon-medium {
     font-size: 45px;
+}
+
+
+.loader,
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+.loader {
+  color: #1fcf80;
+  font-size: 10px;
+  margin: 80px auto;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
+}
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
   }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
 
 </style>
