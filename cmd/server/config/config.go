@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"os"
@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-type config struct {
+type Config struct {
 	Database struct {
 		Host         string
 		Port         int64
@@ -18,13 +18,13 @@ type config struct {
 	}
 }
 
-func initConifg(path string, prod bool) (config, error) {
+func Init(path string, prod bool) (Config, error) {
 	if prod {
 		port, err := strconv.ParseInt(os.Getenv("DB_PORT"), 10, 10)
 		if err != nil {
-			return config{}, errors.Wrap(err, "os.Getenv of DB_PORT cast error")
+			return Config{}, errors.Wrap(err, "os.Getenv of DB_PORT cast error")
 		}
-		return config{
+		return Config{
 			Database: struct {
 				Host         string
 				Port         int64
@@ -46,12 +46,12 @@ func initConifg(path string, prod bool) (config, error) {
 	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
-		return config{}, errors.Wrap(err, "viper - read config")
+		return Config{}, errors.Wrap(err, "viper - read Config")
 	}
 
-	var cfg config
+	var cfg Config
 	if err := viper.Unmarshal(&cfg); err != nil {
-		return config{}, errors.Wrap(err, "viper - unmarshal config")
+		return Config{}, errors.Wrap(err, "viper - unmarshal Config")
 	}
 	return cfg, nil
 }
