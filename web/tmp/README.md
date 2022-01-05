@@ -1,4 +1,4 @@
-# lowco-web
+# weeat-web
 
 ## Project setup
 ```

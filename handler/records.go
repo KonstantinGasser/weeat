@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/KonstantinGasser/lowco/core/services/records"
+	"github.com/KonstantinGasser/weeat/core/services/records"
 	"github.com/sirupsen/logrus"
 )
 

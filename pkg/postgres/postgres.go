@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/KonstantinGasser/lowco/core/dao"
+	"github.com/KonstantinGasser/weeat/core/dao"
 	"github.com/jackc/pgx/v4"
 	"github.com/pkg/errors"
 )

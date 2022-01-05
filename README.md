@@ -1,1 +1,1 @@
-# lowco: an API
+# weeat: an API

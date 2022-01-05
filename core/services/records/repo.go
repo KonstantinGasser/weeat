@@ -3,7 +3,7 @@ package records
 import (
 	"context"
 
-	"github.com/KonstantinGasser/lowco/core/dao"
+	"github.com/KonstantinGasser/weeat/core/dao"
 )
 
 type RecordsRepo interface {
