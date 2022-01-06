@@ -7,6 +7,7 @@ import (
 	"github.com/KonstantinGasser/weeat/core/dao"
 	"github.com/jackc/pgx/v4"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 )
 
 type Conn struct {
@@ -26,6 +27,7 @@ func New(user, password, host string, port int) *Conn {
 }
 
 func (conn *Conn) Connect(dbname string) error {
+	logrus.Infof("[postgres.Conntect] conntecting to pg: host=%s,db=%s\n", conn.host, dbname)
 	c, err := pgx.Connect(context.Background(), conn.uri(dbname))
 	if err != nil {
 		return errors.Wrap(err, "connect to postgres-db caused an issue")

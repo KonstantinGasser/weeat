@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/KonstantinGasser/weeat/api"
 	"github.com/KonstantinGasser/weeat/cmd/server/config"
@@ -14,9 +15,16 @@ import (
 func main() {
 
 	isProd := flag.Bool("prod", false, "will load env from os.ENV")
-	// flag.Parse()
+	flag.Parse()
 
-	cfg, err := config.Init(".", *isProd)
+	// init config from dev(yaml) or prod(ENV)
+	var cfg config.Config
+	var err error
+	if *isProd {
+		cfg, err = config.FromEnv()
+	} else {
+		cfg, err = config.FromYaml(".")
+	}
 	if err != nil {
 		logrus.Panic(err)
 	}
@@ -29,7 +37,7 @@ func main() {
 
 	// create API Http server
 	apihttp := api.New(
-		":8000",
+		fmt.Sprintf(":%s", cfg.Server.Port),
 		[]string{"*"},
 		[]string{"OPTIONS", "GET", "POST", "PUT", "DELETE"},
 	)
