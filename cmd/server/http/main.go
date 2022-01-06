@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 
 	"github.com/KonstantinGasser/weeat/api"
 	"github.com/KonstantinGasser/weeat/cmd/server/config"
@@ -21,7 +20,7 @@ func main() {
 	if err != nil {
 		logrus.Panic(err)
 	}
-	fmt.Println(cfg)
+
 	// create database dependency
 	weeatDB := postgres.New(cfg.Database.User, cfg.Database.Password, cfg.Database.Host, int(cfg.Database.Port))
 	if err := weeatDB.Connect(cfg.Database.DatabaseName); err != nil {
