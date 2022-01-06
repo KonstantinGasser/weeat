@@ -38,7 +38,7 @@ func FromEnv() (Config, error) {
 			Port:         dbport,
 			User:         os.Getenv("DB_USER"),
 			Password:     os.Getenv("DB_PASSWORD"),
-			DatabaseName: os.Getenv("DB_DATABASE_NAME"),
+			DatabaseName: os.Getenv("DB_NAME"),
 		},
 		Server: struct {
 			Port string
