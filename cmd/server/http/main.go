@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// create database dependency
-	weeatDB := postgres.New(cfg.Database.User, cfg.Database.Password, cfg.Database.Host, int(cfg.Database.Port))
+	weeatDB := postgres.New(cfg.Database.User, cfg.Database.Password, cfg.Database.Host, cfg.Database.Port)
 	if err := weeatDB.Connect(cfg.Database.DatabaseName); err != nil {
 		logrus.Panic(err)
 	}

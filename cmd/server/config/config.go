@@ -11,7 +11,7 @@ import (
 type Config struct {
 	Database struct {
 		Host         string
-		Port         int64
+		Port         int
 		User         string
 		Password     string
 		DatabaseName string
@@ -22,14 +22,14 @@ type Config struct {
 }
 
 func FromEnv() (Config, error) {
-	dbport, err := strconv.ParseInt(os.Getenv("DB_PORT"), 10, 10)
+	dbport, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		return Config{}, errors.Wrap(err, "os.Getenv of DB_PORT cast error")
 	}
 	return Config{
 		Database: struct {
 			Host         string
-			Port         int64
+			Port         int
 			User         string
 			Password     string
 			DatabaseName string

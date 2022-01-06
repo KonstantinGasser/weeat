@@ -1,1 +1,1 @@
-web: bin/weeat-go
+web: bin/http -prod
