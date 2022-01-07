@@ -1,2 +1,4 @@
 .weeat.yaml
 bin/
+web/weeat/dist/
+web/weeat/node_modules/

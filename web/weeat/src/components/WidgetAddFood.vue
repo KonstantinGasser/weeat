@@ -1,7 +1,7 @@
 <template>
   <div class="widget">
     <div class="widget-header">
-        <span>New Food</span>
+        <span>New Food <small>(per 100g)</small></span>
         <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
     <div class="">

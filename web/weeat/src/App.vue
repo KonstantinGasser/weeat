@@ -100,6 +100,16 @@ and (-webkit-device-pixel-ratio : 3) {
   background: #ffffff;
 }
 
+.action-btn.form-btn {
+  height: 100%;
+  width: min-content;
+}
+
+.action-btn.form-btn.btn-end {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .action-btn:hover {
   color: #ffffff;
   background: #1fcf80;
