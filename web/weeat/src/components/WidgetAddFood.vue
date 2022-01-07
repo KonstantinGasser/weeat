@@ -1,7 +1,7 @@
 <template>
   <div class="widget">
     <div class="widget-header">
-        <span>New Food <small>(per 100g)</small></span>
+        <span>New Food <br><small>(per 100{{unitText}})</small></span>
         <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
     <div class="">
@@ -32,6 +32,8 @@
               <option value="4">Fish</option>
               <option value="5">Dairy</option>
               <option value="6">Grains</option>
+              <option value="7">Soft-Drinks</option>
+              <option value="8">Alcohol</option>
             </select>
             <label for="floatingSelectGrid">Food Category</label>
           </div>
@@ -125,6 +127,11 @@ export default {
   },
   unmounted() {
     console.log("destroying: new.Food")
+  },
+  computed: {
+    unitText() {
+      return this.food_cat < 7 ? "g" : "ml";
+    }
   },
   methods: {
       closeWidget() {

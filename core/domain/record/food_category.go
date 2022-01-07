@@ -9,4 +9,6 @@ const (
 	Fish
 	Dairy
 	Grains
+	SoftDrinks
+	Alcohol
 )

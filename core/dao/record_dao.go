@@ -1,12 +1,14 @@
 package dao
 
+import "github.com/KonstantinGasser/weeat/core/pkg/unit"
+
 type Food struct {
 	Name     string
 	Category int
 	Kcal     int
-	Carbs    float64
-	Protein  float64
-	Fats     float64
+	Carbs    unit.Unit
+	Protein  unit.Unit
+	Fats     unit.Unit
 }
 
 type Recipe struct {

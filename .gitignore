@@ -1,4 +1,9 @@
+# global specfic ignores
 .weeat.yaml
+
+# go specific ignores
 bin/
+
+# web specific ignores
 web/weeat/dist/
 web/weeat/node_modules/

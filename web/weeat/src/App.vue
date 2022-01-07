@@ -153,7 +153,11 @@ and (-webkit-device-pixel-ratio : 3) {
 
 .widget .widget-header span {
   font-size: 24px;
-  text-decoration: underline;
+  line-height: 1;
+}
+
+.widget .widget-header span > small {
+  font-size: 16px;
 }
 
 .bi:hover {
