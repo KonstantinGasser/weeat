@@ -61,7 +61,7 @@ a.small {
   grid-template: repeat(100px, 100px);
   
   height: 100vh;
-  width: 65vw;
+  width: 95vw;
 
   margin: 0 auto;
   padding: 15px 10px;
