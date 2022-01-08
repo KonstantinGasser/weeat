@@ -1,7 +1,7 @@
 <template>
     <div class="main-frame">
         <div class="headline">
-            <h1><span>We</span>Eat</h1>
+            <h1><span>we</span>Eat</h1>
         </div>
         <!-- <div class="action-row">
             <button class="action-btn medium" @click="isAddFood=!isAddFood">Add Food</button>
@@ -30,20 +30,24 @@
                     <!-- <i class="bi bi-bullseye"></i> -->
                 </div>
             </div>
-            <div class="intake-today mt-2">
+            <div v-if="cookie_set" class="intake-today mt-2">
                 <hr>
                 <h4>{{info_text()}}<br> you have <span>1600</span> kcal today</h4>
                 <IntakeDoughnut v-bind:chartData="state.chartData" v-bind:chartOptions="state.chartOptions" />
             </div>
-            <!-- <div class="nothing-there-yet-text">
-                <span>
-                    There seems to be no data..go and do something
-                </span>
+            <div v-if="!cookie_set">
+                <div class="nothing-there-yet">
+                    <span>
+                        You have rejected the cookie 🍪. Thereby you will be able to track your intake for this day 🙁.
+                    </span>
+                    <div>
+                        <button class="action-btn" @click="enableCookie()">enable 🍪</button>
+                    </div> 
+                </div>
             </div>
-            <div class="nothing-there-yet-img">
-                <img class="svg-img" src="../assets/svg/cooking.svg" alt="">
-            </div> -->
+            
         </div>
+        <WidgetHelloFriend :class="{'widget-active': isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
         <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
         <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
         <WidgetGenerateMeals :class="{'widget-active':isGenerateMeals}" @widget_close_generate_meals="isGenerateMeals=!isGenerateMeals" />
@@ -52,22 +56,35 @@
 
 <script lang="js">
 import { defineComponent } from 'vue'
+import { useCookies } from "vue3-cookies"
 
+import WidgetHelloFriend from "./WidgetHelloFriend.vue"
 import WidgetAddFood from "./WidgetAddFood.vue"
 import WidgetAddRecipe from "./WidgetAddRecipe.vue"
 import WidgetGenerateMeals from "./WidgetGenerateMeals.vue"
+
 import IntakeDoughnut from "./charts/IntakeDoughnut.vue"
 
 export default defineComponent({
     name: "Dashboard",
     components: {
+        WidgetHelloFriend,
         WidgetAddFood,
         WidgetAddRecipe,
         WidgetGenerateMeals,
         IntakeDoughnut,
     },
+    setup(){
+        const { cookies } = useCookies()
+        return { cookies }
+    },
+    mounted() {
+        this.isHelloWorld = this.cookies.get("weeat_uid") === null ? true : false
+    },
     data() {
         return {
+            isHelloWorld: false,
+            cookie_set: false,
             kcal_today: 1600,
             isAddFood: false,
             isAddRecipe: false,
@@ -90,7 +107,19 @@ export default defineComponent({
             }
         };
     },
+    computed: {
+        has_cookie(){
+            return this.cookies.get("weeat_uid") !== null ? true : false
+        },
+    },
     methods: {
+        cookie_check_resp(resp) {
+            this.cookie_set = resp
+            this.isHelloWorld = !this.isHelloWorld
+        },
+        enableCookie() {
+            this.isHelloWorld = !this.isHelloWorld
+        },
         info_text() {
             return "Good start,"
         }
@@ -125,6 +154,7 @@ hr {
 
     border-radius: 10px;
     background: #1fcf8025;
+    box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
 }
 
 .dashboard-option span {
@@ -134,14 +164,6 @@ hr {
 .dashboard-option .option-icon {
     font-size: 35px;
 }
-
-/* .dashboard-option .bi {
-    font-size: 30px;
-} */
-
-/* .dashboard-option .bi-dice-6 {
-    transform: rotate(45deg);
-} */
 
 .intake-today {
     display: grid;
@@ -153,27 +175,21 @@ hr {
     font-weight: bold;
 }
 
-.nothing-there-yet-text {
-  background: #fff4f4;
-  border: 1px solid #cccccc;
-  border-radius: 14px;
-  height: 60px;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
+.nothing-there-yet {
+    margin: 25px 0;
+    background: #fff4f4;
+    border: 1px solid #cccccc;
+    border-radius: 14px;
+    height: max-content;
+    padding: 15px;
+    display: grid;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
 }
 
-.nothing-there-yet-img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.nothing-there-yet-img .svg-img {
-  width: 80%;
-  height: auto;
+.nothing-there-yet div {
+  width: max-content;
 }
 
 </style>

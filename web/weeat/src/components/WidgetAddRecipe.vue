@@ -21,15 +21,11 @@
         <div class="col-md">
           <div class="input-group">
             <input v-model="searched_ingredient" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-            <input v-model="searched_ingredient_g" type="search" class="form-control" placeholder="gramms" aria-label="gramms" aria-describedby="basic-addon2">
+            <input v-model="searched_ingredient_g" type="search" class="form-control" placeholder="gramm/ml" aria-label="gramms" aria-describedby="basic-addon2">
             <div class="input-group-append">
               <button class="action-btn form-btn btn-end" type="button" @click="addIngredient()">Add</button>
             </div>
           </div>
-          <!-- <div class="form-outline">
-            <input v-model="searched_ingredient" type="search" id="form1" class="form-control" @keyup.enter="addIngredient()" placeholder="Search for Ingredient"
-            aria-label="Search" />
-          </div> -->
         </div>
       </div>
       <div class="row g-2 my-1 ingredients">

@@ -26,6 +26,15 @@ body {
   overflow: hidden;
   /* height: 100%; */
 }
+
+a {
+  color: #00a2ff;
+  text-decoration: none;
+}
+a.small {
+  font-size: 12px;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -116,6 +125,29 @@ and (-webkit-device-pixel-ratio : 3) {
   transition: 200ms;
 }
 
+.btn-choice {
+  padding: 3px 15px;
+
+  width: 150px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  background: #ffffff;
+}
+
+.btn-choice.no {
+  border: 2px solid #ef233c;
+  border-radius: 10px;
+  color: #ef233c;
+}
+
+.btn-choice.no:hover {
+  color: #ffffff;
+  background: #ef233c;
+  transition: 200ms;
+}
+
 .form-grid {
   padding: 0 15px;
 }
@@ -134,7 +166,7 @@ and (-webkit-device-pixel-ratio : 3) {
   margin-left: auto; 
   margin-right: auto;
 
-  padding: 0 15px 15px 15px;
+  padding: 0 15px 25px 15px;
   border-radius: 14px 14px 0 0;
   box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
   transition: 250ms ease-out;
