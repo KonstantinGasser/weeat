@@ -22,9 +22,17 @@ export default {
 
 body {
   background: #fff4f4;
-  position: relative;
   overflow: hidden;
-  /* height: 100%; */
+  height: 100%;
+}
+
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 812px)
+and (-webkit-device-pixel-ratio : 3) { 
+  body {
+    position: fixed;
+  }
 }
 
 a {
@@ -166,7 +174,7 @@ and (-webkit-device-pixel-ratio : 3) {
   margin-left: auto; 
   margin-right: auto;
 
-  padding: 0 15px 25px 15px;
+  padding: 0 15px 45px 15px;
   border-radius: 14px 14px 0 0;
   box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
   transition: 250ms ease-out;

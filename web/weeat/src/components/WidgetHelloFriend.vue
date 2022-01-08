@@ -44,6 +44,7 @@ export default {
         this.$emit(this.emit_widget_name, false)
       },
       rejectCookie(){
+        this.cookies.remove("weeat_uid")
         this.$emit(this.emit_widget_name, false)
       },
       acceptCookie(){

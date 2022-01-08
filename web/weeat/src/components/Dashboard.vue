@@ -3,10 +3,6 @@
         <div class="headline">
             <h1><span>we</span>Eat</h1>
         </div>
-        <!-- <div class="action-row">
-            <button class="action-btn medium" @click="isAddFood=!isAddFood">Add Food</button>
-            <button class="action-btn medium" @click="isAddRecipe=!isAddRecipe">Add Recipe</button>
-        </div> -->
         <div class="dashboard">
             <div class="dashboard-options">
                 <div class="dashboard-option" @click="isAddFood=!isAddFood">
@@ -137,7 +133,7 @@ hr {
 .dashboard-options {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px;
 
     justify-content: center;
     align-content: flex-start;
@@ -149,8 +145,8 @@ hr {
     justify-content: center;
     align-items: center;
 
-    height: 100px;
-    width: 155px;
+    height: 80px;
+    width: 140px;
 
     border-radius: 10px;
     background: #1fcf8025;
