@@ -1,13 +1,13 @@
 package unit
 
-type UnitLabel struct {
+type Label struct {
 	long string
 	slug string
 }
 
 var (
-	LabelGramm = UnitLabel{long: "gramm", slug: "g"}
-	LabelKcal  = UnitLabel{long: "kcal", slug: "kcal"}
+	LabelGramm = Label{long: "gramm", slug: "g"}
+	LabelKcal  = Label{long: "kcal", slug: "kcal"}
 )
 
 // Unit represents a unit of measurements
@@ -16,10 +16,11 @@ var (
 type Unit interface {
 	Label() string
 	Slug() string
+	Value() float64
 }
 
 type Gramm struct {
-	label UnitLabel
+	label Label
 	value float64
 }
 
@@ -30,18 +31,22 @@ func NewGramm(value float64) *Gramm {
 	}
 }
 
-// Label returns the full label of the UnitLabel
+// Label returns the full label of the Label
 func (g Gramm) Label() string {
 	return g.label.long
 }
 
-// Slug returns the short-hand (slug) of the UnitLabel
+// Slug returns the short-hand (slug) of the Label
 func (g Gramm) Slug() string {
 	return g.label.slug
 }
 
+func (g Gramm) Value() float64 {
+	return g.value
+}
+
 type Kcal struct {
-	label UnitLabel
+	label Label
 	value float64
 }
 
@@ -58,4 +63,8 @@ func (k Kcal) Label() string {
 
 func (k Kcal) Slug() string {
 	return k.label.slug
+}
+
+func (k Kcal) Value() float64 {
+	return k.value
 }

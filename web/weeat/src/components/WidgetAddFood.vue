@@ -146,15 +146,15 @@ export default {
         };
         const payload = {
             name: this.food_name,
-            category: this.food_cat,
-            kcal: this.food_kcal,
-            carbohydrates: this.food_carbs,
-            fats: this.food_fats,
-            protein: this.food_protein,
+            food_cat: parseInt(this.food_cat),
+            kcal: parseFloat(this.food_kcal),
+            carbs: parseFloat(this.food_carbs),
+            fats: parseFloat(this.food_fats),
+            protein: parseFloat(this.food_protein),
         }
         console.log(payload)
 
-        axios.post("http://localhost:8000/records/new/food", payload, options).then(resp =>{
+        axios.post("http://localhost:30024/records/new/food", payload, options).then(resp =>{
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_food')
 

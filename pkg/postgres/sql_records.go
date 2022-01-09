@@ -2,7 +2,7 @@ package postgres
 
 var (
 	sql_insert_food = `
-		insert into foods(name, category, kcal, carbs, protein, fats)
+		insert into food_item(name, category, kcal, carbs, protein, fats)
 			values(
 				$1,
 				$2,

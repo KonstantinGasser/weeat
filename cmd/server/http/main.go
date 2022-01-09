@@ -43,7 +43,7 @@ func main() {
 	)
 
 	// create service dependencies
-	recordsvc := records.New(nil)
+	recordsvc := records.New(weeatDB)
 
 	// setting up routes
 	//

@@ -34,7 +34,7 @@
             <div v-if="!cookie_set">
                 <div class="nothing-there-yet">
                     <span>
-                        You have rejected the cookie 🍪. Thereby you will be able to track your intake for this day 🙁.
+                        You have rejected the cookie 🍪. Thereby you will be not able to track your intake for this day 🙁.
                     </span>
                     <div>
                         <button class="action-btn" @click="enableCookie()">enable 🍪</button>
