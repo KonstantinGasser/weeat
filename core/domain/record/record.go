@@ -2,6 +2,7 @@ package record
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/KonstantinGasser/required"
 	"github.com/KonstantinGasser/weeat/core/dto"
@@ -16,7 +17,10 @@ var (
 )
 
 type Food struct {
-	Name     string        `required:"yes"`
+	Name string `required:"yes"`
+	// Label is the lower-case representation for the Food
+	// it is used for fast access search of items
+	Label    string
 	Category category.Food `required:"yes"`
 	Kcal     unit.Unit     `required:"yes"`
 	Carbs    unit.Unit     `required:"yes"`
@@ -45,6 +49,7 @@ func (f Food) Valid() error {
 func FoodFromDTO(food dto.Food) Food {
 	return Food{
 		Name:     food.Name,
+		Label:    strings.ToLower(food.Name),
 		Category: category.Food(food.Category),
 		Kcal:     unit.NewKcal(food.Kcal),
 		Carbs:    unit.NewGramm(food.Carbs),

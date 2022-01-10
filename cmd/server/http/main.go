@@ -51,6 +51,9 @@ func main() {
 	apihttp.Register("/records/new/food", handler.HandleInsertFood(
 		recordsvc,
 	), "POST")
+	apihttp.Register("/records/search/food", handler.HandleSearchFood(
+		recordsvc,
+	), "GET")
 
 	// routes: records.Recipe
 	apihttp.Register("/records/new/recipe", handler.HandlerInsertRecipe(

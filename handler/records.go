@@ -29,7 +29,27 @@ func HandleInsertFood(recodsvc *records.Service) http.HandlerFunc {
 			inserErr.Write(w)
 			return
 		}
-		response.Reply(http.StatusCreated, []byte("Food item saved")).Write(w)
+		response.Reply(w).Write(http.StatusCreated, []byte("Food item saved"))
+	}
+}
+
+func HandleSearchFood(recordsvc *records.Service) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		search := r.URL.Query().Get("q")
+		if len(search) == 0 {
+			response.Reply(w).Write(http.StatusNotFound, nil)
+			return
+		}
+
+		items, err := recordsvc.SearchFood(r.Context(), search)
+		if err != nil {
+			logrus.Errorf("[api.SearchFood] could not lookup food: %v", err.Err())
+			err.Write(w)
+			return
+		}
+
+		response.Reply(w).JSON(http.StatusOK, items)
 	}
 }
 

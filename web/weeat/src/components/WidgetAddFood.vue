@@ -26,14 +26,14 @@
               id="floatingSelectGrid"
               aria-label="Floating label select example"
             >
-              <option value="1" selected>Fruit</option>
-              <option value="2">Vegetable</option>
-              <option value="3">Meat</option>
-              <option value="4">Fish</option>
-              <option value="5">Dairy</option>
-              <option value="6">Grains</option>
-              <option value="7">Soft-Drinks</option>
-              <option value="8">Alcohol</option>
+              <option value="1" selected>Fruit 🍒</option>
+              <option value="2">Vegetable 🥦</option>
+              <option value="3">Meat 🍗</option>
+              <option value="4">Fish 🍣</option>
+              <option value="5">Dairy 🧀</option>
+              <option value="6">Grains 🍞</option>
+              <option value="7">Soft-Drinks 🧃</option>
+              <option value="8">Alcohol 🍹</option>
             </select>
             <label for="floatingSelectGrid">Food Category</label>
           </div>

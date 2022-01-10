@@ -8,6 +8,7 @@ import (
 	"github.com/KonstantinGasser/weeat/core/domain/record"
 	"github.com/KonstantinGasser/weeat/core/dto"
 	"github.com/KonstantinGasser/weeat/pkg/http/response"
+	"github.com/sirupsen/logrus"
 )
 
 // 1. Insert/Update/Delete:
@@ -38,6 +39,7 @@ func (svc Service) InsertFood(ctx context.Context, food dto.Food) response.RespE
 	// store in db
 	daoFood := dao.Food{
 		Name:     newFood.Name,
+		Label:    newFood.Label,
 		Category: int(newFood.Category),
 		Kcal:     newFood.Kcal,
 		Carbs:    newFood.Carbs,
@@ -48,4 +50,15 @@ func (svc Service) InsertFood(ctx context.Context, food dto.Food) response.RespE
 		return response.Err(err, http.StatusInternalServerError, "Could not save food item")
 	}
 	return nil
+}
+
+func (svc Service) SearchFood(ctx context.Context, query string) ([]dto.FoodQuery, response.RespErr) {
+
+	queryItems, err := svc.repo.SearchFood(ctx, query)
+	if err != nil {
+		logrus.Errorf("test %v\n", err.Error())
+		return nil, response.Err(err, http.StatusInternalServerError, "could not lookup query")
+	}
+
+	return dto.QueryFromDAO(queryItems), nil
 }

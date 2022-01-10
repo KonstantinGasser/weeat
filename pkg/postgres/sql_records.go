@@ -2,15 +2,19 @@ package postgres
 
 var (
 	sql_insert_food = `
-		insert into food_item(name, category, kcal, carbs, protein, fats)
+		insert into food_item(name, label, category, kcal, carbs, protein, fats)
 			values(
 				$1,
 				$2,
 				$3,
 				$4,
 				$5,
-				$6
+				$6,
+				$7
 			);
+	`
+	sql_search_food = `
+	   select id, name, category from food_item where label like $1 || '%';
 	`
 
 	sql_update_food = `

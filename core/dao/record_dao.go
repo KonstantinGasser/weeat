@@ -3,7 +3,9 @@ package dao
 import "github.com/KonstantinGasser/weeat/core/pkg/unit"
 
 type Food struct {
+	ID       int
 	Name     string
+	Label    string
 	Category int
 	Kcal     unit.Unit
 	Carbs    unit.Unit
@@ -11,7 +13,8 @@ type Food struct {
 	Fats     unit.Unit
 }
 
-type Recipe struct {
-	Name        string
-	Ingredients []Food
+type FoodQuery struct {
+	ID       int
+	Name     string
+	Category int
 }

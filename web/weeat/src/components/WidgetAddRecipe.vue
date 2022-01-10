@@ -20,7 +20,15 @@
         </div>
         <div class="col-md">
           <div class="input-group">
-            <input v-model="searched_ingredient" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+            <Dropdown
+                :options="query_food"
+                v-on:filter="searchFood"
+                :disabled="false"
+                name="zipcode"
+                :maxItem="10"
+                placeholder="Please select an option">
+            </Dropdown>
+            <!-- <input v-model="searched_ingredient" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"> -->
             <input v-model="searched_ingredient_g" type="search" class="form-control" placeholder="gramm/ml" aria-label="gramms" aria-describedby="basic-addon2">
             <div class="input-group-append">
               <button class="action-btn form-btn btn-end" type="button" @click="addIngredient()">Add</button>
@@ -56,25 +64,33 @@
 
 <script>
 import axios from 'axios'
+import Dropdown from 'vue-simple-search-dropdown';
 
 export default {
   name: "WidgetAddFood",
+  components: {
+    Dropdown,
+  },
   data() {
     return {
         emit_widget_name: "widget_close_new_recipe",
         recipe_name: null,
+        query_food: [],
         searched_ingredient: null,
         searched_ingredient_g: null,
         ingredients: [],
     };
   },
-  unmounted() {
-    console.log("destroying: new.Recipe")
-  },
   methods: {
       closeWidget() {
         this.$emit(this.emit_widget_name)
         this.ingredients = []
+      },
+      searchFood(event) {
+        console.log(event)
+        axios.get(process.env.VUE_APP_API + "/records/search/food?q="+event.query).then(resp => {
+          this.query_food = resp?.data?.data
+        })
       },
       addIngredient() {
         this.ingredients.push(this.searched_ingredient)

@@ -48,10 +48,11 @@ func (conn *Conn) uri(dbname string) string {
 // Service-Repo: Record-Serivce Functions
 
 func (conn *Conn) InsertFood(ctx context.Context, food dao.Food) error {
-
+	fmt.Println(food)
 	_, err := conn.c.Exec(
 		ctx, sql_insert_food,
 		food.Name,
+		food.Label,
 		food.Category,
 		food.Kcal.Value(),
 		food.Carbs.Value(),
@@ -62,6 +63,23 @@ func (conn *Conn) InsertFood(ctx context.Context, food dao.Food) error {
 		return errors.Wrap(err, "pg-sql - insert food")
 	}
 	return nil
+}
+
+func (conn *Conn) SearchFood(ctx context.Context, query string) ([]dao.FoodQuery, error) {
+
+	rows, _ := conn.c.Query(ctx, sql_search_food, query)
+	fmt.Println(rows)
+	var items []dao.FoodQuery
+	for rows.Next() {
+		var item = dao.FoodQuery{}
+		if err := rows.Scan(&item.ID, &item.Name, &item.Category); err != nil {
+			return items, errors.Wrap(err, "ps-sql - rows.Next, lookup item")
+		}
+		items = append(items, item)
+	}
+	defer rows.Close()
+
+	return items, rows.Err()
 }
 
 func (conn *Conn) UpdateFood(ctx context.Context, column string, value interface{}) error {
