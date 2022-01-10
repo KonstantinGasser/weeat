@@ -43,6 +43,7 @@ func (svc Service) InsertFood(ctx context.Context, food dto.Food) response.RespE
 		Category: int(newFood.Category),
 		Kcal:     newFood.Kcal,
 		Carbs:    newFood.Carbs,
+		Sugar:    newFood.Sugar,
 		Protein:  newFood.Protein,
 		Fats:     newFood.Fats,
 	}
@@ -50,6 +51,26 @@ func (svc Service) InsertFood(ctx context.Context, food dto.Food) response.RespE
 		return response.Err(err, http.StatusInternalServerError, "Could not save food item")
 	}
 	return nil
+}
+
+func (svc Service) GetFood(ctx context.Context, ID string, amount int) (dto.Food, response.RespErr) {
+
+	item, err := svc.repo.GetFood(ctx, ID)
+	if err != nil {
+		return dto.Food{}, response.Err(err, http.StatusInternalServerError, "could not lookup food")
+	}
+
+	food := record.FoodFromDAO(item).Scale(amount)
+
+	return dto.Food{
+		ID:       food.ID,
+		Category: int(food.Category),
+		Kcal:     food.Kcal.Value(),
+		Carbs:    food.Carbs.Value(),
+		Sugar:    food.Sugar.Value(),
+		Protein:  food.Protein.Value(),
+		Fats:     food.Fats.Value(),
+	}, nil
 }
 
 func (svc Service) SearchFood(ctx context.Context, query string) ([]dto.FoodQuery, response.RespErr) {

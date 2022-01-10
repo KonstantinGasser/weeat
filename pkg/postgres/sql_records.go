@@ -2,7 +2,7 @@ package postgres
 
 var (
 	sql_insert_food = `
-		insert into food_item(name, label, category, kcal, carbs, protein, fats)
+		insert into food_item(name, label, category, kcal, carbs, sugar, protein, fats)
 			values(
 				$1,
 				$2,
@@ -10,8 +10,12 @@ var (
 				$4,
 				$5,
 				$6,
-				$7
+				$7,
+				$8
 			);
+	`
+	sql_get_food = `
+	   select id, name, category, kcal, carbs, sugar, protein, fats from food_item where id=$1;
 	`
 	sql_search_food = `
 	   select id, name, category from food_item where label like $1 || '%';

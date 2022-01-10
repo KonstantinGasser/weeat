@@ -5,7 +5,7 @@ import "github.com/KonstantinGasser/weeat/core/dao"
 type Food struct {
 	ID       int     `json:"id"`
 	Name     string  `json:"name"`
-	Category int     `json:"food_cat"`
+	Category int     `json:"category"`
 	Kcal     float64 `json:"kcal"`
 	Carbs    float64 `json:"carbs"`
 	Sugar    float64 `json:"sugar"`
@@ -14,9 +14,9 @@ type Food struct {
 }
 
 type FoodQuery struct {
-	ID       int
-	Name     string
-	Category int
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Category int    `json:"category"`
 }
 
 func QueryFromDAO(items []dao.FoodQuery) []FoodQuery {

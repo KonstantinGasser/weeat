@@ -9,6 +9,7 @@ type Food struct {
 	Category int
 	Kcal     unit.Unit
 	Carbs    unit.Unit
+	Sugar    unit.Unit
 	Protein  unit.Unit
 	Fats     unit.Unit
 }

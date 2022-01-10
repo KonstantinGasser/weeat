@@ -20,19 +20,23 @@
         </div>
         <div class="col-md">
           <div class="input-group">
-            <Dropdown
-                :options="query_food"
-                v-on:filter="searchFood"
-                :disabled="false"
-                name="zipcode"
-                :maxItem="10"
-                placeholder="Please select an option">
-            </Dropdown>
-            <!-- <input v-model="searched_ingredient" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"> -->
-            <input v-model="searched_ingredient_g" type="search" class="form-control" placeholder="gramm/ml" aria-label="gramms" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-              <button class="action-btn form-btn btn-end" type="button" @click="addIngredient()">Add</button>
-            </div>
+            <input v-model="query_query" @input="searchFood" @change="searchFood" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+            <input v-model="scaler" type="search" class="form-control" placeholder="gramm/ml" aria-label="gramms" aria-describedby="basic-addon2">
+          </div>
+          <div>
+            <ul class="list-query-food">
+              <li v-for="item in query_food" :key="item.id" @click="addIngredient(item.id)">
+                {{ item.name }}
+                <span v-if="item.category === 1">🍒</span>
+                <span v-if="item.category === 2">🥦</span>
+                <span v-if="item.category === 3">🍗</span>
+                <span v-if="item.category === 4">🍣</span>
+                <span v-if="item.category === 5">🧀</span>
+                <span v-if="item.category === 6">🍞</span>
+                <span v-if="item.category === 7">🧃</span>
+                <span v-if="item.category === 8">🍹</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -42,17 +46,27 @@
           You have not selected any ingredients for the recipe 🙃
         </div>
         <div class="list_ingredients">
-          <div v-for="i in ingredients" :key="i" class="item_ingredient">
-            {{i}}
-            <i class="bi bi-x" @click="removeIngredient(i)"></i>
+          <div v-for="item in ingredients" :key="item.id" class="item_ingredient">
+              <i class="bi bi-x" @click="removeIngredient(item)"></i>
+              {{ item.name }} {{item.amount}}
+              <span v-if="item.category < 7">g</span>
+              <span v-if="item.category >= 7">ml</span>
+              <span v-if="item.category === 1">🍒</span>
+              <span v-if="item.category === 2">🥦</span>
+              <span v-if="item.category === 3">🍗</span>
+              <span v-if="item.category === 4">🍣</span>
+              <span v-if="item.category === 5">🧀</span>
+              <span v-if="item.category === 6">🍞</span>
+              <span v-if="item.category === 7">🧃</span>
+              <span v-if="item.category === 8">🍹</span>
           </div>
         </div>
       </div>
       <div class="row g-2 my-1 recipe_info">
-        <div class="recipe_tag tag_kcal">245 (kcal)</div>
-        <div class="recipe_tag tag_carbs">25g (carbohydrates)</div>
-        <div class="recipe_tag tag_fats">2.4g (fat)</div>
-        <div class="recipe_tag tag_protein">24.5g (protein)</div>
+        <div class="recipe_tag tag_kcal">{{recipe_kcal}} (kcal)</div>
+        <div class="recipe_tag tag_carbs">{{recipe_carbs}}g (carbohydrates)</div>
+        <div class="recipe_tag tag_fats">{{recipe_fats}}g (fat)</div>
+        <div class="recipe_tag tag_protein">{{recipe_protein}}g (protein)</div>
       </div>
       <div class="row g-2 d-flex justify-end my-2">
         <button class="action-btn" @click="addRecipe()">Add</button>
@@ -64,21 +78,23 @@
 
 <script>
 import axios from 'axios'
-import Dropdown from 'vue-simple-search-dropdown';
 
 export default {
   name: "WidgetAddFood",
   components: {
-    Dropdown,
   },
   data() {
     return {
         emit_widget_name: "widget_close_new_recipe",
         recipe_name: null,
         query_food: [],
-        searched_ingredient: null,
-        searched_ingredient_g: null,
+        query_query: "",
+        scaler: null,
         ingredients: [],
+        recipe_kcal: 0,
+        recipe_carbs: 0,
+        recipe_protein: 0,
+        recipe_fats: 0,
     };
   },
   methods: {
@@ -86,19 +102,50 @@ export default {
         this.$emit(this.emit_widget_name)
         this.ingredients = []
       },
-      searchFood(event) {
-        console.log(event)
-        axios.get(process.env.VUE_APP_API + "/records/search/food?q="+event.query).then(resp => {
+      searchFood() {
+        if (this.query_query.length === 0 ) return
+
+        axios.get(process.env.VUE_APP_API + "/records/search/food?q="+this.query_query).then(resp => {
           this.query_food = resp?.data?.data
         })
       },
-      addIngredient() {
-        this.ingredients.push(this.searched_ingredient)
-        this.searched_ingredient = null
-        console.log(this.ingredients)
+      addIngredient(id) {
+        // add only if not exists
+        if (this.ingredients.filter(i => i.ID === id).length > 0) {
+          return
+        }
+        // error out if unit is not set
+        if (this.scaler === null) {
+          this.$moshaToast("unit cannot be empty...", {type:'danger', position:'top-center', timeout: 3000})
+          return
+        }
+
+        let item = {}
+        axios.get(process.env.VUE_APP_API + `/records/get/food?id=${id}&scaler=${this.scaler}`).then(resp => {
+          item = resp?.data?.data
+        }).catch(err => {
+          this.$moshaToast(err, {type:'danger', position: 'top-center', timeout: 3000})
+          return
+        })
+
+        item.amount = this.scaler
+
+        this.ingredients.push(item)
+
+        this.recipe_kcal += item.kcal
+        this.recipe_carbs += item.carbs
+        this.recipe_protein += item.protein
+        this.recipe_fats += item.fats
+
+        this.query_query = ""
+        this.query_food = []
       },
       removeIngredient(item) {
         this.ingredients = this.ingredients.filter(i => (i != item))
+        this.recipe_kcal -= item.kcal
+        this.recipe_carbs -= item.carbs
+        this.recipe_protein -= item.protein
+        this.recipe_fats -= item.fats
       },
       addRecipe() {
         let options = {
@@ -115,7 +162,7 @@ export default {
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_recipe')
         }).catch(err => {
-          this.$moshaToast(err, {type:'success', position: 'top-center', timeout: 3000})
+          this.$moshaToast(err, {type:'danger', position: 'top-center', timeout: 3000})
         })
       },
   },
@@ -151,6 +198,22 @@ export default {
 
 .item_ingredient .bi {
   padding-top: 2px;
+}
+
+.list-query-food {
+  margin: 10px 0;
+  padding: 0px;
+
+  display: flex;
+  flex-wrap: wrap;
+  text-decoration: none;
+  list-style: none;
+}
+
+.list-query-food li {
+  padding: 3px 5px;
+  border-radius: 25px;
+  border: 1px solid black;
 }
 
 

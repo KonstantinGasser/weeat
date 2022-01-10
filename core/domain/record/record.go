@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/KonstantinGasser/required"
+	"github.com/KonstantinGasser/weeat/core/dao"
 	"github.com/KonstantinGasser/weeat/core/dto"
 	"github.com/KonstantinGasser/weeat/core/pkg/category"
 	"github.com/KonstantinGasser/weeat/core/pkg/unit"
@@ -17,6 +18,7 @@ var (
 )
 
 type Food struct {
+	ID   int
 	Name string `required:"yes"`
 	// Label is the lower-case representation for the Food
 	// it is used for fast access search of items
@@ -27,6 +29,20 @@ type Food struct {
 	Sugar    unit.Unit     `required:"yes"`
 	Protein  unit.Unit     `required:"yes"`
 	Fats     unit.Unit     `required:"yes"`
+}
+
+func (f Food) Scale(scaler int) Food {
+	fmt.Println(f)
+	return Food{
+		ID:       f.ID,
+		Name:     f.Name,
+		Category: f.Category,
+		Kcal:     f.Kcal.Scale(scaler),
+		Carbs:    f.Carbs.Scale(scaler),
+		Sugar:    f.Sugar.Scale(scaler),
+		Protein:  f.Protein.Scale(scaler),
+		Fats:     f.Fats.Scale(scaler),
+	}
 }
 
 // Valid checks the struct for correctness
@@ -56,6 +72,19 @@ func FoodFromDTO(food dto.Food) Food {
 		Sugar:    unit.NewGramm(food.Sugar),
 		Fats:     unit.NewGramm(food.Fats),
 		Protein:  unit.NewGramm(food.Protein),
+	}
+}
+
+func FoodFromDAO(food dao.Food) Food {
+	return Food{
+		Name:     food.Name,
+		Label:    strings.ToLower(food.Name),
+		Category: category.Food(food.Category),
+		Kcal:     food.Kcal,
+		Carbs:    food.Carbs,
+		Sugar:    food.Sugar,
+		Fats:     food.Fats,
+		Protein:  food.Protein,
 	}
 }
 
