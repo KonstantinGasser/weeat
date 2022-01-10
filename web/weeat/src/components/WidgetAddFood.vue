@@ -67,7 +67,7 @@
           </div>
         </div>
         <div class="form-group">
-          <input type="email" class="form-control" id="carbSugar" aria-describedby="sugarHelp" placeholder="Sugur 🍩">
+          <input v-model="food_sugar" type="text" inputmode="decimal" class="form-control" id="carbSugar" aria-describedby="sugarHelp" placeholder="Sugar 🍩">
           <small id="sugarHelp" class="form-text text-muted">Amount of sugar cannot be bigger then total carbs</small>
       </div>
       </div>
@@ -144,22 +144,23 @@ export default {
                 'Content-Type': 'application/json',
             }
         };
+
         const payload = {
             name: this.food_name,
             food_cat: parseInt(this.food_cat),
             kcal: parseFloat(this.food_kcal),
             carbs: parseFloat(this.food_carbs),
+            sugar: parseFloat(this.food_sugar),
             fats: parseFloat(this.food_fats),
             protein: parseFloat(this.food_protein),
         }
-        console.log(payload)
-
+  
         axios.post("http://localhost:30024/records/new/food", payload, options).then(resp =>{
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_food')
 
         }).catch(err => {
-          this.$moshaToast(err, {type: 'danger',position: 'top-center', timeout: 3000})
+          this.$moshaToast(err?.response?.data, {type: 'danger',position: 'top-center', timeout: 3000})
         })
       }
   },

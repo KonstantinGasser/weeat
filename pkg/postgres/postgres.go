@@ -49,7 +49,6 @@ func (conn *Conn) uri(dbname string) string {
 
 func (conn *Conn) InsertFood(ctx context.Context, food dao.Food) error {
 
-	fmt.Printf("\n%v, %T\n", food.Kcal, food.Kcal)
 	_, err := conn.c.Exec(
 		ctx, sql_insert_food,
 		food.Name,

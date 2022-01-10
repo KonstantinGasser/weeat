@@ -2,11 +2,12 @@ package records
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/KonstantinGasser/weeat/core/dao"
 	"github.com/KonstantinGasser/weeat/core/domain/record"
 	"github.com/KonstantinGasser/weeat/core/dto"
-	"github.com/pkg/errors"
+	"github.com/KonstantinGasser/weeat/pkg/http/response"
 )
 
 // 1. Insert/Update/Delete:
@@ -23,13 +24,16 @@ func New(repo RecordsRepo) *Service {
 	}
 }
 
-func (svc Service) InsertFood(ctx context.Context, food dto.Food) error {
+func (svc Service) InsertFood(ctx context.Context, food dto.Food) response.RespErr {
 
 	newFood := record.FoodFromDTO(food)
 
-	// if ok := newFood.Valid(); !ok {
-	// 	return errors.New("create food: missing information")
-	// }
+	if err := newFood.Valid(); err != nil {
+		if err == record.ErrSugarBiggerCarbs {
+			return response.Err(err, http.StatusBadRequest, "Sugar Value must be lower then or equal to carbs value")
+		}
+		return response.Err(err, http.StatusBadRequest, "Provided data is invalid")
+	}
 
 	// store in db
 	daoFood := dao.Food{
@@ -41,7 +45,7 @@ func (svc Service) InsertFood(ctx context.Context, food dto.Food) error {
 		Fats:     newFood.Fats,
 	}
 	if err := svc.repo.InsertFood(ctx, daoFood); err != nil {
-		return errors.Wrap(err, "recordsvc.InsertFood storing item")
+		return response.Err(err, http.StatusInternalServerError, "Could not save food item")
 	}
 	return nil
 }
