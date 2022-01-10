@@ -110,6 +110,7 @@
 <script>
 
 import axios from 'axios'
+// import process from 'process'
 
 export default {
   name: "WidgetAddFood",
@@ -136,7 +137,6 @@ export default {
   methods: {
       closeWidget() {
         this.$emit(this.emit_widget_name)
-        this.$options.unmounted()
       },
       addFood() {
         let options = {
@@ -154,8 +154,8 @@ export default {
             fats: parseFloat(this.food_fats),
             protein: parseFloat(this.food_protein),
         }
-  
-        axios.post("http://localhost:30024/records/new/food", payload, options).then(resp =>{
+
+        axios.post(process.env.VUE_APP_API + "/records/new/food", payload, options).then(resp =>{
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_food')
 

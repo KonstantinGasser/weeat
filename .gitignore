@@ -7,3 +7,4 @@ bin/
 # web specific ignores
 web/weeat/dist/
 web/weeat/node_modules/
+.env.*
