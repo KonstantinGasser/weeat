@@ -56,7 +56,7 @@ a.small {
 
   background: #fff4f4;
   display: grid;
-  grid-template-rows: 50px 50px auto;
+  grid-template-rows: 55px max-content max-content;
   gap: 10px;
   grid-template: repeat(100px, 100px);
   

@@ -3,51 +3,53 @@
         <div class="headline">
             <h1><span>we</span>Eat</h1>
         </div>
+        <div v-if="has_cookie" class="intake-today">
+            <h3>{{info_text()}}...<br> you have <span>1600</span> kcal today</h3>
+            <IntakeDoughnut v-bind:chartData="state.chartData" v-bind:chartOptions="state.chartOptions" />
+        </div>
+        <div v-if="!has_cookie">
+            <div class="nothing-there-yet">
+                <span>
+                    You have rejected the cookie 🍪. Thereby you will be not able to track your intake for this day 🙁.
+                </span>
+                <div>
+                    <button class="action-btn" @click="enableCookie()">enable 🍪</button>
+                </div> 
+            </div>
+        </div> 
         <div class="dashboard">
             <div class="dashboard-options">
                 <div class="dashboard-option" @click="isAddFood=!isAddFood">
                     <span>Add Food</span>
                     <span class="option-icon">🫐</span>
-                    <!-- <i class="bi bi-dice-6"></i> -->
                 </div>
                 <div class="dashboard-option" @click="isAddRecipe=!isAddRecipe">
                     <span>Add Recipe</span>
                     <span class="option-icon">🌮</span>
-                    <!-- <i class="bi bi-bullseye"></i> -->
                 </div>
                 <div class="dashboard-option" @click="isGenerateMeals=!isGenerateMeals">
                     <span>Feeling lucky?</span>
                     <span class="option-icon">😬</span>
-                    <!-- <i class="bi bi-dice-6"></i> -->
                 </div>
                 <div class="dashboard-option">
                     <span>Track intake</span>
                     <span class="option-icon">🍽</span>
-                    <!-- <i class="bi bi-bullseye"></i> -->
                 </div>
-            </div>
-            <div v-if="cookie_set" class="intake-today mt-2">
-                <hr>
-                <h4>{{info_text()}}<br> you have <span>1600</span> kcal today</h4>
-                <IntakeDoughnut v-bind:chartData="state.chartData" v-bind:chartOptions="state.chartOptions" />
-            </div>
-            <div v-if="!cookie_set">
-                <div class="nothing-there-yet">
-                    <span>
-                        You have rejected the cookie 🍪. Thereby you will be not able to track your intake for this day 🙁.
-                    </span>
-                    <div>
-                        <button class="action-btn" @click="enableCookie()">enable 🍪</button>
-                    </div> 
+                <div class="dashboard-option">
+                    <span>Search Food</span>
+                    <span class="option-icon">🔎🍓</span>
                 </div>
-            </div>
-            
+                <div class="dashboard-option">
+                    <span>Seach Recipe</span>
+                    <span class="option-icon">🔎🍝</span>
+                </div>
+            </div>    
         </div>
-        <WidgetHelloFriend :class="{'widget-active': isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
-        <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
-        <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
-        <WidgetGenerateMeals :class="{'widget-active':isGenerateMeals}" @widget_close_generate_meals="isGenerateMeals=!isGenerateMeals" />
     </div>
+    <WidgetHelloFriend :class="{'widget-active': !isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
+    <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
+    <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
+    <WidgetGenerateMeals :class="{'widget-active':isGenerateMeals}" @widget_close_generate_meals="isGenerateMeals=!isGenerateMeals" />
 </template>
 
 <script lang="js">
@@ -75,16 +77,20 @@ export default defineComponent({
         return { cookies }
     },
     mounted() {
-        this.isHelloWorld = this.cookies.get("weeat_uid") === null ? true : false
+        const is_set = this.has_cookie_set()
+        this.has_cookie = is_set
+        this.isHelloWorld = is_set
     },
     data() {
         return {
             isHelloWorld: false,
-            cookie_set: false,
+            has_cookie: false,
             kcal_today: 1600,
             isAddFood: false,
             isAddRecipe: false,
             isGenerateMeals: false,
+            panel_overview: true,
+            panel_browse: false,
             state: {
                 chartData: {
                     datasets: [
@@ -104,20 +110,21 @@ export default defineComponent({
         };
     },
     computed: {
-        has_cookie(){
-            return this.cookies.get("weeat_uid") !== null ? true : false
-        },
+        
     },
     methods: {
-        cookie_check_resp(resp) {
-            this.cookie_set = resp
+        cookie_check_resp() {
+            this.has_cookie = this.has_cookie_set()
             this.isHelloWorld = !this.isHelloWorld
         },
         enableCookie() {
             this.isHelloWorld = !this.isHelloWorld
         },
+        has_cookie_set(){
+            return this.cookies.get("weeat_uid") !== null ? true : false
+        },
         info_text() {
-            return "Good start,"
+            return "Good start"
         }
     },
 })
@@ -130,10 +137,18 @@ hr {
     margin-top: 0;
 }
 
+.dashboard {
+    height: max-content;
+    display: grid;
+    gap: 15px;
+    margin-top: 15px;
+}
+
 .dashboard-options {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    row-gap: 10px;
+    column-gap: 20px;
 
     justify-content: center;
     align-content: flex-start;
@@ -145,8 +160,8 @@ hr {
     justify-content: center;
     align-items: center;
 
-    height: 80px;
-    width: 140px;
+    height: 75px;
+    width: 145px;
 
     border-radius: 10px;
     background: #1fcf8025;
@@ -154,19 +169,33 @@ hr {
 }
 
 .dashboard-option span {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .dashboard-option .option-icon {
-    font-size: 35px;
+    font-size: 30px;
+    height: 35px;
 }
 
+.dash-content-links {
+    display: flex;
+    justify-content: space-evenly;
+    /* border-bottom: 1px solid #000000; */
+}
+
+.dash-content-links span {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: 1px solid black
+}
 .intake-today {
     display: grid;
     justify-content: center;
 }
 
-.intake-today h4 > span {
+.intake-today h3 > span {
     color: #1fcf80;
     font-weight: bold;
 }
