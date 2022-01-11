@@ -95,9 +95,9 @@ func (conn *Conn) GetFood(ctx context.Context, ID string) (dao.Food, error) {
 	return item, nil
 }
 
-func (conn *Conn) SearchFood(ctx context.Context, query string) ([]dao.FoodQuery, error) {
+func (conn *Conn) SearchFood(ctx context.Context, query string, limit int) ([]dao.FoodQuery, error) {
 
-	rows, _ := conn.c.Query(ctx, sql_search_food, query)
+	rows, _ := conn.c.Query(ctx, sql_search_food, query, limit)
 	var items []dao.FoodQuery
 	for rows.Next() {
 		var item = dao.FoodQuery{}

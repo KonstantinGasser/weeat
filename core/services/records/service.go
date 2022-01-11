@@ -12,9 +12,9 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// 1. Insert/Update/Delete:
-// 		-> Foods with neutritions
-// 		-> recepies with neutritions
+const (
+	searchLimit = 10
+)
 
 type Service struct {
 	repo RecordsRepo
@@ -76,9 +76,14 @@ func (svc Service) GetFood(ctx context.Context, ID string, amount int) (dto.Food
 	}, nil
 }
 
-func (svc Service) SearchFood(ctx context.Context, query string) ([]dto.FoodQuery, response.RespErr) {
+func (svc Service) SearchFood(ctx context.Context, query string, limit int) ([]dto.FoodQuery, response.RespErr) {
 
-	queryItems, err := svc.repo.SearchFood(ctx, query)
+	// limit is the limit for the SQL-Statement, it should not be to big
+	if limit > searchLimit {
+		return nil, response.Err(fmt.Errorf("limit exceeds allows threshold"), http.StatusBadRequest, "Search limit must be lower 10")
+	}
+
+	queryItems, err := svc.repo.SearchFood(ctx, query, limit)
 	if err != nil {
 		logrus.Errorf("test %v\n", err.Error())
 		return nil, response.Err(err, http.StatusInternalServerError, "could not lookup query")

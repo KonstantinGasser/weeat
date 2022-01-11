@@ -43,7 +43,14 @@ func HandleSearchFood(recordsvc *records.Service) http.HandlerFunc {
 			return
 		}
 
-		items, err := recordsvc.SearchFood(r.Context(), search)
+		limit, limiterr := strconv.Atoi(r.URL.Query().Get("l"))
+		if limiterr != nil {
+			logrus.Errorf("[api.SearchFood] requested limit not a number: got %s\n", limiterr)
+			response.Err(limiterr, http.StatusBadRequest, "Search limit not a number").Write(w)
+			return
+		}
+
+		items, err := recordsvc.SearchFood(r.Context(), search, limit)
 		if err != nil {
 			logrus.Errorf("[api.SearchFood] could not lookup food: %v", err.Err())
 			err.Write(w)

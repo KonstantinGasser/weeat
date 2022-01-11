@@ -62,6 +62,7 @@
           </div>
         </div>
       </div>
+      <hr>
       <div class="row g-2 my-1 recipe_info">
         <div class="recipe_tag tag_kcal">{{recipe_kcal}} (kcal)</div>
         <div class="recipe_tag tag_carbs">{{recipe_carbs.toFixed(2)}}g (carbohydrates)</div>
@@ -105,7 +106,9 @@ export default {
       searchFood() {
         if (this.query_query.length === 0 ) return
 
-        axios.get(process.env.VUE_APP_API + "/records/search/food?q="+this.query_query).then(resp => {
+        axios.get(
+          process.env.VUE_APP_API + `/records/search/food?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
+        ).then(resp => {
           this.query_food = resp?.data?.data
         })
       },

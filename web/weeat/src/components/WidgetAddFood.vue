@@ -147,7 +147,7 @@ export default {
 
         const payload = {
             name: this.food_name,
-            food_cat: parseInt(this.food_cat),
+            category: parseInt(this.food_cat),
             kcal: parseFloat(this.food_kcal),
             carbs: parseFloat(this.food_carbs),
             sugar: parseFloat(this.food_sugar),
