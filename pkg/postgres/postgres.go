@@ -6,7 +6,7 @@ import (
 
 	"github.com/KonstantinGasser/weeat/core/dao"
 	"github.com/KonstantinGasser/weeat/core/pkg/unit"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
@@ -15,7 +15,7 @@ type Conn struct {
 	user, password string
 	host           string
 	port           int
-	c              *pgx.Conn
+	c              *pgxpool.Pool
 }
 
 func New(user, password, host string, port int) *Conn {
@@ -29,7 +29,8 @@ func New(user, password, host string, port int) *Conn {
 
 func (conn *Conn) Connect(dbname string) error {
 	logrus.Infof("[postgres.Conntect] conntecting to pg: host=%s,db=%s\n", conn.host, dbname)
-	c, err := pgx.Connect(context.Background(), conn.uri(dbname))
+
+	c, err := pgxpool.Connect(context.Background(), conn.uri(dbname))
 	if err != nil {
 		return errors.Wrap(err, "connect to postgres-db caused an issue")
 	}
@@ -38,8 +39,8 @@ func (conn *Conn) Connect(dbname string) error {
 	return nil
 }
 
-func (conn *Conn) Close(ctx context.Context) error {
-	return conn.c.Close(ctx)
+func (conn *Conn) Close(ctx context.Context) {
+	conn.c.Close()
 }
 
 func (conn *Conn) uri(dbname string) string {

@@ -2,6 +2,7 @@ package records
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/KonstantinGasser/weeat/core/dao"
@@ -60,10 +61,12 @@ func (svc Service) GetFood(ctx context.Context, ID string, amount int) (dto.Food
 		return dto.Food{}, response.Err(err, http.StatusInternalServerError, "could not lookup food")
 	}
 
+	fmt.Println("pg: ", item)
 	food := record.FoodFromDAO(item).Scale(amount)
-
+	fmt.Println("domain: ", food)
 	return dto.Food{
 		ID:       food.ID,
+		Name:     food.Name,
 		Category: int(food.Category),
 		Kcal:     food.Kcal.Value(),
 		Carbs:    food.Carbs.Value(),

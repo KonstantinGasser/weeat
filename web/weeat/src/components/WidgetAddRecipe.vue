@@ -48,25 +48,25 @@
         <div class="list_ingredients">
           <div v-for="item in ingredients" :key="item.id" class="item_ingredient">
               <i class="bi bi-x" @click="removeIngredient(item)"></i>
-              {{ item.name }} {{item.amount}}
+              {{ item.name }} {{ item.amount }}
               <span v-if="item.category < 7">g</span>
               <span v-if="item.category >= 7">ml</span>
-              <span v-if="item.category === 1">🍒</span>
-              <span v-if="item.category === 2">🥦</span>
-              <span v-if="item.category === 3">🍗</span>
-              <span v-if="item.category === 4">🍣</span>
-              <span v-if="item.category === 5">🧀</span>
-              <span v-if="item.category === 6">🍞</span>
-              <span v-if="item.category === 7">🧃</span>
-              <span v-if="item.category === 8">🍹</span>
+              <span v-if="item.category === 1">&nbsp;🍒</span>
+              <span v-if="item.category === 2">&nbsp;🥦</span>
+              <span v-if="item.category === 3">&nbsp;🍗</span>
+              <span v-if="item.category === 4">&nbsp;🍣</span>
+              <span v-if="item.category === 5">&nbsp;🧀</span>
+              <span v-if="item.category === 6">&nbsp;🍞</span>
+              <span v-if="item.category === 7">&nbsp;🧃</span>
+              <span v-if="item.category === 8">&nbsp;🍹</span>
           </div>
         </div>
       </div>
       <div class="row g-2 my-1 recipe_info">
         <div class="recipe_tag tag_kcal">{{recipe_kcal}} (kcal)</div>
-        <div class="recipe_tag tag_carbs">{{recipe_carbs}}g (carbohydrates)</div>
-        <div class="recipe_tag tag_fats">{{recipe_fats}}g (fat)</div>
-        <div class="recipe_tag tag_protein">{{recipe_protein}}g (protein)</div>
+        <div class="recipe_tag tag_carbs">{{recipe_carbs.toFixed(2)}}g (carbohydrates)</div>
+        <div class="recipe_tag tag_fats">{{recipe_fats.toFixed(2)}}g (fat)</div>
+        <div class="recipe_tag tag_protein">{{recipe_protein.toFixed(2)}}g (protein)</div>
       </div>
       <div class="row g-2 d-flex justify-end my-2">
         <button class="action-btn" @click="addRecipe()">Add</button>
@@ -120,25 +120,26 @@ export default {
           return
         }
 
-        let item = {}
         axios.get(process.env.VUE_APP_API + `/records/get/food?id=${id}&scaler=${this.scaler}`).then(resp => {
+          let item = {}
           item = resp?.data?.data
+          item.amount = this.scaler
+  
+          this.ingredients.push(item)
+
+          this.recipe_kcal += item.kcal
+          this.recipe_carbs += item.carbs
+          this.recipe_protein += item.protein
+          this.recipe_fats += item.fats
+  
+          this.query_query = ""
+          this.query_food = []
+
         }).catch(err => {
           this.$moshaToast(err, {type:'danger', position: 'top-center', timeout: 3000})
           return
         })
 
-        item.amount = this.scaler
-
-        this.ingredients.push(item)
-
-        this.recipe_kcal += item.kcal
-        this.recipe_carbs += item.carbs
-        this.recipe_protein += item.protein
-        this.recipe_fats += item.fats
-
-        this.query_query = ""
-        this.query_food = []
       },
       removeIngredient(item) {
         this.ingredients = this.ingredients.filter(i => (i != item))

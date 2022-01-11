@@ -77,8 +77,9 @@ func FoodFromDTO(food dto.Food) Food {
 
 func FoodFromDAO(food dao.Food) Food {
 	return Food{
+		ID:       food.ID,
 		Name:     food.Name,
-		Label:    strings.ToLower(food.Name),
+		Label:    food.Name,
 		Category: category.Food(food.Category),
 		Kcal:     food.Kcal,
 		Carbs:    food.Carbs,
