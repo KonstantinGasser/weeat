@@ -1,4 +1,4 @@
-# weeat 🍏🍒 
+# [weeat-app](https://weeat-app.pages.dev/) 🍏🍒 
 
 ## Idea
 ### Origin story
