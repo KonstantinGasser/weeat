@@ -18,6 +18,11 @@ type FoodQuery struct {
 	ID       int
 	Name     string
 	Category int
+	Kcal     unit.Unit
+	Carbs    unit.Unit
+	Sugar    unit.Unit
+	Protein  unit.Unit
+	Fats     unit.Unit
 }
 
 type Ingredient struct {

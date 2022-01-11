@@ -225,6 +225,8 @@ export default {
 
   display: flex;
   flex-wrap: wrap;
+  gap: 5px;
+
   text-decoration: none;
   list-style: none;
 }
@@ -232,7 +234,8 @@ export default {
 .list-query-food li {
   padding: 3px 5px;
   border-radius: 25px;
-  border: 1px solid black;
+  background: #1fcf80;
+  color: #ffffff;
 }
 
 

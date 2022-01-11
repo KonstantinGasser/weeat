@@ -117,6 +117,12 @@ and (-webkit-device-pixel-ratio : 3) {
   background: #ffffff;
 }
 
+.action-btn.append {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  height: 100%;
+}
+
 .action-btn.form-btn {
   height: 100%;
   width: min-content;
@@ -167,6 +173,7 @@ and (-webkit-device-pixel-ratio : 3) {
   
   width: 95%;
   height: max-content;
+  min-height: 400px;
 
   bottom: -100%;
   left: 0;

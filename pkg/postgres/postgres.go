@@ -79,7 +79,8 @@ func (conn *Conn) InsertFood(ctx context.Context, food dao.Food) error {
 
 func (conn *Conn) GetFood(ctx context.Context, ID string) (dao.Food, error) {
 	// cannot use conn.c.QueryRow due to bug which causes the connection
-	// to not be closed
+	// to not be closed even if the batch results are not used
+	// and required in the context
 	// see: https://github.com/jackc/pgx/issues/635
 	rows, _ := conn.c.Query(ctx, sql_get_food, ID)
 
@@ -108,11 +109,19 @@ func (conn *Conn) SearchFood(ctx context.Context, query string, limit int) ([]da
 
 	rows, _ := conn.c.Query(ctx, sql_search_food, query, limit)
 	var items []dao.FoodQuery
+	var kcal int
+	var carbs, sugar, protein, fats float64
 	for rows.Next() {
 		var item = dao.FoodQuery{}
-		if err := rows.Scan(&item.ID, &item.Name, &item.Category); err != nil {
+		if err := rows.Scan(&item.ID, &item.Name, &item.Category, &kcal, &carbs, &sugar, &protein, &fats); err != nil {
 			return items, errors.Wrap(err, "pg-sql - rows.Next, lookup item")
 		}
+		item.Kcal = unit.NewKcal(float64(kcal))
+		item.Carbs = unit.NewGramm(carbs)
+		item.Sugar = unit.NewGramm(sugar)
+		item.Protein = unit.NewGramm(protein)
+		item.Fats = unit.NewGramm(fats)
+
 		items = append(items, item)
 	}
 	defer rows.Close()

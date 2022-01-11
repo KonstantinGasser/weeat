@@ -18,7 +18,7 @@ var (
 	   select id, name, category, kcal, carbs, sugar, protein, fats from food_item where id=$1;
 	`
 	sql_search_food = `
-	   select id, name, category from food_item where label like $1 || '%' limit $2;
+	   select id, name, category, kcal, carbs, sugar, protein, fats from food_item where label like $1 || '%' limit $2;
 	`
 
 	sql_update_food = `

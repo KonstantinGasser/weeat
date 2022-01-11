@@ -35,7 +35,7 @@
                     <span>Track intake</span>
                     <span class="option-icon">🍽</span>
                 </div>
-                <div class="dashboard-option">
+                <div class="dashboard-option" @click="isSearchFood=!isSearchFood">
                     <span>Search Food</span>
                     <span class="option-icon">🔎🍓</span>
                 </div>
@@ -46,10 +46,11 @@
             </div>    
         </div>
     </div>
-    <WidgetHelloFriend :class="{'widget-active': !isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
+    <WidgetHelloFriend :class="{'widget-active':!isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
     <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
     <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
     <WidgetGenerateMeals :class="{'widget-active':isGenerateMeals}" @widget_close_generate_meals="isGenerateMeals=!isGenerateMeals" />
+    <WidgetSearchFood :class="{'widget-active':isSearchFood}" @widget_close_search_food="isSearchFood=!isSearchFood" />
 </template>
 
 <script lang="js">
@@ -60,6 +61,7 @@ import WidgetHelloFriend from "./WidgetHelloFriend.vue"
 import WidgetAddFood from "./WidgetAddFood.vue"
 import WidgetAddRecipe from "./WidgetAddRecipe.vue"
 import WidgetGenerateMeals from "./WidgetGenerateMeals.vue"
+import WidgetSearchFood from "./WidgetSearchFood.vue"
 
 import IntakeDoughnut from "./charts/IntakeDoughnut.vue"
 
@@ -70,6 +72,7 @@ export default defineComponent({
         WidgetAddFood,
         WidgetAddRecipe,
         WidgetGenerateMeals,
+        WidgetSearchFood,
         IntakeDoughnut,
     },
     setup(){
@@ -89,6 +92,7 @@ export default defineComponent({
             isAddFood: false,
             isAddRecipe: false,
             isGenerateMeals: false,
+            isSearchFood: false,
             panel_overview: true,
             panel_browse: false,
             state: {
