@@ -1,4 +1,4 @@
-package records
+package recipesvc
 
 import (
 	"context"
@@ -12,4 +12,6 @@ type RecordsRepo interface {
 	SearchFood(ctx context.Context, query string, limit int) ([]dao.FoodQuery, error)
 	UpdateFood(ctx context.Context, column string, value interface{}) error
 	DeleteFood(ctx context.Context, ID int) error
+
+	InsertRecipe(ctx context.Context, recipe dao.Recipe) (int, error)
 }

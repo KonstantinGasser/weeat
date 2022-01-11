@@ -28,4 +28,13 @@ var (
 	sql_delete_food = `
 		delete from food where id=$1;
 	`
+
+	sql_insert_recipe = `
+		insert into table recipe_item(name)
+			values($1) returning id;		
+	`
+	sql_ref_food_recipe = `
+	    insert into recipe_food_items(recipe_id, food_id, amount)
+			values($1,$2,$3) on conflict(recipe_id,food_id) do nothing;
+	`
 )

@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/KonstantinGasser/weeat/core/dto"
 	"github.com/KonstantinGasser/weeat/core/services/records"
@@ -37,7 +38,7 @@ func HandleInsertFood(recodsvc *records.Service) http.HandlerFunc {
 func HandleSearchFood(recordsvc *records.Service) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		search := r.URL.Query().Get("q")
+		search := strings.ToLower(r.URL.Query().Get("q"))
 		if len(search) == 0 {
 			response.Reply(w).JSON(http.StatusOK, nil)
 			return

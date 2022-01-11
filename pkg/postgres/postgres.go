@@ -136,3 +136,14 @@ func (conn *Conn) DeleteFood(ctx context.Context, ID int) error {
 	}
 	return nil
 }
+
+func (conn *Conn) InsertRecipe(ctx context.Context, recipe dao.Recipe) (int, error) {
+
+	row := conn.c.QueryRow(ctx, sql_insert_recipe, recipe.Name)
+
+	var rowID int
+	if err := row.Scan(&rowID); err != nil {
+		return 0, errors.Wrap(err, "pg-sql - insert recipe item")
+	}
+	return rowID, nil
+}

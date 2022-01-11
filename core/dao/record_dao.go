@@ -19,3 +19,14 @@ type FoodQuery struct {
 	Name     string
 	Category int
 }
+
+type RecipeFoodItem struct {
+	ID     int
+	Amount float64
+}
+
+type Recipe struct {
+	ID      int
+	Name    string
+	FoodIDs []RecipeFoodItem
+}

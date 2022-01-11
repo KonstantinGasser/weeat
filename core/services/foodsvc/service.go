@@ -1,4 +1,4 @@
-package records
+package foodsvc
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/KonstantinGasser/weeat/core/dao"
-	"github.com/KonstantinGasser/weeat/core/domain/record"
+	"github.com/KonstantinGasser/weeat/core/domain/food"
 	"github.com/KonstantinGasser/weeat/core/dto"
 	"github.com/KonstantinGasser/weeat/pkg/http/response"
 	"github.com/sirupsen/logrus"
@@ -26,12 +26,12 @@ func New(repo RecordsRepo) *Service {
 	}
 }
 
-func (svc Service) InsertFood(ctx context.Context, food dto.Food) response.RespErr {
+func (svc Service) InsertFood(ctx context.Context, foodItem dto.Food) response.RespErr {
 
-	newFood := record.FoodFromDTO(food)
+	newFood := food.FoodFromDTO(foodItem)
 
 	if err := newFood.Valid(); err != nil {
-		if err == record.ErrSugarBiggerCarbs {
+		if err == food.ErrSugarBiggerCarbs {
 			return response.Err(err, http.StatusBadRequest, "Sugar Value must be lower then or equal to carbs value")
 		}
 		return response.Err(err, http.StatusBadRequest, "Provided data is invalid")
@@ -61,18 +61,17 @@ func (svc Service) GetFood(ctx context.Context, ID string, amount int) (dto.Food
 		return dto.Food{}, response.Err(err, http.StatusInternalServerError, "could not lookup food")
 	}
 
-	fmt.Println("pg: ", item)
-	food := record.FoodFromDAO(item).Scale(amount)
-	fmt.Println("domain: ", food)
+	foodItem := food.FoodFromDAO(item).Scale(amount)
+
 	return dto.Food{
-		ID:       food.ID,
-		Name:     food.Name,
-		Category: int(food.Category),
-		Kcal:     food.Kcal.Value(),
-		Carbs:    food.Carbs.Value(),
-		Sugar:    food.Sugar.Value(),
-		Protein:  food.Protein.Value(),
-		Fats:     food.Fats.Value(),
+		ID:       foodItem.ID,
+		Name:     foodItem.Name,
+		Category: int(foodItem.Category),
+		Kcal:     foodItem.Kcal.Value(),
+		Carbs:    foodItem.Carbs.Value(),
+		Sugar:    foodItem.Sugar.Value(),
+		Protein:  foodItem.Protein.Value(),
+		Fats:     foodItem.Fats.Value(),
 	}, nil
 }
 
