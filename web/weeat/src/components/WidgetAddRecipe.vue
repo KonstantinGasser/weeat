@@ -64,10 +64,10 @@
       </div>
       <hr>
       <div class="row g-2 my-1 recipe_info">
-        <div class="recipe_tag tag_kcal">{{recipe_kcal}} (kcal)</div>
-        <div class="recipe_tag tag_carbs">{{recipe_carbs.toFixed(2)}}g (carbohydrates)</div>
-        <div class="recipe_tag tag_fats">{{recipe_fats.toFixed(2)}}g (fat)</div>
-        <div class="recipe_tag tag_protein">{{recipe_protein.toFixed(2)}}g (protein)</div>
+        <div class="nutrition_tag tag_kcal">{{recipe_kcal}} (kcal)</div>
+        <div class="nutrition_tag tag_carbs">{{recipe_carbs.toFixed(2)}}g (carbohydrates)</div>
+        <div class="nutrition_tag tag_fats">{{recipe_fats.toFixed(2)}}g (fat)</div>
+        <div class="nutrition_tag tag_protein">{{recipe_protein.toFixed(2)}}g (protein)</div>
       </div>
       <div class="row g-2 d-flex justify-end my-2">
         <button class="action-btn" @click="addRecipe()">Add</button>
@@ -246,35 +246,6 @@ export default {
   justify-content: center;
 }
 
-.recipe_info .recipe_tag {
-  width: max-content;
-  padding: 3px 10px;
-  font-weight: bolder;
-  border-radius: 14px;
-}
 
-.recipe_tag.tag_kcal {
-  background: #ef233c25;
-  color: #ef233c;
-  border: 1px solid #ef233c;
-}
-
-.recipe_tag.tag_carbs {
-  background: #ffadad25;
-  color: #ffadad;
-  border: 1px solid #ffadad;
-}
-
-.recipe_tag.tag_fats {
-  background: #ffd6a525;
-  color: #ffd6a5;
-  border: 1px solid #ffd6a5;
-}
-
-.recipe_tag.tag_protein {
-  background: #1fcf8025;
-  color: #1fcf80;
-  border: 1px solid #1fcf80;
-}
 
 </style>

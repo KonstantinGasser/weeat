@@ -175,7 +175,7 @@ and (-webkit-device-pixel-ratio : 3) {
   height: max-content;
   min-height: 400px;
 
-  bottom: -100%;
+  bottom: -130%;
   left: 0;
   right: 0;
   margin-left: auto; 
@@ -189,7 +189,7 @@ and (-webkit-device-pixel-ratio : 3) {
 
 .widget.widget-active {
   transition: 500ms ease-out;
-  bottom: 0;
+  bottom: -14%;
 }
 
 .widget .widget-header {
@@ -213,6 +213,38 @@ and (-webkit-device-pixel-ratio : 3) {
 
 .icon-medium {
     font-size: 45px;
+}
+
+
+.nutrition_tag {
+  width: max-content;
+  padding: 3px 10px;
+  font-weight: bolder;
+  border-radius: 14px;
+}
+
+.nutrition_tag.tag_kcal {
+  background: #ef233c25;
+  color: #ef233c;
+  border: 1px solid #ef233c;
+}
+
+.nutrition_tag.tag_carbs {
+  background: #ffadad25;
+  color: #ffadad;
+  border: 1px solid #ffadad;
+}
+
+.nutrition_tag.tag_fats {
+  background: #ffd6a525;
+  color: #ffd6a5;
+  border: 1px solid #ffd6a5;
+}
+
+.nutrition_tag.tag_protein {
+  background: #1fcf8025;
+  color: #1fcf80;
+  border: 1px solid #1fcf80;
 }
 
 

@@ -7,15 +7,32 @@
     <div class="content">
       <div class="search">
         <div class="input-group">
-          <input v-model="query_query" type="text" class="form-control" placeholder="Search for Food" aria-label="Search for Food" aria-describedby="basic-addon2">
+          <input v-model="query_query" type="text" @input="searchFood" class="form-control" placeholder="Search for Food" aria-label="Search for Food" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="action-btn append" id="basic-addon2" @click="searchFood()">go..</button>
+            <button class="action-btn append" id="basic-addon2" @click="searchFood">go..</button>
           </div>
         </div>
       </div>
       <div class="content-items">
-        <div v-for="item in query_food" :key="item.id">
-          {{item}}
+        <div v-for="item in query_food" :key="item.id" class="food-item">
+          <h5>
+            {{item.name}}
+            <span v-if="item.category === 1">🍒</span>
+            <span v-if="item.category === 2">🥦</span>
+            <span v-if="item.category === 3">🍗</span>
+            <span v-if="item.category === 4">🍣</span>
+            <span v-if="item.category === 5">🧀</span>
+            <span v-if="item.category === 6">🍞</span>
+            <span v-if="item.category === 7">🧃</span>
+            <span v-if="item.category === 8">🍹</span>
+          </h5>
+          <div class="nutrition-labels">
+            <div class="nutrition_tag tag_kcal">{{item.kcal}} (kcal)</div>
+            <div class="nutrition_tag tag_carbs">{{item.carbs.toFixed(2)}}g (carbohydrates)</div>
+            <div class="nutrition_tag tag_carbs">{{item.sugar.toFixed(2)}}g (carbohydrates)</div>
+            <div class="nutrition_tag tag_fats">{{item.fats.toFixed(2)}}g (fat)</div>
+            <div class="nutrition_tag tag_protein">{{item.protein.toFixed(2)}}g (protein)</div>
+          </div>
         </div>
       </div>
     </div>
@@ -57,92 +74,35 @@ export default {
 </script>
 
 <style scoped>
+.widget {
+  min-height: 700px !important;
+  max-height: 700px;
+  padding: 0 0 45px 0 !important;
+}
+.widget-header {
+  padding: 0 15px;
+}
+.search {
+  padding: 0 15px;
+}
 
-.ingredients .list_header {
-  text-align: left;
+.content-items {
+  padding: 15px;
+  display: grid;
+  row-gap: 15px;
   height: 100%;
-  max-height: 470px;
   overflow-y: scroll;
 }
-
-.list_ingredients {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.list_ingredients .item_ingredient {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3px 5px;
-  width: max-content;
-  border-radius: 24px;
-  background: #1fcf8025;
-  color: #1fcf80;
-  border: 1px solid #1fcf80;
-}
-
-.item_ingredient .bi {
-  padding-top: 2px;
-}
-
-.list-query-food {
-  margin: 10px 0;
-  padding: 0px;
-
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-
-  text-decoration: none;
-  list-style: none;
-}
-
-.list-query-food li {
-  padding: 3px 5px;
-  border-radius: 25px;
-  background: #1fcf80;
-  color: #ffffff;
-}
-
-
-.recipe_info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  justify-content: center;
-}
-
-.recipe_info .recipe_tag {
-  width: max-content;
-  padding: 3px 10px;
-  font-weight: bolder;
+.food-item {
+  padding: 15px 15px;
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
   border-radius: 14px;
 }
 
-.recipe_tag.tag_kcal {
-  background: #ef233c25;
-  color: #ef233c;
-  border: 1px solid #ef233c;
-}
-
-.recipe_tag.tag_carbs {
-  background: #ffadad25;
-  color: #ffadad;
-  border: 1px solid #ffadad;
-}
-
-.recipe_tag.tag_fats {
-  background: #ffd6a525;
-  color: #ffd6a5;
-  border: 1px solid #ffd6a5;
-}
-
-.recipe_tag.tag_protein {
-  background: #1fcf8025;
-  color: #1fcf80;
-  border: 1px solid #1fcf80;
+.nutrition-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 </style>
