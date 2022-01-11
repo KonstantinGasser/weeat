@@ -2,19 +2,18 @@ package handler
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/KonstantinGasser/weeat/core/dto"
-	"github.com/KonstantinGasser/weeat/core/services/records"
+	"github.com/KonstantinGasser/weeat/core/services/foodsvc"
 	"github.com/KonstantinGasser/weeat/pkg/http/json"
 	"github.com/KonstantinGasser/weeat/pkg/http/response"
 	"github.com/sirupsen/logrus"
 )
 
-func HandleInsertFood(recodsvc *records.Service) http.HandlerFunc {
+func HandleInsertFood(food *foodsvc.Service) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		var reqFood dto.Food
@@ -25,7 +24,7 @@ func HandleInsertFood(recodsvc *records.Service) http.HandlerFunc {
 		}
 		defer r.Body.Close()
 
-		inserErr := recodsvc.InsertFood(r.Context(), reqFood)
+		inserErr := food.Insert(r.Context(), reqFood)
 		if inserErr != nil {
 			logrus.Errorf("[api.InsertFood] could not insert food: %v\n", inserErr.Err())
 			inserErr.Write(w)
@@ -35,7 +34,7 @@ func HandleInsertFood(recodsvc *records.Service) http.HandlerFunc {
 	}
 }
 
-func HandleSearchFood(recordsvc *records.Service) http.HandlerFunc {
+func HandleSearchFood(food *foodsvc.Service) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		search := strings.ToLower(r.URL.Query().Get("q"))
@@ -51,7 +50,7 @@ func HandleSearchFood(recordsvc *records.Service) http.HandlerFunc {
 			return
 		}
 
-		items, err := recordsvc.SearchFood(r.Context(), search, limit)
+		items, err := food.Search(r.Context(), search, limit)
 		if err != nil {
 			logrus.Errorf("[api.SearchFood] could not lookup food: %v", err.Err())
 			err.Write(w)
@@ -62,7 +61,7 @@ func HandleSearchFood(recordsvc *records.Service) http.HandlerFunc {
 	}
 }
 
-func HandleGetFood(recordsvc *records.Service) http.HandlerFunc {
+func HandleGetFood(food *foodsvc.Service) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		itemID := r.URL.Query().Get("id")
@@ -80,7 +79,7 @@ func HandleGetFood(recordsvc *records.Service) http.HandlerFunc {
 			response.Err(convErr, http.StatusBadRequest, "Amount must be a valid number")
 		}
 
-		items, err := recordsvc.GetFood(r.Context(), itemID, scaler)
+		items, err := food.Get(r.Context(), itemID, scaler)
 		if err != nil {
 			logrus.Errorf("[api.SearchFood] could not lookup food: %v", err.Err())
 			err.Write(w)
@@ -88,19 +87,5 @@ func HandleGetFood(recordsvc *records.Service) http.HandlerFunc {
 		}
 
 		response.Reply(w).JSON(http.StatusOK, items)
-	}
-}
-
-func HandlerInsertRecipe(recordsvc *records.Service) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "%s works", r.URL)
-
-		b, err := io.ReadAll(r.Body)
-		if err != nil {
-			logrus.Panic(err)
-			return
-		}
-		defer r.Body.Close()
-		fmt.Println(string(b))
 	}
 }

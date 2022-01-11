@@ -17,16 +17,16 @@ const (
 )
 
 type Service struct {
-	repo RecordsRepo
+	repo FoodRepo
 }
 
-func New(repo RecordsRepo) *Service {
+func New(repo FoodRepo) *Service {
 	return &Service{
 		repo: repo,
 	}
 }
 
-func (svc Service) InsertFood(ctx context.Context, foodItem dto.Food) response.RespErr {
+func (svc Service) Insert(ctx context.Context, foodItem dto.Food) response.RespErr {
 
 	newFood := food.FoodFromDTO(foodItem)
 
@@ -54,7 +54,7 @@ func (svc Service) InsertFood(ctx context.Context, foodItem dto.Food) response.R
 	return nil
 }
 
-func (svc Service) GetFood(ctx context.Context, ID string, amount int) (dto.Food, response.RespErr) {
+func (svc Service) Get(ctx context.Context, ID string, amount int) (dto.Food, response.RespErr) {
 
 	item, err := svc.repo.GetFood(ctx, ID)
 	if err != nil {
@@ -75,7 +75,7 @@ func (svc Service) GetFood(ctx context.Context, ID string, amount int) (dto.Food
 	}, nil
 }
 
-func (svc Service) SearchFood(ctx context.Context, query string, limit int) ([]dto.FoodQuery, response.RespErr) {
+func (svc Service) Search(ctx context.Context, query string, limit int) ([]dto.FoodQuery, response.RespErr) {
 
 	// limit is the limit for the SQL-Statement, it should not be to big
 	if limit > searchLimit {

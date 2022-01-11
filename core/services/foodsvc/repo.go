@@ -6,7 +6,7 @@ import (
 	"github.com/KonstantinGasser/weeat/core/dao"
 )
 
-type RecordsRepo interface {
+type FoodRepo interface {
 	InsertFood(ctx context.Context, food dao.Food) error
 	GetFood(ctx context.Context, ID string) (dao.Food, error)
 	SearchFood(ctx context.Context, query string, limit int) ([]dao.FoodQuery, error)
