@@ -21,3 +21,6 @@ This will help to ***ensure*** that you can trust the content 🤝
 *However...*
 
 After the verification process items might still be incorrect 😠... This is why each verified item can be reported as incorrect at any time . Reporting an item will trigger the verification process again. Again a number of random users will be asked to review and verify the item. Let's see how intelligence the swarm is 😅
+
+
+Still interested?? WOW then go check it out [weeat-app](https://weeat-app.pages.dev/) FYI best used on mobile device
