@@ -6,9 +6,14 @@ import (
 
 	"github.com/KonstantinGasser/weeat/core/dao"
 	"github.com/KonstantinGasser/weeat/core/pkg/unit"
+	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
+)
+
+var (
+	ErrNotFound = fmt.Errorf("could not find item")
 )
 
 type Conn struct {
@@ -28,9 +33,13 @@ func New(user, password, host string, port int) *Conn {
 }
 
 func (conn *Conn) Connect(dbname string) error {
-	logrus.Infof("[postgres.Conntect] conntecting to pg: host=%s,db=%s\n", conn.host, dbname)
+	logrus.Infof("[postgres.Conntect] conntecting to pg: %s\n", conn.uri(dbname))
 
-	c, err := pgxpool.Connect(context.Background(), conn.uri(dbname))
+	pgconf, err := pgxpool.ParseConfig(conn.uri(dbname))
+	if err != nil {
+		return errors.Wrap(err, "pg-sql - parsing pg config")
+	}
+	c, err := pgxpool.ConnectConfig(context.Background(), pgconf)
 	if err != nil {
 		return errors.Wrap(err, "connect to postgres-db caused an issue")
 	}
@@ -44,7 +53,7 @@ func (conn *Conn) Close(ctx context.Context) {
 }
 
 func (conn *Conn) uri(dbname string) string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s", conn.user, conn.password, conn.host, conn.port, dbname)
+	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?pool_max_conns=10", conn.user, conn.password, conn.host, conn.port, dbname)
 }
 
 // Service-Repo: Record-Serivce Functions
@@ -78,7 +87,7 @@ func (conn *Conn) GetFood(ctx context.Context, ID string) (dao.Food, error) {
 	var kcal int
 	var carbs, protein, fats, sugar float64
 	if !rows.Next() {
-		return item, nil
+		return item, ErrNotFound
 	}
 	defer rows.Close()
 
@@ -104,7 +113,6 @@ func (conn *Conn) SearchFood(ctx context.Context, query string, limit int) ([]da
 		if err := rows.Scan(&item.ID, &item.Name, &item.Category); err != nil {
 			return items, errors.Wrap(err, "pg-sql - rows.Next, lookup item")
 		}
-
 		items = append(items, item)
 	}
 	defer rows.Close()
@@ -137,13 +145,58 @@ func (conn *Conn) DeleteFood(ctx context.Context, ID int) error {
 	return nil
 }
 
-func (conn *Conn) InsertRecipe(ctx context.Context, recipe dao.Recipe) (int, error) {
+func (conn *Conn) InsertRecipe(ctx context.Context, recipe dao.Recipe) error {
 
-	row := conn.c.QueryRow(ctx, sql_insert_recipe, recipe.Name)
+	lock, err := conn.c.Acquire(ctx)
+	if err != nil {
+		return err
+	}
+	defer lock.Release()
+
+	tx, err := lock.Begin(ctx)
+	if err != nil {
+		fmt.Println("begin: ", err)
+		return err
+	}
 
 	var rowID int
-	if err := row.Scan(&rowID); err != nil {
-		return 0, errors.Wrap(err, "pg-sql - insert recipe item")
+	if err := tx.QueryRow(ctx, sql_insert_recipe, recipe.Name).Scan(&rowID); err != nil {
+		fmt.Println("scan: ", err)
+		return err
 	}
-	return rowID, nil
+
+	batch := pgx.Batch{}
+
+	batch.Queue("insert into recipe_food_items(recipe_id,food_id, amount) values(32, 1, 100)")
+	batch.Queue("insert into recipe_food_items(recipe_id,food_id, amount) values(32, 2, 100)")
+
+	// dont forget to close batchResults
+	// see: https://github.com/jackc/pgx/issues/610
+	tx.SendBatch(ctx, &batch).Close()
+
+	if err := tx.Commit(ctx); err != nil {
+		fmt.Println("commit: ", err)
+	}
+	return nil
+}
+
+func (conn *Conn) MapFoodToRecipe(ctx context.Context, recipeID int, foods ...dao.Ingredient) error {
+
+	tx, err := conn.c.Begin(ctx)
+	if err != nil {
+		return errors.Wrap(err, "pg-sql - start transaction")
+	}
+
+	batch := pgx.Batch{}
+
+	for _, food := range foods {
+		batch.Queue(sql_ref_food_recipe, recipeID, food.ID, food.Amount)
+	}
+
+	_ = tx.SendBatch(ctx, &batch)
+
+	if err := tx.Commit(ctx); err != nil {
+		return errors.Wrap(tx.Rollback(ctx), "pg-sql - rollback: commit to recipe_food_item")
+	}
+	return nil
 }

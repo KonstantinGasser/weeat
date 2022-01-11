@@ -49,19 +49,19 @@ func main() {
 
 	// setting up routes
 	//
-	// routes: records.Food
-	apihttp.Register("/records/new/food", handler.HandleInsertFood(
+	// routes: food
+	apihttp.Register("/api/v1/food", handler.HandleInsertFood(
 		foodsvc,
 	), "POST")
-	apihttp.Register("/records/search/food", handler.HandleSearchFood(
+	apihttp.Register("/api/v1/food/search", handler.HandleSearchFood(
 		foodsvc,
 	), "GET")
-	apihttp.Register("/records/get/food", handler.HandleGetFood(
+	apihttp.Register("/api/v1/food", handler.HandleGetFood(
 		foodsvc,
 	), "GET")
 
 	// routes: records.Recipe
-	apihttp.Register("/records/new/recipe", handler.HandlerInsertRecipe(
+	apihttp.Register("/api/v1/recipe", handler.HandlerInsertRecipe(
 		recipesvc,
 	), "POST")
 

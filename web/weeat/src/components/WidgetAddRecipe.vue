@@ -102,12 +102,20 @@ export default {
       closeWidget() {
         this.$emit(this.emit_widget_name)
         this.ingredients = []
+        this.query_food = []
+        this.query_query = ""
+        this.recipe_kcal = 0
+        this.recipe_carbs = 0
+        this.recipe_protein = 0
+        this.recipe_fats = 0 
+        this.scaler = null
+        this.recipe_name = ""
       },
       searchFood() {
         if (this.query_query.length === 0 ) return
 
         axios.get(
-          process.env.VUE_APP_API + `/records/search/food?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
+          process.env.VUE_APP_API + `/api/v1/food/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
         ).then(resp => {
           this.query_food = resp?.data?.data
         })
@@ -123,7 +131,7 @@ export default {
           return
         }
 
-        axios.get(process.env.VUE_APP_API + `/records/get/food?id=${id}&scaler=${this.scaler}`).then(resp => {
+        axios.get(process.env.VUE_APP_API + `/api/v1/food?id=${id}&scaler=${this.scaler}`).then(resp => {
           let item = {}
           item = resp?.data?.data
           item.amount = this.scaler
@@ -137,6 +145,7 @@ export default {
   
           this.query_query = ""
           this.query_food = []
+          this.scaler = null
 
         }).catch(err => {
           this.$moshaToast(err, {type:'danger', position: 'top-center', timeout: 3000})
@@ -152,6 +161,7 @@ export default {
         this.recipe_fats -= item.fats
       },
       addRecipe() {
+        console.log()
         let options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -159,10 +169,15 @@ export default {
         };
         const payload = {
           name: this.recipe_name,
-          ingredients: this.ingredients,
+          ingredients: this.ingredients.map(item => {
+            return {
+              id: item.id, 
+              amount: parseInt(item.amount)
+            }
+          }),
         }
         
-        axios.post("http://localhost:8000/records/new/recipe", payload, options).then(resp => {
+        axios.post(process.env.VUE_APP_API + `/api/v1/recipe`, payload, options).then(resp => {
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_recipe')
         }).catch(err => {

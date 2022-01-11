@@ -7,5 +7,6 @@ import (
 )
 
 type RecipeRepo interface {
-	InsertRecipe(ctx context.Context, recipe dao.Recipe) (int, error)
+	InsertRecipe(ctx context.Context, recipe dao.Recipe) error
+	MapFoodToRecipe(ctx context.Context, recipe int, foods ...dao.Ingredient) error
 }

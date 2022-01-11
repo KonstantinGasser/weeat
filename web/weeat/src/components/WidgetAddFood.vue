@@ -155,7 +155,7 @@ export default {
             protein: parseFloat(this.food_protein),
         }
 
-        axios.post(process.env.VUE_APP_API + "/records/new/food", payload, options).then(resp =>{
+        axios.post(process.env.VUE_APP_API + "/api/v1/food", payload, options).then(resp =>{
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_food')
 

@@ -20,7 +20,7 @@ type FoodQuery struct {
 	Category int
 }
 
-type RecipeFoodItem struct {
+type Ingredient struct {
 	ID     int
 	Amount float64
 }
@@ -28,5 +28,5 @@ type RecipeFoodItem struct {
 type Recipe struct {
 	ID      int
 	Name    string
-	FoodIDs []RecipeFoodItem
+	FoodIDs []Ingredient
 }
