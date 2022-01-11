@@ -20,11 +20,23 @@
         </div>
         <div class="col-md">
           <div class="input-group">
-            <input v-model="searched_ingredient" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-            <input v-model="searched_ingredient_g" type="search" class="form-control" placeholder="gramm/ml" aria-label="gramms" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-              <button class="action-btn form-btn btn-end" type="button" @click="addIngredient()">Add</button>
-            </div>
+            <input v-model="query_query" @input="searchFood" @change="searchFood" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+            <input v-model="scaler" type="search" class="form-control" placeholder="gramm/ml" aria-label="gramms" aria-describedby="basic-addon2">
+          </div>
+          <div>
+            <ul class="list-query-food">
+              <li v-for="item in query_food" :key="item.id" @click="addIngredient(item.id)">
+                {{ item.name }}
+                <span v-if="item.category === 1">🍒</span>
+                <span v-if="item.category === 2">🥦</span>
+                <span v-if="item.category === 3">🍗</span>
+                <span v-if="item.category === 4">🍣</span>
+                <span v-if="item.category === 5">🧀</span>
+                <span v-if="item.category === 6">🍞</span>
+                <span v-if="item.category === 7">🧃</span>
+                <span v-if="item.category === 8">🍹</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -34,17 +46,28 @@
           You have not selected any ingredients for the recipe 🙃
         </div>
         <div class="list_ingredients">
-          <div v-for="i in ingredients" :key="i" class="item_ingredient">
-            {{i}}
-            <i class="bi bi-x" @click="removeIngredient(i)"></i>
+          <div v-for="item in ingredients" :key="item.id" class="item_ingredient">
+              <i class="bi bi-x" @click="removeIngredient(item)"></i>
+              {{ item.name }} {{ item.amount }}
+              <span v-if="item.category < 7">g</span>
+              <span v-if="item.category >= 7">ml</span>
+              <span v-if="item.category === 1">&nbsp;🍒</span>
+              <span v-if="item.category === 2">&nbsp;🥦</span>
+              <span v-if="item.category === 3">&nbsp;🍗</span>
+              <span v-if="item.category === 4">&nbsp;🍣</span>
+              <span v-if="item.category === 5">&nbsp;🧀</span>
+              <span v-if="item.category === 6">&nbsp;🍞</span>
+              <span v-if="item.category === 7">&nbsp;🧃</span>
+              <span v-if="item.category === 8">&nbsp;🍹</span>
           </div>
         </div>
       </div>
+      <hr>
       <div class="row g-2 my-1 recipe_info">
-        <div class="recipe_tag tag_kcal">245 (kcal)</div>
-        <div class="recipe_tag tag_carbs">25g (carbohydrates)</div>
-        <div class="recipe_tag tag_fats">2.4g (fat)</div>
-        <div class="recipe_tag tag_protein">24.5g (protein)</div>
+        <div class="nutrition_tag tag_kcal">{{recipe_kcal}} (kcal)</div>
+        <div class="nutrition_tag tag_carbs">{{recipe_carbs.toFixed(2)}}g (carbohydrates)</div>
+        <div class="nutrition_tag tag_fats">{{recipe_fats.toFixed(2)}}g (fat)</div>
+        <div class="nutrition_tag tag_protein">{{recipe_protein.toFixed(2)}}g (protein)</div>
       </div>
       <div class="row g-2 d-flex justify-end my-2">
         <button class="action-btn" @click="addRecipe()">Add</button>
@@ -59,32 +82,86 @@ import axios from 'axios'
 
 export default {
   name: "WidgetAddFood",
+  components: {
+  },
   data() {
     return {
         emit_widget_name: "widget_close_new_recipe",
         recipe_name: null,
-        searched_ingredient: null,
-        searched_ingredient_g: null,
+        query_food: [],
+        query_query: "",
+        scaler: null,
         ingredients: [],
+        recipe_kcal: 0,
+        recipe_carbs: 0,
+        recipe_protein: 0,
+        recipe_fats: 0,
     };
-  },
-  unmounted() {
-    console.log("destroying: new.Recipe")
   },
   methods: {
       closeWidget() {
         this.$emit(this.emit_widget_name)
         this.ingredients = []
+        this.query_food = []
+        this.query_query = ""
+        this.recipe_kcal = 0
+        this.recipe_carbs = 0
+        this.recipe_protein = 0
+        this.recipe_fats = 0 
+        this.scaler = null
+        this.recipe_name = ""
       },
-      addIngredient() {
-        this.ingredients.push(this.searched_ingredient)
-        this.searched_ingredient = null
-        console.log(this.ingredients)
+      searchFood() {
+        if (this.query_query.length === 0 ) return
+
+        axios.get(
+          process.env.VUE_APP_API + `/api/v1/food/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
+        ).then(resp => {
+          this.query_food = resp?.data?.data
+        })
+      },
+      addIngredient(id) {
+        // add only if not exists
+        if (this.ingredients.filter(i => i.ID === id).length > 0) {
+          return
+        }
+        // error out if unit is not set
+        if (this.scaler === null) {
+          this.$moshaToast("unit cannot be empty...", {type:'danger', position:'top-center', timeout: 3000})
+          return
+        }
+
+        axios.get(process.env.VUE_APP_API + `/api/v1/food?id=${id}&scaler=${this.scaler}`).then(resp => {
+          let item = {}
+          item = resp?.data?.data
+          item.amount = this.scaler
+  
+          this.ingredients.push(item)
+
+          this.recipe_kcal += item.kcal
+          this.recipe_carbs += item.carbs
+          this.recipe_protein += item.protein
+          this.recipe_fats += item.fats
+  
+          this.query_query = ""
+          this.query_food = []
+          this.scaler = null
+
+        }).catch(err => {
+          this.$moshaToast(err, {type:'danger', position: 'top-center', timeout: 3000})
+          return
+        })
+
       },
       removeIngredient(item) {
         this.ingredients = this.ingredients.filter(i => (i != item))
+        this.recipe_kcal -= item.kcal
+        this.recipe_carbs -= item.carbs
+        this.recipe_protein -= item.protein
+        this.recipe_fats -= item.fats
       },
       addRecipe() {
+        console.log()
         let options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -92,14 +169,19 @@ export default {
         };
         const payload = {
           name: this.recipe_name,
-          ingredients: this.ingredients,
+          ingredients: this.ingredients.map(item => {
+            return {
+              id: item.id, 
+              amount: parseInt(item.amount)
+            }
+          }),
         }
         
-        axios.post("http://localhost:8000/records/new/recipe", payload, options).then(resp => {
+        axios.post(process.env.VUE_APP_API + `/api/v1/recipe`, payload, options).then(resp => {
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_recipe')
         }).catch(err => {
-          this.$moshaToast(err, {type:'success', position: 'top-center', timeout: 3000})
+          this.$moshaToast(err, {type:'danger', position: 'top-center', timeout: 3000})
         })
       },
   },
@@ -137,6 +219,25 @@ export default {
   padding-top: 2px;
 }
 
+.list-query-food {
+  margin: 10px 0;
+  padding: 0px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  text-decoration: none;
+  list-style: none;
+}
+
+.list-query-food li {
+  padding: 3px 5px;
+  border-radius: 25px;
+  background: #1fcf80;
+  color: #ffffff;
+}
+
 
 .recipe_info {
   display: flex;
@@ -145,35 +246,6 @@ export default {
   justify-content: center;
 }
 
-.recipe_info .recipe_tag {
-  width: max-content;
-  padding: 3px 10px;
-  font-weight: bolder;
-  border-radius: 14px;
-}
 
-.recipe_tag.tag_kcal {
-  background: #ef233c25;
-  color: #ef233c;
-  border: 1px solid #ef233c;
-}
-
-.recipe_tag.tag_carbs {
-  background: #ffadad25;
-  color: #ffadad;
-  border: 1px solid #ffadad;
-}
-
-.recipe_tag.tag_fats {
-  background: #ffd6a525;
-  color: #ffd6a5;
-  border: 1px solid #ffd6a5;
-}
-
-.recipe_tag.tag_protein {
-  background: #1fcf8025;
-  color: #1fcf80;
-  border: 1px solid #1fcf80;
-}
 
 </style>

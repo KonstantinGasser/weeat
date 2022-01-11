@@ -26,14 +26,14 @@
               id="floatingSelectGrid"
               aria-label="Floating label select example"
             >
-              <option value="1" selected>Fruit</option>
-              <option value="2">Vegetable</option>
-              <option value="3">Meat</option>
-              <option value="4">Fish</option>
-              <option value="5">Dairy</option>
-              <option value="6">Grains</option>
-              <option value="7">Soft-Drinks</option>
-              <option value="8">Alcohol</option>
+              <option value="1" selected>Fruit 🍒</option>
+              <option value="2">Vegetable 🥦</option>
+              <option value="3">Meat 🍗</option>
+              <option value="4">Fish 🍣</option>
+              <option value="5">Dairy 🧀</option>
+              <option value="6">Grains 🍞</option>
+              <option value="7">Soft-Drinks 🧃</option>
+              <option value="8">Alcohol 🍹</option>
             </select>
             <label for="floatingSelectGrid">Food Category</label>
           </div>
@@ -147,7 +147,7 @@ export default {
 
         const payload = {
             name: this.food_name,
-            food_cat: parseInt(this.food_cat),
+            category: parseInt(this.food_cat),
             kcal: parseFloat(this.food_kcal),
             carbs: parseFloat(this.food_carbs),
             sugar: parseFloat(this.food_sugar),
@@ -155,7 +155,7 @@ export default {
             protein: parseFloat(this.food_protein),
         }
 
-        axios.post(process.env.VUE_APP_API + "/records/new/food", payload, options).then(resp =>{
+        axios.post(process.env.VUE_APP_API + "/api/v1/food", payload, options).then(resp =>{
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})
           this.$emit('widget_close_new_food')
 

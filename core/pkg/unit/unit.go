@@ -17,6 +17,7 @@ type Unit interface {
 	Label() string
 	Slug() string
 	Value() float64
+	Scale(scaler int) Unit
 }
 
 type Gramm struct {
@@ -28,6 +29,16 @@ func NewGramm(value float64) *Gramm {
 	return &Gramm{
 		label: LabelGramm,
 		value: value,
+	}
+}
+
+func (g Gramm) Scale(scaler int) Unit {
+	if g.value <= 0 {
+		return &Gramm{label: g.label}
+	}
+	return &Gramm{
+		label: g.label,
+		value: (g.value / 100.0) * float64(scaler),
 	}
 }
 
@@ -54,6 +65,17 @@ func NewKcal(value float64) Kcal {
 	return Kcal{
 		label: LabelKcal,
 		value: value,
+	}
+}
+
+func (k Kcal) Scale(scaler int) Unit {
+	if k.value <= 0 {
+		return &Kcal{label: k.label}
+	}
+
+	return &Kcal{
+		label: k.label,
+		value: (k.value / 100.0) * float64(scaler),
 	}
 }
 

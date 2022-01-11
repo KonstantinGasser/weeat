@@ -1,6 +1,9 @@
 package response
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 type RespErr interface {
 	Code() int
@@ -32,24 +35,32 @@ func Err(e error, code int, msg string) RespErr {
 }
 
 type RespReply interface {
-	Write(w http.ResponseWriter)
+	Write(code int, body []byte)
+	JSON(code int, data interface{})
 }
 
 type reply struct {
+	w    http.ResponseWriter
 	code int
-	body []byte
 }
 
-func Reply(code int, body []byte) RespReply {
+func Reply(w http.ResponseWriter) RespReply {
 	return &reply{
-		code: code,
-		body: body,
+		w: w,
 	}
 }
 
-func (r reply) Write(w http.ResponseWriter) {
-	w.WriteHeader(r.code)
-	if len(r.body) > 0 {
-		w.Write(r.body)
+func (r reply) Write(code int, body []byte) {
+	r.w.WriteHeader(code)
+	if body != nil && len(body) > 0 {
+		r.w.Write(body)
 	}
+}
+
+func (r reply) JSON(code int, data interface{}) {
+	r.w.Header().Set("content-type", "application/json")
+	json.NewEncoder(r.w).Encode(map[string]interface{}{
+		"status": r.code,
+		"data":   data,
+	})
 }

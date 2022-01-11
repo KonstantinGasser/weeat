@@ -2,15 +2,23 @@ package postgres
 
 var (
 	sql_insert_food = `
-		insert into food_item(name, category, kcal, carbs, protein, fats)
+		insert into food_item(name, label, category, kcal, carbs, sugar, protein, fats)
 			values(
 				$1,
 				$2,
 				$3,
 				$4,
 				$5,
-				$6
+				$6,
+				$7,
+				$8
 			);
+	`
+	sql_get_food = `
+	   select id, name, category, kcal, carbs, sugar, protein, fats from food_item where id=$1;
+	`
+	sql_search_food = `
+	   select id, name, category, kcal, carbs, sugar, protein, fats from food_item where label like $1 || '%' limit $2;
 	`
 
 	sql_update_food = `
@@ -19,5 +27,13 @@ var (
 
 	sql_delete_food = `
 		delete from food where id=$1;
+	`
+
+	sql_insert_recipe = `
+		insert into recipe_item(name) values($1) returning id;
+	`
+	sql_ref_food_recipe = `
+	    insert into recipe_food_items(recipe_id, food_id, amount)
+			values($1,$2,$3);
 	`
 )
