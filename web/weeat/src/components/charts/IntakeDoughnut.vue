@@ -24,8 +24,8 @@ export default defineComponent({
 
 <style scoped>
 canvas {
-    width: 200px !important;
-    height: 200px !important;
+    width: auto !important;
+    height: 45vh !important;
     margin: 0 auto;
 }
 </style>

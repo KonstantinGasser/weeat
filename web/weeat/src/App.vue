@@ -173,15 +173,15 @@ and (-webkit-device-pixel-ratio : 3) {
   
   width: 95%;
   height: max-content;
-  min-height: 400px;
+  min-height: 80vh;
 
-  bottom: -130%;
+  bottom: -150%;
   left: 0;
   right: 0;
   margin-left: auto; 
   margin-right: auto;
 
-  padding: 0 15px 45px 15px;
+  padding: 0 15px 5px 15px;
   border-radius: 14px 14px 0 0;
   box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
   transition: 250ms ease-out;
@@ -189,7 +189,7 @@ and (-webkit-device-pixel-ratio : 3) {
 
 .widget.widget-active {
   transition: 500ms ease-out;
-  bottom: -14%;
+  bottom: 0%;
 }
 
 .widget .widget-header {

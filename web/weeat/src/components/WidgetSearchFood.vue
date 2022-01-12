@@ -61,7 +61,9 @@ export default {
         this.query_query = ""
       },
       searchFood() {
-        if (this.query_query.length === 0 ) return
+        if (this.query_query.length === 0 ) {
+          this.query_food = []
+        }
 
         axios.get(
           process.env.VUE_APP_API + `/api/v1/food/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
@@ -75,9 +77,9 @@ export default {
 
 <style scoped>
 .widget {
-  min-height: 700px !important;
-  max-height: 700px;
-  padding: 0 0 45px 0 !important;
+  padding: 0 0 5px 0 !important;
+  height: 80vh !important;
+  max-height: 80vh !important;
 }
 .widget-header {
   padding: 0 15px;
@@ -90,7 +92,7 @@ export default {
   padding: 15px;
   display: grid;
   row-gap: 15px;
-  height: 100%;
+  height: 65vh;
   overflow-y: scroll;
 }
 .food-item {

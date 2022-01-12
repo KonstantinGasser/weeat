@@ -176,15 +176,16 @@ func (conn *Conn) InsertRecipe(ctx context.Context, recipe dao.Recipe) error {
 
 	batch := pgx.Batch{}
 
-	batch.Queue("insert into recipe_food_items(recipe_id,food_id, amount) values(32, 1, 100)")
-	batch.Queue("insert into recipe_food_items(recipe_id,food_id, amount) values(32, 2, 100)")
+	for _, item := range recipe.FoodIDs {
+		batch.Queue(sql_ref_food_recipe, rowID, item.ID, item.Amount)
+	}
 
 	// dont forget to close batchResults
 	// see: https://github.com/jackc/pgx/issues/610
 	tx.SendBatch(ctx, &batch).Close()
 
 	if err := tx.Commit(ctx); err != nil {
-		fmt.Println("commit: ", err)
+		return errors.Wrap(err, "pg-sql - insert recipe commit transaction")
 	}
 	return nil
 }

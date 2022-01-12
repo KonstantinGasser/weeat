@@ -117,7 +117,10 @@ export default {
         axios.get(
           process.env.VUE_APP_API + `/api/v1/food/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
         ).then(resp => {
-          this.query_food = resp?.data?.data
+          this.query_food = resp?.data?.data?.filter(item=> {
+            this.query_food.forEach(i => {if (i.id === item.id) return false})
+            return true
+          })
         })
       },
       addIngredient(id) {

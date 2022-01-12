@@ -17,7 +17,7 @@
                 </div> 
             </div>
         </div> 
-        <div class="dashboard">
+        <!-- <div class="dashboard">
             <div class="dashboard-options">
                 <div class="dashboard-option" @click="isAddFood=!isAddFood">
                     <span>Add Food</span>
@@ -44,8 +44,9 @@
                     <span class="option-icon">🔎🍝</span>
                 </div>
             </div>    
-        </div>
+        </div> -->
     </div>
+    <MenuBar @clicked_item="openWidget"/>
     <WidgetHelloFriend :class="{'widget-active':!isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
     <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
     <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
@@ -56,6 +57,8 @@
 <script lang="js">
 import { defineComponent } from 'vue'
 import { useCookies } from "vue3-cookies"
+
+import MenuBar from "./MenuBar.vue"
 
 import WidgetHelloFriend from "./WidgetHelloFriend.vue"
 import WidgetAddFood from "./WidgetAddFood.vue"
@@ -68,6 +71,7 @@ import IntakeDoughnut from "./charts/IntakeDoughnut.vue"
 export default defineComponent({
     name: "Dashboard",
     components: {
+        MenuBar,
         WidgetHelloFriend,
         WidgetAddFood,
         WidgetAddRecipe,
@@ -117,6 +121,25 @@ export default defineComponent({
         
     },
     methods: {
+        openWidget(name) {
+            switch (name) {
+                case "WidgetAddFood":
+                    this.isAddFood=!this.isAddFood
+                    break;
+                case "WidgetAddRecipe":
+                    this.isAddRecipe=!this.isAddRecipe
+                    break;
+                case "WidgetGenerateMeals":
+                    this.isGenerateMeals=!this.isGenerateMeals
+                    break;
+                case "WidgetSearchFood":
+                    this.isSearchFood=!this.isSearchFood
+                    break;
+            
+                default:
+                    break;
+            }
+        },
         cookie_check_resp() {
             this.has_cookie = this.has_cookie_set()
             this.isHelloWorld = !this.isHelloWorld

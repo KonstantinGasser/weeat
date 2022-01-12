@@ -25,6 +25,6 @@ func HandlerInsertRecipe(recipe *recipesvc.Service) http.HandlerFunc {
 			err.Write(w)
 			return
 		}
-		response.Reply(w).Write(http.StatusCreated, nil)
+		response.Reply(w).Write(http.StatusCreated, []byte("Save your recipe"))
 	}
 }
