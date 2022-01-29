@@ -1,7 +1,7 @@
 <template>
   <div class="widget">
     <div class="widget-header">
-      <span>Search...🔎</span>
+      <span>Search...🔎{{isSearchFood}}:{{isSearchRecipe}}</span>
       <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
     <div class="widget-menu">
@@ -20,7 +20,7 @@
         <input
           v-model="query_query"
           type="text"
-          @input="searchFood"
+          @input="search"
           class="form-control"
           :placeholder="searchPlaceholder"
           aria-label="Search for Food"
@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div v-if="isSearchFood">
+    <!-- <div v-if="isSearchFood">
       <div class="content">
         <div class="content-items">
           <div v-for="item in query_food" :key="item.id" class="food-item">
@@ -70,10 +70,10 @@
           </div>
         </div>
       </div>
-    </div>
-    <div v-if="isSearchRecipe">
+    </div> -->
+    <!-- <div v-if="isSearchRecipe"> -->
       <div class="content">
-        <div class="content-items">
+        <div v-if="isSearchFood" class="content-items">
           <div v-for="item in query_food" :key="item.id" class="food-item">
             <h5>
               {{ item.name }}
@@ -103,8 +103,39 @@
             </div>
           </div>
         </div>
+        <div v-if="isSearchRecipe" class="content-items">
+          <div v-for="item in query_recipe" :key="item.id"  class="food-item" @click="expand(item.id)">
+            <h5>
+              {{ item.name }}
+              <span v-if="item.category === 9">🥞</span>
+              <span v-if="item.category === 10">🌯</span>
+              <span v-if="item.category === 11">🥘</span>
+              <span v-if="item.category === 12">🍿</span>
+            </h5>
+            <div class="list_ingredients">
+              <div v-for="i in item.ingredients" :key=i.id class="item_ingredient">
+                {{ i.name }} {{ i.amount }}
+                <span v-if="i.category < 7">g</span>
+                <span v-if="i.category >= 7">ml</span>
+                <span v-if="i.category === 1">&nbsp;🍒</span>
+                <span v-if="i.category === 2">&nbsp;🥦</span>
+                <span v-if="i.category === 3">&nbsp;🍗</span>
+                <span v-if="i.category === 4">&nbsp;🍣</span>
+                <span v-if="i.category === 5">&nbsp;🧀</span>
+                <span v-if="i.category === 6">&nbsp;🍞</span>
+                <span v-if="i.category === 7">&nbsp;🧃</span>
+                <span v-if="i.category === 8">&nbsp;🍹</span>
+              </div>
+            </div>
+            <div class="recipe_info" :class="{'expand' : item.id === expandBox}">
+              test 
+              test
+              test
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -117,10 +148,12 @@ export default {
   components: {},
   data() {
     return {
+      expandBox: -1, // could be null to must not be any number >= 0, loop var start at 0
       isSearchFood: true,
       isSearchRecipe: false,
       emit_widget_name: "widget_close_search_food",
       query_food: [],
+      query_recipe: [],
       query_query: "",
     };
   },
@@ -134,9 +167,20 @@ export default {
     closeWidget() {
       this.$emit(this.emit_widget_name);
       this.query_food = [];
+      this.query_recipe = [];
       this.query_query = "";
+      this.isSearchFood=true
+      this.isSearchRecipe=false
+    },
+    expand(id) {
+      if (this.expandBox === id) {
+        this.expandBox = -1
+        return
+      }
+      this.expandBox = id
     },
     selectSearch(type) {
+      this.query_query = ""
       switch (type) {
         case "food":
           this.isSearchFood = !this.isSearchFood;
@@ -148,20 +192,42 @@ export default {
           break;
       }
     },
+    search() {
+      if (this.isSearchFood) {
+        this.searchFood()
+        return
+      }
+      this.searchRecipe()
+    },
     searchFood() {
       if (this.query_query.length === 0) {
         this.query_food = [];
       }
-
       axios
         .get(
           process.env.VUE_APP_API +
             `/api/v1/food/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
         )
         .then((resp) => {
+          console.log(resp?.data)
           this.query_food = resp?.data?.data;
         });
     },
+    searchRecipe() {
+    if (this.query_query.length === 0) {
+      this.query_recipe = [];
+    }
+
+    axios
+      .get(
+        process.env.VUE_APP_API +
+          `/api/v1/recipe/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
+      )
+      .then((resp) => {
+        console.log(resp?.data)
+        this.query_recipe = resp?.data?.data;
+      });
+  },
   },
 };
 </script>
@@ -181,15 +247,28 @@ export default {
 
 .content-items {
   padding: 15px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   row-gap: 15px;
-  height: 65vh;
+  height: 60vh;
   overflow-y: scroll;
 }
 .food-item {
   padding: 15px 15px;
   box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
+  background: var(--box-bg);
   border-radius: 14px;
+  height: min-content;
+}
+.recipe_info {
+  height: 0px;
+  opacity: 0;
+  transition: 100ms ease-out;
+}
+.recipe_info.expand {
+  padding: 15px 0;
+  height: max-content;
+  opacity: 1;
 }
 
 .nutrition-labels {

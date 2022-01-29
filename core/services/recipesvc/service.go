@@ -7,6 +7,7 @@ import (
 	"github.com/KonstantinGasser/weeat/core/dao"
 	"github.com/KonstantinGasser/weeat/core/domain/recipe"
 	"github.com/KonstantinGasser/weeat/core/dto"
+	"github.com/KonstantinGasser/weeat/core/pkg/category"
 	"github.com/KonstantinGasser/weeat/pkg/http/response"
 )
 
@@ -53,26 +54,23 @@ func (svc Service) Search(ctx context.Context, query string, limit int) ([]dto.R
 	var recipes []dto.Recipe
 	for _, found := range foundRecipes {
 
-		var ing []dto.Ingredient
+		var ing []recipe.Ingredient
 		for _, i := range found.FoodIDs {
-			ing = append(ing, dto.Ingredient{
-				ID:      i.ID,
-				Amount:  i.Amount,
-				Name:    i.Food.Name,
-				Kcal:    int(i.Food.Kcal.Value()),
-				Carbs:   i.Food.Carbs.Value(),
-				Sugar:   i.Food.Sugar.Value(),
-				Protein: i.Food.Protein.Value(),
-				Fats:    i.Food.Fats.Value(),
+			ing = append(ing, recipe.Ingredient{
+				ID:       i.ID,
+				Amount:   i.Amount,
+				Name:     i.Food.Name,
+				Category: category.Type(i.Food.Category),
+				Kcal:     i.Food.Kcal,
+				Carbs:    i.Food.Carbs,
+				Sugar:    i.Food.Sugar,
+				Protein:  i.Food.Protein,
+				Fats:     i.Food.Fats,
 			})
 		}
 
-		recipes = append(recipes, dto.Recipe{
-			ID:          found.ID,
-			Name:        found.Name,
-			Category:    found.Category,
-			Ingredients: ing,
-		})
+		rec := recipe.New(found.ID, found.Name, category.Type(found.Category), ing).ToDTO()
+		recipes = append(recipes, rec)
 	}
 	return recipes, nil
 }

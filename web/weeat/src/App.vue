@@ -14,6 +14,9 @@ export default {
 </script>
 
 <style>
+:root {
+  --box-bg: linear-gradient(26deg, rgb(255, 255, 255) 0%, rgb(249, 250, 255) 100%);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -271,6 +274,26 @@ and (-webkit-device-pixel-ratio : 3) {
   border: 1px solid #1fcf80;
 }
 
+.list_ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.item_ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 5px;
+  width: max-content;
+  border-radius: 24px;
+  background: #1fcf8025;
+  color: #1fcf80;
+  border: 1px solid #1fcf80;
+}
+.item_ingredient .bi {
+  padding-top: 2px;
+}
 
 .loader,
 .loader:before,

@@ -14,6 +14,7 @@ var (
 // which describes one property of a food
 // it has been mapped to
 type Unit interface {
+	Add(value float64)
 	Label() string
 	Slug() string
 	Value() float64
@@ -25,14 +26,14 @@ type Gramm struct {
 	value float64
 }
 
-func NewGramm(value float64) *Gramm {
+func NewGramm(value float64) Unit {
 	return &Gramm{
 		label: LabelGramm,
 		value: value,
 	}
 }
 
-func (g Gramm) Scale(scaler int) Unit {
+func (g *Gramm) Scale(scaler int) Unit {
 	if g.value <= 0 {
 		return &Gramm{label: g.label}
 	}
@@ -42,17 +43,21 @@ func (g Gramm) Scale(scaler int) Unit {
 	}
 }
 
+func (g *Gramm) Add(value float64) {
+	g.value += value
+}
+
 // Label returns the full label of the Label
-func (g Gramm) Label() string {
+func (g *Gramm) Label() string {
 	return g.label.long
 }
 
 // Slug returns the short-hand (slug) of the Label
-func (g Gramm) Slug() string {
+func (g *Gramm) Slug() string {
 	return g.label.slug
 }
 
-func (g Gramm) Value() float64 {
+func (g *Gramm) Value() float64 {
 	return g.value
 }
 
@@ -61,14 +66,18 @@ type Kcal struct {
 	value float64
 }
 
-func NewKcal(value float64) Kcal {
-	return Kcal{
+func NewKcal(value float64) Unit {
+	return &Kcal{
 		label: LabelKcal,
 		value: value,
 	}
 }
 
-func (k Kcal) Scale(scaler int) Unit {
+func (k *Kcal) Add(value float64) {
+	k.value += value
+}
+
+func (k *Kcal) Scale(scaler int) Unit {
 	if k.value <= 0 {
 		return &Kcal{label: k.label}
 	}
@@ -79,14 +88,14 @@ func (k Kcal) Scale(scaler int) Unit {
 	}
 }
 
-func (k Kcal) Label() string {
+func (k *Kcal) Label() string {
 	return k.label.long
 }
 
-func (k Kcal) Slug() string {
+func (k *Kcal) Slug() string {
 	return k.label.slug
 }
 
-func (k Kcal) Value() float64 {
+func (k *Kcal) Value() float64 {
 	return k.value
 }

@@ -206,7 +206,7 @@ export default {
   gap: 5px;
 }
 
-.list_ingredients .item_ingredient {
+/* .list_ingredients .item_ingredient {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -216,11 +216,11 @@ export default {
   background: #1fcf8025;
   color: #1fcf80;
   border: 1px solid #1fcf80;
-}
+} */
 
-.item_ingredient .bi {
+/* .item_ingredient .bi {
   padding-top: 2px;
-}
+} */
 
 .list-query-food {
   margin: 10px 0;

@@ -135,7 +135,6 @@ func (conn *Conn) SearchRecipe(ctx context.Context, query string, limit int) ([]
 		return nil, errors.Wrap(err, "pg-sql - search for recipes")
 	}
 	defer rows.Close()
-	fmt.Println("rows: ", rows)
 
 	type row struct {
 		recID      int
@@ -205,7 +204,6 @@ func (conn *Conn) SearchRecipe(ctx context.Context, query string, limit int) ([]
 
 	var recipes []dao.Recipe
 	for _, item := range recipeIngs {
-		fmt.Println(item)
 		recipes = append(recipes, *item)
 	}
 	return recipes, nil
