@@ -167,29 +167,48 @@ and (-webkit-device-pixel-ratio : 3) {
 }
 
 .widget {
+  opacity: 1;
   position: absolute;
   overflow: hidden;
   background: #ffffff;
   
   width: 95%;
   height: max-content;
-  min-height: 80vh;
+  max-height: 95vh;
 
-  bottom: -150%;
+  bottom: 0;
+  top: 0;
   left: 0;
-  right: 0;
-  margin-left: auto; 
-  margin-right: auto;
+  right: -200%;
+  margin: auto;
 
   padding: 0 15px 5px 15px;
-  border-radius: 14px 14px 0 0;
+  border-radius: 14px 14px 14px 14px;
   box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
   transition: 250ms ease-out;
 }
 
 .widget.widget-active {
   transition: 500ms ease-out;
-  bottom: 0%;
+  /* bottom: 0%; */
+  right: 0
+}
+
+.widget.widget-fade-out {
+  animation-name: fade-out;
+  animation-duration: 250ms;
+  animation-iteration-count: 1;
+  right: 0 !important;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to{
+    opacity: 0;
+  }
+  
 }
 
 .widget .widget-header {

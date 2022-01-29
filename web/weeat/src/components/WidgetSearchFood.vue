@@ -1,7 +1,7 @@
 <template>
   <div class="widget">
     <div class="widget-header">
-        <span>Seach Food</span>
+        <span>Search Food</span>
         <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
     <div class="content">

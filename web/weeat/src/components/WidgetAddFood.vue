@@ -50,7 +50,7 @@
               id="floatingInputGrid2"
               placeholder="24"
             />
-            <label for="floatingInputGrid">Calorines (kcal)</label>
+            <label for="floatingInputGrid">Calories (kcal)</label>
           </div>
         </div>
         <div class="col-md">
@@ -63,7 +63,7 @@
               id="floatingInputGrid3"
               placeholder="Pumkin"
             />
-            <label for="floatingInputGrid">Carbohydrates (gramm) 🍞</label>
+            <label for="floatingInputGrid">Carbohydrates (grams) 🍞</label>
           </div>
         </div>
         <div class="form-group">
@@ -82,7 +82,7 @@
               id="floatingInputGrid2"
               placeholder="24"
             />
-            <label for="floatingInputGrid">Fats (gramm) 🧈</label>
+            <label for="floatingInputGrid">Fats (grams) 🧈</label>
           </div>
         </div>
         <div class="col-md">
@@ -95,7 +95,7 @@
               id="floatingInputGrid3"
               placeholder="Pumkin"
             />
-            <label for="floatingInputGrid">Protein (gramm) 🥜</label>
+            <label for="floatingInputGrid">Protein (grams) 🥜</label>
           </div>
         </div>
       </div>

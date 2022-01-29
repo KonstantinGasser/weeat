@@ -8,8 +8,8 @@
       <div class="cookie-agree-text">
         <span><span>we</span>Eat</span> would like to set a cookie 🍪 
         <br>If you chose to accept you can track your daily intake. 
-        But you dont have to! Without a 🍪 you can still <i>add foods</i>, <i>share recipes</i> and <i>generate meals</i> 
-        <br>...so no preasure the choice is yours 😉 
+        But you don't have to! Without a 🍪 you can still <i>add foods</i>, <i>share recipes</i> and <i>generate meals</i> 
+        <br>...so no pressure the choice is yours 😉 
       </div>
       <div class="cookie-actions">
         <div class="btn-row">

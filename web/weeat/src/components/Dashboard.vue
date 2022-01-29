@@ -17,37 +17,9 @@
                 </div> 
             </div>
         </div> 
-        <!-- <div class="dashboard">
-            <div class="dashboard-options">
-                <div class="dashboard-option" @click="isAddFood=!isAddFood">
-                    <span>Add Food</span>
-                    <span class="option-icon">🫐</span>
-                </div>
-                <div class="dashboard-option" @click="isAddRecipe=!isAddRecipe">
-                    <span>Add Recipe</span>
-                    <span class="option-icon">🌮</span>
-                </div>
-                <div class="dashboard-option" @click="isGenerateMeals=!isGenerateMeals">
-                    <span>Feeling lucky?</span>
-                    <span class="option-icon">😬</span>
-                </div>
-                <div class="dashboard-option">
-                    <span>Track intake</span>
-                    <span class="option-icon">🍽</span>
-                </div>
-                <div class="dashboard-option" @click="isSearchFood=!isSearchFood">
-                    <span>Search Food</span>
-                    <span class="option-icon">🔎🍓</span>
-                </div>
-                <div class="dashboard-option">
-                    <span>Seach Recipe</span>
-                    <span class="option-icon">🔎🍝</span>
-                </div>
-            </div>    
-        </div> -->
     </div>
     <MenuBar @clicked_item="openWidget"/>
-    <WidgetHelloFriend :class="{'widget-active':!isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
+    <WidgetHelloFriend :class="{'widget-active': !isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
     <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
     <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
     <WidgetGenerateMeals :class="{'widget-active':isGenerateMeals}" @widget_close_generate_meals="isGenerateMeals=!isGenerateMeals" />
