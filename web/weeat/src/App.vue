@@ -194,22 +194,6 @@ and (-webkit-device-pixel-ratio : 3) {
   right: 0
 }
 
-.widget.widget-fade-out {
-  animation-name: fade-out;
-  animation-duration: 250ms;
-  animation-iteration-count: 1;
-  right: 0 !important;
-}
-
-@keyframes fade-out {
-  from {
-    opacity: 1;
-  }
-  to{
-    opacity: 0;
-  }
-  
-}
 
 .widget .widget-header {
   display: flex;
@@ -225,6 +209,27 @@ and (-webkit-device-pixel-ratio : 3) {
 .widget .widget-header span > small {
   font-size: 16px;
 }
+
+.widget .widget-menu {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  padding: 15px 15px;
+}
+
+.widget .widget-menu div {
+  padding: 3px 15px;
+  border-radius: 14px;
+  border: 1px solid #1fcf80;
+  background-color: #1fcf8025;
+  color: #1fcf80;
+}
+
+.widget .widget-menu div.selected {
+  background-color: #1fcf80;
+  color: #ffffff;
+}
+
 
 .bi:hover {
   cursor: pointer;

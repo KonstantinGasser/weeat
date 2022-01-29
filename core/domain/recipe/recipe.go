@@ -2,8 +2,10 @@ package recipe
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/KonstantinGasser/weeat/core/dto"
+	"github.com/KonstantinGasser/weeat/core/pkg/category"
 )
 
 var (
@@ -18,6 +20,8 @@ type Ingredient struct {
 type Recipe struct {
 	ID          int
 	Name        string
+	Category    category.Type
+	Label       string
 	Ingredients []Ingredient
 }
 
@@ -37,6 +41,8 @@ func FromDTO(recipe dto.Recipe) (Recipe, error) {
 	return Recipe{
 		ID:          recipe.ID,
 		Name:        recipe.Name,
+		Category:    category.Type(recipe.Category),
+		Label:       strings.ToLower(strings.TrimSpace(recipe.Name)),
 		Ingredients: ingredients,
 	}, nil
 }

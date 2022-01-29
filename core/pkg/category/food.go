@@ -1,9 +1,9 @@
 package category
 
-type Food int
+type Type int
 
 const (
-	Fruit Food = iota + 1 // +1 required since database id starts at 1
+	Fruit Type = iota + 1 // +1 required since database id starts at 1
 	Vegetable
 	Meat
 	Fish
@@ -11,4 +11,8 @@ const (
 	Grains
 	SoftDrinks
 	Alcohol
+	BreakFast
+	Lunch
+	Dinner
+	Snack
 )

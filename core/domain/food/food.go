@@ -23,7 +23,7 @@ type Food struct {
 	// Label is the lower-case representation for the Food
 	// it is used for fast access search of items
 	Label    string
-	Category category.Food `required:"yes"`
+	Category category.Type `required:"yes"`
 	Kcal     unit.Unit     `required:"yes"`
 	Carbs    unit.Unit     `required:"yes"`
 	Sugar    unit.Unit     `required:"yes"`
@@ -66,7 +66,7 @@ func FoodFromDTO(food dto.Food) Food {
 	return Food{
 		Name:     food.Name,
 		Label:    strings.ToLower(food.Name),
-		Category: category.Food(food.Category),
+		Category: category.Type(food.Category),
 		Kcal:     unit.NewKcal(food.Kcal),
 		Carbs:    unit.NewGramm(food.Carbs),
 		Sugar:    unit.NewGramm(food.Sugar),
@@ -80,7 +80,7 @@ func FoodFromDAO(food dao.Food) Food {
 		ID:       food.ID,
 		Name:     food.Name,
 		Label:    food.Name,
-		Category: category.Food(food.Category),
+		Category: category.Type(food.Category),
 		Kcal:     food.Kcal,
 		Carbs:    food.Carbs,
 		Sugar:    food.Sugar,

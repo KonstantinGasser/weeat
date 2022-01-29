@@ -129,6 +129,88 @@ func (conn *Conn) SearchFood(ctx context.Context, query string, limit int) ([]da
 	return items, rows.Err()
 }
 
+func (conn *Conn) SearchRecipe(ctx context.Context, query string, limit int) ([]dao.Recipe, error) {
+	rows, err := conn.c.Query(ctx, sql_search_recipe, query, limit)
+	if err != nil {
+		return nil, errors.Wrap(err, "pg-sql - search for recipes")
+	}
+	defer rows.Close()
+	fmt.Println("rows: ", rows)
+
+	type row struct {
+		recID      int
+		recName    string
+		recCat     int
+		ingID      int
+		ingAmount  float64
+		ingName    string
+		ingCat     int
+		ingKcal    int
+		ingCarbs   float64
+		ingSugar   float64
+		ingProtein float64
+		ingFats    float64
+	}
+
+	var recipeIngs = make(map[int]*dao.Recipe)
+	for rows.Next() {
+		var r = row{}
+		if err := rows.Scan(
+			&r.recID, &r.recName, &r.recCat,
+			&r.ingID, &r.ingAmount, &r.ingName, &r.ingCat,
+			&r.ingKcal, &r.ingCarbs, &r.ingSugar, &r.ingProtein, &r.ingFats,
+		); err != nil {
+			return nil, errors.Wrap(err, "pg-sql - scan searched recipe rows")
+		}
+
+		if _, ok := recipeIngs[r.recID]; !ok {
+			recipeIngs[r.recID] = &dao.Recipe{
+				ID:       r.recID,
+				Name:     r.recName,
+				Category: r.recCat,
+				FoodIDs: []dao.Ingredient{
+					{
+						ID:     r.ingID,
+						Amount: r.ingAmount,
+						Food: dao.FoodQuery{
+							Name:     r.ingName,
+							Category: r.ingCat,
+							Kcal:     unit.NewKcal(float64(r.ingKcal)),
+							Carbs:    unit.NewGramm(r.ingCarbs),
+							Sugar:    unit.NewGramm(r.ingSugar),
+							Protein:  unit.NewGramm(r.ingProtein),
+							Fats:     unit.NewGramm(r.ingFats),
+						},
+					},
+				},
+			}
+			continue
+		}
+
+		recipeIngs[r.recID].FoodIDs = append(recipeIngs[r.recID].FoodIDs, dao.Ingredient{
+			ID:     r.ingID,
+			Amount: r.ingAmount,
+			Food: dao.FoodQuery{
+				Name:     r.ingName,
+				Category: r.ingCat,
+				Kcal:     unit.NewKcal(float64(r.ingKcal)),
+				Carbs:    unit.NewGramm(r.ingCarbs),
+				Sugar:    unit.NewGramm(r.ingSugar),
+				Protein:  unit.NewGramm(r.ingProtein),
+				Fats:     unit.NewGramm(r.ingFats),
+			},
+		})
+
+	}
+
+	var recipes []dao.Recipe
+	for _, item := range recipeIngs {
+		fmt.Println(item)
+		recipes = append(recipes, *item)
+	}
+	return recipes, nil
+}
+
 func (conn *Conn) UpdateFood(ctx context.Context, column string, value interface{}) error {
 
 	_, err := conn.c.Exec(
@@ -158,20 +240,18 @@ func (conn *Conn) InsertRecipe(ctx context.Context, recipe dao.Recipe) error {
 
 	lock, err := conn.c.Acquire(ctx)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "pg-sql - insert recipe, acquire lock")
 	}
 	defer lock.Release()
 
 	tx, err := lock.Begin(ctx)
 	if err != nil {
-		fmt.Println("begin: ", err)
-		return err
+		return errors.Wrap(err, "pg-sql - insert recipe, begin transaction")
 	}
 
 	var rowID int
-	if err := tx.QueryRow(ctx, sql_insert_recipe, recipe.Name).Scan(&rowID); err != nil {
-		fmt.Println("scan: ", err)
-		return err
+	if err := tx.QueryRow(ctx, sql_insert_recipe, recipe.Name, recipe.Category, recipe.Label).Scan(&rowID); err != nil {
+		return errors.Wrap(err, "pg-sql - insert recipe, scanning returning id")
 	}
 
 	batch := pgx.Batch{}
@@ -180,33 +260,17 @@ func (conn *Conn) InsertRecipe(ctx context.Context, recipe dao.Recipe) error {
 		batch.Queue(sql_ref_food_recipe, rowID, item.ID, item.Amount)
 	}
 
-	// dont forget to close batchResults
+	// don't forget to close batchResults
+	// else the connection will say connective and thus
+	// will not be returned to the pgxcool due to "conn busy" error
+	// Close() can also not be deferred unless the Close happens
+	// before the commit of the transaction
+	//
 	// see: https://github.com/jackc/pgx/issues/610
 	tx.SendBatch(ctx, &batch).Close()
 
 	if err := tx.Commit(ctx); err != nil {
 		return errors.Wrap(err, "pg-sql - insert recipe commit transaction")
-	}
-	return nil
-}
-
-func (conn *Conn) MapFoodToRecipe(ctx context.Context, recipeID int, foods ...dao.Ingredient) error {
-
-	tx, err := conn.c.Begin(ctx)
-	if err != nil {
-		return errors.Wrap(err, "pg-sql - start transaction")
-	}
-
-	batch := pgx.Batch{}
-
-	for _, food := range foods {
-		batch.Queue(sql_ref_food_recipe, recipeID, food.ID, food.Amount)
-	}
-
-	_ = tx.SendBatch(ctx, &batch)
-
-	if err := tx.Commit(ctx); err != nil {
-		return errors.Wrap(tx.Rollback(ctx), "pg-sql - rollback: commit to recipe_food_item")
 	}
 	return nil
 }

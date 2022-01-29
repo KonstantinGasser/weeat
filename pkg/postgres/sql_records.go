@@ -30,10 +30,31 @@ var (
 	`
 
 	sql_insert_recipe = `
-		insert into recipe_item(name) values($1) returning id;
+		insert into recipe_item(name, category, label) values($1, $2, $3) returning id;
 	`
 	sql_ref_food_recipe = `
 	    insert into recipe_food_items(recipe_id, food_id, amount)
 			values($1,$2,$3);
+	`
+
+	sql_search_recipe = `
+		select
+		recipe.id, recipe.name, recipe.category, recipe_food_items.food_id, recipe_food_items.amount,
+		food_item.name, food_item.category,
+		(sum(food_item.kcal)::float/100)::int*50 as kcal,
+		(sum(food_item.carbs)::float/100)*50 as carbs,
+		(sum(food_item.sugar)::float/100)*50 as sugar,
+		(sum(food_item.protein)::float/100)*50 as protein,
+		(sum(food_item.fats)::float/100)*50 as fats
+				from recipe_food_items
+						inner join  (
+								select recipe_item.id, recipe_item.name, recipe_item.category
+									from recipe_item
+								where recipe_item.label like '%' || $1 || '%') as recipe
+						on recipe.id = recipe_food_items.recipe_id
+
+						left join food_item on recipe_food_items.food_id=food_item.id
+				group by recipe.id, recipe.name, recipe.category, food_item.name, recipe_food_items.food_id, food_item.category, recipe_food_items.amount
+				limit $2;
 	`
 )

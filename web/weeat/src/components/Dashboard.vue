@@ -23,7 +23,7 @@
     <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
     <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
     <WidgetGenerateMeals :class="{'widget-active':isGenerateMeals}" @widget_close_generate_meals="isGenerateMeals=!isGenerateMeals" />
-    <WidgetSearchFood :class="{'widget-active':isSearchFood}" @widget_close_search_food="isSearchFood=!isSearchFood" />
+    <WidgetSearch :class="{'widget-active':isSearchFood}" @widget_close_search_food="isSearchFood=!isSearchFood" />
 </template>
 
 <script lang="js">
@@ -36,7 +36,7 @@ import WidgetHelloFriend from "./WidgetHelloFriend.vue"
 import WidgetAddFood from "./WidgetAddFood.vue"
 import WidgetAddRecipe from "./WidgetAddRecipe.vue"
 import WidgetGenerateMeals from "./WidgetGenerateMeals.vue"
-import WidgetSearchFood from "./WidgetSearchFood.vue"
+import WidgetSearch from "./WidgetSearch.vue"
 
 import IntakeDoughnut from "./charts/IntakeDoughnut.vue"
 
@@ -48,7 +48,7 @@ export default defineComponent({
         WidgetAddFood,
         WidgetAddRecipe,
         WidgetGenerateMeals,
-        WidgetSearchFood,
+        WidgetSearch,
         IntakeDoughnut,
     },
     setup(){

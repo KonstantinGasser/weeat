@@ -28,10 +28,13 @@ type FoodQuery struct {
 type Ingredient struct {
 	ID     int
 	Amount float64
+	Food   FoodQuery
 }
 
 type Recipe struct {
-	ID      int
-	Name    string
-	FoodIDs []Ingredient
+	ID       int
+	Name     string
+	Label    string
+	Category int
+	FoodIDs  []Ingredient
 }

@@ -61,9 +61,13 @@ func main() {
 	), "GET")
 
 	// routes: records.Recipe
-	apihttp.Register("/api/v1/recipe", handler.HandlerInsertRecipe(
+	apihttp.Register("/api/v1/recipe", handler.HandleInsertRecipe(
 		recipesvc,
 	), "POST")
+
+	apihttp.Register("/api/v1/recipe/search", handler.HandleSearchRecipe(
+		recipesvc,
+	), "GET")
 
 	// start API Http server
 	if err := apihttp.Listen(); err != nil {
