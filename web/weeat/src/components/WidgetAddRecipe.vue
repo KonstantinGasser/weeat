@@ -167,7 +167,7 @@ export default {
         )
         .then((resp) => {
           this.query_food = resp?.data?.data?.filter((item) => {
-            this.query_food.forEach((i) => {
+            this.query_food?.forEach((i) => {
               if (i.id === item.id) return false;
             });
             return true;
@@ -176,7 +176,7 @@ export default {
     },
     addIngredient(id) {
       // add only if not exists
-      if (this.ingredients.filter((i) => i.ID === id).length > 0) {
+      if (this.ingredients?.filter((i) => i.ID === id).length > 0) {
         return;
       }
       // error out if unit is not set
