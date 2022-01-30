@@ -62,16 +62,11 @@ func computeNutritions(ingredients []Ingredient) Nutritions {
 	)
 
 	for _, item := range ingredients {
-		kcal.Add(item.Kcal.Value())
-		carbs.Add(item.Carbs.Value())
-		sugar.Add(item.Sugar.Value())
-		protein.Add(item.Protein.Value())
-		fats.Add(item.Fats.Value())
-		// item.Kcal.Add(kcal.Value())
-		// carbs = item.Carbs.Add(carbs.Value())
-		// sugar = item.Sugar.Add(sugar.Value())
-		// protein = item.Protein.Add(protein.Value())
-		// fats = item.Fats.Add(fats.Value())
+		kcal.Add(item.Kcal.Scale(int(item.Amount)).Value())
+		carbs.Add(item.Carbs.Scale(int(item.Amount)).Value())
+		sugar.Add(item.Sugar.Scale(int(item.Amount)).Value())
+		protein.Add(item.Protein.Scale(int(item.Amount)).Value())
+		fats.Add(item.Fats.Scale(int(item.Amount)).Value())
 	}
 	return Nutritions{
 		Kcal:    kcal,
