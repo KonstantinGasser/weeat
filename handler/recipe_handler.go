@@ -14,7 +14,6 @@ import (
 
 func HandleInsertRecipe(recipe *recipesvc.Service) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
 		var reqBody dto.Recipe
 		if err := json.FromRequest(r.Body, &reqBody); err != nil {
 			logrus.Errorf("[api.InsertRecipe] could not unmarshal r.Body: %v\n", err)
