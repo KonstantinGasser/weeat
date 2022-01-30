@@ -1,7 +1,7 @@
 <template>
   <div class="widget">
     <div class="widget-header">
-      <span>Search...🔎{{isSearchFood}}:{{isSearchRecipe}}</span>
+      <span>Search...🔎</span>
       <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
     <div class="widget-menu">
@@ -37,104 +37,94 @@
         </div>
       </div>
     </div>
-    <!-- <div v-if="isSearchFood">
-      <div class="content">
-        <div class="content-items">
-          <div v-for="item in query_food" :key="item.id" class="food-item">
-            <h5>
-              {{ item.name }}
-              <span v-if="item.category === 1">🍒</span>
-              <span v-if="item.category === 2">🥦</span>
-              <span v-if="item.category === 3">🍗</span>
-              <span v-if="item.category === 4">🍣</span>
-              <span v-if="item.category === 5">🧀</span>
-              <span v-if="item.category === 6">🍞</span>
-              <span v-if="item.category === 7">🧃</span>
-              <span v-if="item.category === 8">🍹</span>
-            </h5>
-            <div class="nutrition-labels">
-              <div class="nutrition_tag tag_kcal">{{ item.kcal }} (kcal)</div>
-              <div class="nutrition_tag tag_carbs">
-                {{ item.carbs.toFixed(2) }}g (carbohydrates)
-              </div>
-              <div class="nutrition_tag tag_carbs">
-                {{ item.sugar.toFixed(2) }}g (carbohydrates)
-              </div>
-              <div class="nutrition_tag tag_fats">
-                {{ item.fats.toFixed(2) }}g (fat)
-              </div>
-              <div class="nutrition_tag tag_protein">
-                {{ item.protein.toFixed(2) }}g (protein)
-              </div>
+    <div class="content">
+      <div v-if="isSearchFood" class="content-items">
+        <div v-for="item in query_food" :key="item.id" class="food-item">
+          <h5>
+            {{ item.name }}
+            <span v-if="item.category === 1">🍒</span>
+            <span v-if="item.category === 2">🥦</span>
+            <span v-if="item.category === 3">🍗</span>
+            <span v-if="item.category === 4">🍣</span>
+            <span v-if="item.category === 5">🧀</span>
+            <span v-if="item.category === 6">🍞</span>
+            <span v-if="item.category === 7">🧃</span>
+            <span v-if="item.category === 8">🍹</span>
+          </h5>
+          <div class="nutrition-labels">
+            <div class="nutrition_tag tag_kcal">{{ item.kcal }} (kcal)</div>
+            <div class="nutrition_tag tag_carbs">
+              {{ item.carbs.toFixed(2) }}g (carbohydrates)
+            </div>
+            <div class="nutrition_tag tag_carbs">
+              {{ item.sugar.toFixed(2) }}g (carbohydrates)
+            </div>
+            <div class="nutrition_tag tag_fats">
+              {{ item.fats.toFixed(2) }}g (fat)
+            </div>
+            <div class="nutrition_tag tag_protein">
+              {{ item.protein.toFixed(2) }}g (protein)
             </div>
           </div>
         </div>
       </div>
-    </div> -->
-    <!-- <div v-if="isSearchRecipe"> -->
-      <div class="content">
-        <div v-if="isSearchFood" class="content-items">
-          <div v-for="item in query_food" :key="item.id" class="food-item">
-            <h5>
-              {{ item.name }}
-              <span v-if="item.category === 1">🍒</span>
-              <span v-if="item.category === 2">🥦</span>
-              <span v-if="item.category === 3">🍗</span>
-              <span v-if="item.category === 4">🍣</span>
-              <span v-if="item.category === 5">🧀</span>
-              <span v-if="item.category === 6">🍞</span>
-              <span v-if="item.category === 7">🧃</span>
-              <span v-if="item.category === 8">🍹</span>
-            </h5>
-            <div class="nutrition-labels">
-              <div class="nutrition_tag tag_kcal">{{ item.kcal }} (kcal)</div>
-              <div class="nutrition_tag tag_carbs">
-                {{ item.carbs.toFixed(2) }}g (carbohydrates)
-              </div>
-              <div class="nutrition_tag tag_carbs">
-                {{ item.sugar.toFixed(2) }}g (carbohydrates)
-              </div>
-              <div class="nutrition_tag tag_fats">
-                {{ item.fats.toFixed(2) }}g (fat)
-              </div>
-              <div class="nutrition_tag tag_protein">
-                {{ item.protein.toFixed(2) }}g (protein)
-              </div>
+      <div v-if="isSearchRecipe" class="content-items">
+        <div
+          v-for="item in query_recipe"
+          :key="item.id"
+          class="food-item"
+          @click="expand(item.id)"
+        >
+          <h5>
+            {{ item.name }}
+            <span v-if="item.category === 9">🥞</span>
+            <span v-if="item.category === 10">🌯</span>
+            <span v-if="item.category === 11">🥘</span>
+            <span v-if="item.category === 12">🍿</span>
+          </h5>
+          <div class="list_ingredients">
+            <div
+              v-for="i in item.ingredients"
+              :key="i.id"
+              class="item_ingredient"
+            >
+              {{ i.name }} {{ i.amount }}
+              <span v-if="i.category < 7">g</span>
+              <span v-if="i.category >= 7">ml</span>
+              <span v-if="i.category === 1">&nbsp;🍒</span>
+              <span v-if="i.category === 2">&nbsp;🥦</span>
+              <span v-if="i.category === 3">&nbsp;🍗</span>
+              <span v-if="i.category === 4">&nbsp;🍣</span>
+              <span v-if="i.category === 5">&nbsp;🧀</span>
+              <span v-if="i.category === 6">&nbsp;🍞</span>
+              <span v-if="i.category === 7">&nbsp;🧃</span>
+              <span v-if="i.category === 8">&nbsp;🍹</span>
             </div>
           </div>
-        </div>
-        <div v-if="isSearchRecipe" class="content-items">
-          <div v-for="item in query_recipe" :key="item.id"  class="food-item" @click="expand(item.id)">
-            <h5>
-              {{ item.name }}
-              <span v-if="item.category === 9">🥞</span>
-              <span v-if="item.category === 10">🌯</span>
-              <span v-if="item.category === 11">🥘</span>
-              <span v-if="item.category === 12">🍿</span>
-            </h5>
-            <div class="list_ingredients">
-              <div v-for="i in item.ingredients" :key=i.id class="item_ingredient">
-                {{ i.name }} {{ i.amount }}
-                <span v-if="i.category < 7">g</span>
-                <span v-if="i.category >= 7">ml</span>
-                <span v-if="i.category === 1">&nbsp;🍒</span>
-                <span v-if="i.category === 2">&nbsp;🥦</span>
-                <span v-if="i.category === 3">&nbsp;🍗</span>
-                <span v-if="i.category === 4">&nbsp;🍣</span>
-                <span v-if="i.category === 5">&nbsp;🧀</span>
-                <span v-if="i.category === 6">&nbsp;🍞</span>
-                <span v-if="i.category === 7">&nbsp;🧃</span>
-                <span v-if="i.category === 8">&nbsp;🍹</span>
-              </div>
-            </div>
-            <div class="recipe_info" :class="{'expand' : item.id === expandBox}">
-              test 
-              test
-              test
+          <div class="recipe_info" :class="{ expand: item.id === expandBox }">
+            <hr>
+            <h6>Nutritions</h6>
+            <div>
+              <span class="nutrition_tag tag_kcal">{{
+                item.nutritions.kcal.toFixed(2)
+              }}</span>
+              <span class="nutrition_tag tag_carbs">{{
+                item.nutritions.carbs.toFixed(2)
+              }}</span>
+              <span class="nutrition_tag tag_sugar">{{
+                item.nutritions.sugar.toFixed(2)
+              }}</span>
+              <span class="nutrition_tag tag_protein">{{
+                item.nutritions.protein.toFixed(2)
+              }}</span>
+              <span class="nutrition_tag tag_fats">{{
+                item.nutritions.fats.toFixed(2)
+              }}</span>
             </div>
           </div>
         </div>
       </div>
+    </div>
     <!-- </div> -->
   </div>
 </template>
@@ -169,18 +159,18 @@ export default {
       this.query_food = [];
       this.query_recipe = [];
       this.query_query = "";
-      this.isSearchFood=true
-      this.isSearchRecipe=false
+      this.isSearchFood = true;
+      this.isSearchRecipe = false;
     },
     expand(id) {
       if (this.expandBox === id) {
-        this.expandBox = -1
-        return
+        this.expandBox = -1;
+        return;
       }
-      this.expandBox = id
+      this.expandBox = id;
     },
     selectSearch(type) {
-      this.query_query = ""
+      this.query_query = "";
       switch (type) {
         case "food":
           this.isSearchFood = !this.isSearchFood;
@@ -194,10 +184,10 @@ export default {
     },
     search() {
       if (this.isSearchFood) {
-        this.searchFood()
-        return
+        this.searchFood();
+        return;
       }
-      this.searchRecipe()
+      this.searchRecipe();
     },
     searchFood() {
       if (this.query_query.length === 0) {
@@ -209,25 +199,25 @@ export default {
             `/api/v1/food/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
         )
         .then((resp) => {
-          console.log(resp?.data)
+          console.log(resp?.data);
           this.query_food = resp?.data?.data;
         });
     },
     searchRecipe() {
-    if (this.query_query.length === 0) {
-      this.query_recipe = [];
-    }
+      if (this.query_query.length === 0) {
+        this.query_recipe = [];
+      }
 
-    axios
-      .get(
-        process.env.VUE_APP_API +
-          `/api/v1/recipe/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
-      )
-      .then((resp) => {
-        console.log(resp?.data)
-        this.query_recipe = resp?.data?.data;
-      });
-  },
+      axios
+        .get(
+          process.env.VUE_APP_API +
+            `/api/v1/recipe/search?q=${this.query_query}&l=${process.env.VUE_APP_FOOD_SEARCH_LIMIT}`
+        )
+        .then((resp) => {
+          console.log(resp?.data);
+          this.query_recipe = resp?.data?.data;
+        });
+    },
   },
 };
 </script>
@@ -264,6 +254,12 @@ export default {
   height: 0px;
   opacity: 0;
   transition: 100ms ease-out;
+}
+
+.recipe_info>div{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 .recipe_info.expand {
   padding: 15px 0;

@@ -274,6 +274,12 @@ and (-webkit-device-pixel-ratio : 3) {
   border: 1px solid #1fcf80;
 }
 
+.nutrition_tag.tag_sugar {
+  background: #f1c0e825;
+  color: #f1c0e8;
+  border: 1px solid #f1c0e8;
+}
+
 .list_ingredients {
   display: flex;
   flex-wrap: wrap;
