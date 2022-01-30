@@ -67,7 +67,7 @@
           </div>
         </div>
         <div class="form-group">
-          <input v-model="food_sugar" type="text" inputmode="decimal" class="form-control" id="carbSugar" aria-describedby="sugarHelp" placeholder="Sugar 🍩">
+          <input v-model="food_sugar" type="text" step="0.1" inputmode="decimal" class="form-control" id="floatingInputGrid9" aria-describedby="sugarHelp" placeholder="Sugar 🍩">
           <small id="sugarHelp" class="form-text text-muted">Amount of sugar cannot be bigger then total carbs</small>
       </div>
       </div>
@@ -149,11 +149,12 @@ export default {
             name: this.food_name,
             category: parseInt(this.food_cat),
             kcal: parseFloat(this.food_kcal),
-            carbs: parseFloat(this.food_carbs),
-            sugar: parseFloat(this.food_sugar),
-            fats: parseFloat(this.food_fats),
-            protein: parseFloat(this.food_protein),
+            carbs: parseFloat(this.food_carbs.replace(",", ".")),
+            sugar: parseFloat(this.food_sugar.replace(",", ".")),
+            fats: parseFloat(this.food_fats.replace(",", ".")),
+            protein: parseFloat(this.food_protein.replace(",", ".")),
         }
+
 
         axios.post(process.env.VUE_APP_API + "/api/v1/food", payload, options).then(resp =>{
           this.$moshaToast(resp?.data, {type: 'success',position: 'top-center', timeout: 3000})

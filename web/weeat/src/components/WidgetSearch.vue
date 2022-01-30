@@ -56,8 +56,8 @@
             <div class="nutrition_tag tag_carbs">
               {{ item.carbs.toFixed(2) }}g (carbohydrates)
             </div>
-            <div class="nutrition_tag tag_carbs">
-              {{ item.sugar.toFixed(2) }}g (carbohydrates)
+            <div class="nutrition_tag tag_sugar">
+              {{ item.sugar.toFixed(2) }}g (sugar)
             </div>
             <div class="nutrition_tag tag_fats">
               {{ item.fats.toFixed(2) }}g (fat)
