@@ -163,6 +163,7 @@ export default {
       this.isSearchRecipe = false;
     },
     expand(id) {
+      console.log("Current: " + this.expandBox + " - called for: " + id)
       if (this.expandBox === id) {
         this.expandBox = -1;
         return;
@@ -253,7 +254,12 @@ export default {
 .recipe_info {
   height: 0px;
   opacity: 0;
-  transition: 100ms ease-out;
+  transition: 200ms ease-in-out;
+  /* opacity: 0; */
+  visibility: hidden;
+  /* animation-name: op-down;
+  animation-duration: 10ms;
+  animation-fill-mode: forwards; */
 }
 
 .recipe_info>div{
@@ -264,8 +270,31 @@ export default {
 .recipe_info.expand {
   padding: 15px 0;
   height: max-content;
-  opacity: 1;
+  /* opacity: 1; */
+  visibility: visible;
+  /* animation-name: op-up;
+  animation-duration: 200ms;
+  animation-fill-mode: forwards; */
 }
+/* @keyframes op-up {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes op-down {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+} */
+
+
 
 .nutrition-labels {
   display: flex;
