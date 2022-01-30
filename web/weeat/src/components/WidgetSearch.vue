@@ -106,20 +106,20 @@
             <h6>Nutritions</h6>
             <div>
               <span class="nutrition_tag tag_kcal">{{
-                item.nutritions.kcal.toFixed(2)
-              }}</span>
+                item.nutritions.kcal.toFixed(2) 
+              }}(kcal)</span>
               <span class="nutrition_tag tag_carbs">{{
-                item.nutritions.carbs.toFixed(2)
-              }}</span>
+                item.nutritions.carbs.toFixed(2) 
+              }}g (carbohydrates)</span>
               <span class="nutrition_tag tag_sugar">{{
-                item.nutritions.sugar.toFixed(2)
-              }}</span>
+                item.nutritions.sugar.toFixed(2) 
+              }}g (sugar)</span>
               <span class="nutrition_tag tag_protein">{{
-                item.nutritions.protein.toFixed(2)
-              }}</span>
+                item.nutritions.protein.toFixed(2) 
+              }}g (protein)</span>
               <span class="nutrition_tag tag_fats">{{
-                item.nutritions.fats.toFixed(2)
-              }}</span>
+                item.nutritions.fats.toFixed(2) 
+              }}g (fats)</span>
             </div>
           </div>
         </div>

@@ -9,8 +9,8 @@
         </div>
         <div v-if="!has_cookie">
             <div class="nothing-there-yet">
-                <span>
-                    You have rejected the cookie 🍪. Thereby you will be not able to track your intake for this day 🙁.
+                <span class="text-center">
+                    You have rejected the cookie 🍪. Thereby you will be not able to track your intake for this day 🙁
                 </span>
                 <div>
                     <button class="action-btn" @click="enableCookie()">enable 🍪</button>
