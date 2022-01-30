@@ -1,18 +1,18 @@
 <template>
-  <div class="menu-bar">
+  <div class="menu-bar" :class="{'disabled': !clickable}">
     <div class="menu-item" @click="$emit('clicked_item','WidgetAddFood')">
       <!-- <i class="bi bi-plus-circle"></i> -->
       <span class="item-icon">🫐</span>
     </div>
-    <div class="menu-item" @click="$emit('clicked_item','WidgetAddRecipe')">
+    <div class="menu-item" @click="_emit('WidgetAddRecipe')">
       <!-- <i class="bi bi-plus-circle"></i> -->
       <span class="item-icon">🌮</span>
     </div>
-    <div class="menu-item" @click="$emit('clicked_item','WidgetGenerateMeals')">
+    <div class="menu-item" @click="_emit('WidgetGenerateMeals')">
       <!-- <span>Feeling lucky?</span> -->
       <span class="item-icon">😬</span>
     </div>
-    <div class="menu-item" @click="$emit('clicked_item','WidgetSearchFood')">
+    <div class="menu-item" @click="_emit('WidgetSearchFood')">
       <!-- <span>Search</span> -->
       <span class="item-icon">🔎</span>
     </div>
@@ -26,6 +26,9 @@ export default {
     components: {
   
     },
+    props: {
+      clickable: Boolean,
+    },
     data() {
         return {
             
@@ -35,6 +38,11 @@ export default {
         
     },
     methods: {
+      _emit(event) {
+        if (!this.clickable)
+          return
+        this.$emit('clicked_item',event) 
+      },
     },
 };
 
@@ -59,6 +67,12 @@ export default {
     border-radius: 25px;
     height: 50px;
     box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transition: opacity 250ms linear;
+}
+
+.menu-bar.disabled {
+  opacity: 0.3;
 }
 
 .menu-item {

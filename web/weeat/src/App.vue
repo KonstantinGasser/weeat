@@ -70,6 +70,11 @@ a.small {
   padding: 15px 10px;
 }
 
+.main-frame.blur {
+  filter: brightness(0.8);
+  transition: brightness 300ms linear;
+}
+
 @media only screen 
 and (min-device-width : 375px) 
 and (max-device-width : 812px)

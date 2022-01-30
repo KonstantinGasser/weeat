@@ -1,5 +1,5 @@
 <template>
-    <div class="main-frame">
+    <div class="main-frame" :class="{'blur': !(!isAddFood&&!isAddRecipe&&!isGenerateMeals&&!isSearchFood)}">
         <div class="headline">
             <h1><span>we</span>Eat</h1>
         </div>
@@ -18,7 +18,7 @@
             </div>
         </div> 
     </div>
-    <MenuBar @clicked_item="openWidget"/>
+    <MenuBar @clicked_item="openWidget" :clickable="!isAddFood&&!isAddRecipe&&!isGenerateMeals&&!isSearchFood"/>
     <WidgetHelloFriend :class="{'widget-active': !isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
     <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
     <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
@@ -62,9 +62,9 @@ export default defineComponent({
     },
     data() {
         return {
-            isHelloWorld: false,
             has_cookie: false,
             kcal_today: 1600,
+            isHelloWorld: false,
             isAddFood: false,
             isAddRecipe: false,
             isGenerateMeals: false,
