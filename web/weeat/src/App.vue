@@ -1,8 +1,4 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view/>
 </template>
 
@@ -35,6 +31,15 @@ a {
 a.small {
   font-size: 12px;
 }
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-emph {
+  font-weight: bold;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -73,20 +78,40 @@ and (-webkit-device-pixel-ratio : 3) {
 .headline h1 {
   font-size: 2.5rem;
   text-align: left;
+  font-weight: bolder;
 }
 .headline h1 > span {
   color: #1fcf80;
   font-weight: bolder;
 }
+
+.headline h1 a > span {
+  color: #1fcf80;
+  font-weight: bolder;
+}
+.headline h1 a {
+  color: black;
+}
+
+.inline-name {
+  font-weight: bolder;
+}
+
+.inline-name span {
+  color: #1fcf80;
+}
+
 .action-row {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
-  }
+}
+
 .action-row button {
   margin: 0 0;
 }
+
 .action-btn {
   padding: 3px 15px;
   width: 150px;

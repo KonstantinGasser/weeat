@@ -6,7 +6,7 @@
     </div>
     <div class="widget-body">
       <div class="cookie-agree-text">
-        <span><span>we</span>Eat</span> would like to set a cookie 🍪 
+        <span class="inline-name"><span>we</span>Eat</span> would like to set a cookie 🍪 
         <br>If you chose to accept you can track your daily intake. 
         But you don't have to! Without a 🍪 you can still <i>add foods</i>, <i>share recipes</i> and <i>generate meals</i> 
         <br>...so no pressure the choice is yours 😉 
@@ -17,7 +17,7 @@
           <button class="btn-choice no" @click="rejectCookie()">Reject</button>
         </div>
         <div class="link-row">
-          <a class="small" href="">more information about privacy and cookies <i class="bi bi-info-circle"></i></a>
+          <a class="small" href="/#/questions">more information about privacy and cookies <i class="bi bi-info-circle"></i></a>
         </div>
       </div>
     </div>
@@ -59,12 +59,6 @@ export default {
 
 .cookie-agree-text {
   margin-bottom: 20px;
-}
-.cookie-agree-text span {
-  font-weight: bold;
-}
-.cookie-agree-text span span {
-  color: #1fcf80;
 }
 
 .cookie-actions .btn-row {
