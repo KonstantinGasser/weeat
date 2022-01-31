@@ -48,10 +48,11 @@
             />
             <input
               v-model="scaler"
-              type="search"
+              type="text"
+              inputmode="decimal"
               class="form-control"
-              placeholder="gramm/ml"
-              aria-label="gramms"
+              placeholder="gram/ml"
+              aria-label="grams"
               aria-describedby="basic-addon2"
             />
           </div>
@@ -239,7 +240,7 @@ export default {
         ingredients: this.ingredients.map((item) => {
           return {
             id: item.id,
-            amount: parseInt(item.amount),
+            amount: parseFloat(item.amount.replace(",", ".")),
           };
         }),
       };
