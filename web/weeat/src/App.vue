@@ -48,7 +48,7 @@ a.small {
   justify-content: flex-end;
 }
 .main-frame {
-  position: relative;
+  /* position: relative; */
   background: #fff4f4;
   display: grid;
   grid-template-rows: 55px max-content max-content;
