@@ -272,3 +272,22 @@ func (conn *Conn) InsertRecipe(ctx context.Context, recipe dao.Recipe) error {
 	}
 	return nil
 }
+
+func (conn *Conn) GetCategories(ctx context.Context, _type int) ([]dao.Category, error) {
+
+	rows, err := conn.c.Query(ctx, sql_get_categories, _type)
+	if err != nil {
+		return nil, errors.Wrap(err, "pg-sql - select categories")
+	}
+	defer rows.Close()
+
+	var cats []dao.Category
+	for rows.Next() {
+		var cat dao.Category
+		if err := rows.Scan(&cat.ID, &cat.Label, &cat.Type, &cat.Emoji); err != nil {
+			return nil, errors.Wrap(err, "pg-sql - scan category rows")
+		}
+		cats = append(cats, cat)
+	}
+	return cats, nil
+}

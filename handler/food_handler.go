@@ -66,17 +66,19 @@ func HandleGetFood(food *foodsvc.Service) http.HandlerFunc {
 
 		itemID := r.URL.Query().Get("id")
 		if len(itemID) == 0 {
-			response.Err(fmt.Errorf("item id missing"), http.StatusBadRequest, "item id missing")
+			response.Err(fmt.Errorf("item id missing"), http.StatusBadRequest, "item id missing").Write(w)
 			return
 		}
 		s := r.URL.Query().Get("scaler")
 		if len(s) == 0 {
-			response.Err(fmt.Errorf("amount in query missing"), http.StatusBadRequest, "Amount cannot be zero")
+			response.Err(fmt.Errorf("amount in query missing"), http.StatusBadRequest, "Amount cannot be zero").Write(w)
+			return
 		}
 
 		scaler, convErr := strconv.Atoi(s)
 		if convErr != nil {
-			response.Err(convErr, http.StatusBadRequest, "Amount must be a valid number")
+			response.Err(convErr, http.StatusBadRequest, "Amount must be a valid number").Write(w)
+			return
 		}
 
 		items, err := food.Get(r.Context(), itemID, scaler)

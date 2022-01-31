@@ -26,10 +26,7 @@
               id="floatingSelectGrid"
               aria-label="Floating label select example"
             >
-              <option value="0" selected>Breakfast 🥞</option>
-              <option value="10">Lunch 🌯</option>
-              <option value="11">Dinner 🥘</option>
-              <option value="12">Snack 🍿</option>
+              <option v-for="cat in recipe_cats" :key="cat.id" :value="cat.id">{{cat.label}} {{cat.emoji}}</option>
             </select>
             <label for="floatingSelectGrid">Category</label>
           </div>
@@ -133,6 +130,7 @@ export default {
   data() {
     return {
       emit_widget_name: "widget_close_new_recipe",
+      recipe_cats: [],
       recipe_name: null,
       query_food: [],
       query_query: "",
@@ -144,6 +142,13 @@ export default {
       recipe_protein: 0,
       recipe_fats: 0,
     };
+  },
+  mounted() {
+    axios.get(process.env.VUE_APP_API + "/api/v1/category?type=2").then(resp => {
+      this.recipe_cats = resp?.data?.data?.data
+    }).catch(err => {
+      this.$moshaToast(err?.response?.data, {type: 'danger',position: 'top-center', timeout: 3000}) 
+    })
   },
   methods: {
     closeWidget() {

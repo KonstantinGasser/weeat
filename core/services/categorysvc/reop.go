@@ -3,9 +3,9 @@ package categorysvc
 import (
 	"context"
 
-	"github.com/KonstantinGasser/weeat/core/domain/category"
+	"github.com/KonstantinGasser/weeat/core/dao"
 )
 
 type CategoryRepo interface {
-	Get(ctx context.Context, _type category.Type) ([]category.Category, error)
+	GetCategories(ctx context.Context, _type int) ([]dao.Category, error)
 }

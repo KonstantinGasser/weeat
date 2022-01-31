@@ -57,4 +57,6 @@ var (
 				group by recipe.id, recipe.name, recipe.category, food_item.name, recipe_food_items.food_id, food_item.category, recipe_food_items.amount
 				limit $2;
 	`
+
+	sql_get_categories = `select id, category, item_type, emoji from categorys where item_type = $1;`
 )

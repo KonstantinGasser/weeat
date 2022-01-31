@@ -26,14 +26,7 @@
               id="floatingSelectGrid"
               aria-label="Floating label select example"
             >
-              <option value="1" selected>Fruit 🍒</option>
-              <option value="2">Vegetable 🥦</option>
-              <option value="3">Meat 🍗</option>
-              <option value="4">Fish 🍣</option>
-              <option value="5">Dairy 🧀</option>
-              <option value="6">Grains 🍞</option>
-              <option value="7">Soft-Drinks 🧃</option>
-              <option value="8">Alcohol 🍹</option>
+              <option v-for="cat in food_cats" :key="cat.id" :value="cat.id">{{cat.label}} {{cat.emoji}}</option>
             </select>
             <label for="floatingSelectGrid">Food Category</label>
           </div>
@@ -117,6 +110,7 @@ export default {
   data() {
     return {
         emit_widget_name: "widget_close_new_food",
+        food_cats: [],
         food_name: null,
         food_cat: 1,
         food_kcal: null,
@@ -125,6 +119,13 @@ export default {
         foot_protein: null,
         food_fats: null,
     };
+  },
+  mounted() {
+    axios.get(process.env.VUE_APP_API + "/api/v1/category?type=1").then(resp => {
+      this.food_cats = resp?.data?.data?.data
+    }).catch(err => {
+      this.$moshaToast(err?.response?.data, {type: 'danger',position: 'top-center', timeout: 3000}) 
+    })
   },
   unmounted() {
     console.log("destroying: new.Food")

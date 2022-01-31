@@ -3,6 +3,7 @@
 </template>
 
 <style>
+
 :root {
   --box-bg: linear-gradient(26deg, rgb(255, 255, 255) 0%, rgb(249, 250, 255) 100%);
 }

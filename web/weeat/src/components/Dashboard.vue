@@ -25,7 +25,9 @@
                 <a href="https://github.com/KonstantinGasser/weeat-app" target="_blank">
                     <img src="../assets/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="">
                 </a>
-                <span>Made with ❤️</span>
+                <a href="https://github.com/KonstantinGasser/weeat-app" target="_blank">
+                    <span>Made with ❤️</span>
+                </a>
             </div>
             <div>
                 <a href="/#/changelog">Changelog <i class="bi bi-box-arrow-up-right"></i></a>
@@ -240,7 +242,7 @@ hr {
     padding: 0px 25px 10px 25px;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .footer div {

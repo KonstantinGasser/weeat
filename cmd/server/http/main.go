@@ -6,6 +6,7 @@ import (
 
 	"github.com/KonstantinGasser/weeat/api"
 	"github.com/KonstantinGasser/weeat/cmd/server/config"
+	"github.com/KonstantinGasser/weeat/core/services/categorysvc"
 	"github.com/KonstantinGasser/weeat/core/services/foodsvc"
 	"github.com/KonstantinGasser/weeat/core/services/recipesvc"
 	"github.com/KonstantinGasser/weeat/handler"
@@ -46,6 +47,7 @@ func main() {
 	// create service dependencies
 	foodsvc := foodsvc.New(weeatDB)
 	recipesvc := recipesvc.New(weeatDB)
+	categorysvc := categorysvc.New(weeatDB)
 
 	// setting up routes
 	//
@@ -60,13 +62,18 @@ func main() {
 		foodsvc,
 	), "GET")
 
-	// routes: records.Recipe
+	// routes: recipe
 	apihttp.Register("/api/v1/recipe", handler.HandleInsertRecipe(
 		recipesvc,
 	), "POST")
 
 	apihttp.Register("/api/v1/recipe/search", handler.HandleSearchRecipe(
 		recipesvc,
+	), "GET")
+
+	// routes: category
+	apihttp.Register("/api/v1/category", handler.HandleGetCategories(
+		categorysvc,
 	), "GET")
 
 	// start API Http server
