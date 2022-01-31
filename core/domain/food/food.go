@@ -20,7 +20,7 @@ var (
 type Food struct {
 	ID   int
 	Name string `required:"yes"`
-	// Label is the lower-case representation for the Food
+	// Label is the lower-case representation for the Food Name
 	// it is used for fast access search of items
 	Label    string
 	Category category.Type `required:"yes"`
@@ -32,7 +32,6 @@ type Food struct {
 }
 
 func (f Food) Scale(scaler int) Food {
-	fmt.Println(f)
 	return Food{
 		ID:       f.ID,
 		Name:     f.Name,
