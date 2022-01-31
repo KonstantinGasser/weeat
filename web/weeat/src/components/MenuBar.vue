@@ -51,7 +51,7 @@ export default {
 <style scoped>
 .menu-bar {
     position: absolute;
-    bottom: 25px;
+    bottom: 75px;
     left: 25px;
     right: 25px;
     margin: 0 auto;

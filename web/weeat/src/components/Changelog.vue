@@ -7,7 +7,7 @@
     </div>
     <section>
         <div class="space"></div>
-        <h2><span class="inline-name"><span>we</span>Eat</span> - Changelog 🎉</h2>
+        <h2 class="text-center"><span class="inline-name"><span>we</span>Eat</span> - Changelog 🎉</h2>
         <div class="info-card" v-for="release in releases" :key="release?.id" @click="setActive(release?.id)">
             <h3>Release {{release.version}} <small>{{release.date}}</small></h3>
             <small>

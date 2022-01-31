@@ -16,6 +16,20 @@
                     <button class="action-btn" @click="enableCookie()">enable 🍪</button>
                 </div> 
             </div>
+        </div>
+        <div class="footer">
+            <div>
+                <a href="/#/questions">Questions <i class="bi bi-box-arrow-up-right"></i></a>
+            </div>
+            <div class="github">
+                <a href="https://github.com/KonstantinGasser/weeat-app" target="_blank">
+                    <img src="../assets/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="">
+                </a>
+                <span>Made with ❤️</span>
+            </div>
+            <div>
+                <a href="/#/changelog">Changelog <i class="bi bi-box-arrow-up-right"></i></a>
+            </div>
         </div> 
     </div>
     <MenuBar @clicked_item="openWidget" :clickable="!isAddFood&&!isAddRecipe&&!isGenerateMeals&&!isSearchFood"/>
@@ -214,6 +228,43 @@ hr {
 
 .nothing-there-yet div {
   width: max-content;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+
+    padding: 0px 25px 10px 25px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.footer div {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+}
+
+.footer .github {
+    display: grid;
+}
+
+.footer .github span {
+    font-size: 12px;
+    text-align: center;
+}
+
+.footer .github a {
+    margin: 0 auto;
+}
+
+.footer a {
+    color: #918f8f;
+    font-size: 14px;
 }
 
 </style>
