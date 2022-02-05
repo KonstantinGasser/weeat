@@ -58,5 +58,7 @@ var (
 				limit $2;
 	`
 
-	sql_get_categories = `select id, category, item_type, emoji from categorys where item_type = $1;`
+	sql_get_categories = `select id, category, item_type, emoji from categorys where item_type = $1`
+
+	sql_insert_verify_item = `insert into verfiy_process(food_id, status, convidence) values($1, 0, 0.0)`
 )

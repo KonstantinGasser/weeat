@@ -6,14 +6,16 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/KonstantinGasser/weeat/core/domain/verification"
 	"github.com/KonstantinGasser/weeat/core/dto"
 	"github.com/KonstantinGasser/weeat/core/services/foodsvc"
+	"github.com/KonstantinGasser/weeat/core/services/verify"
 	"github.com/KonstantinGasser/weeat/pkg/http/json"
 	"github.com/KonstantinGasser/weeat/pkg/http/response"
 	"github.com/sirupsen/logrus"
 )
 
-func HandleInsertFood(food *foodsvc.Service) http.HandlerFunc {
+func HandleInsertFood(food *foodsvc.Service, verifyer *verify.Service) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		var reqFood dto.Food
@@ -30,6 +32,8 @@ func HandleInsertFood(food *foodsvc.Service) http.HandlerFunc {
 			inserErr.Write(w)
 			return
 		}
+		// reqFood.ID is wrong !! will be empty since the id is assigned by the database
+		verifyer.Trigger(verification.FoodEvent{ID: reqFood.ID})
 		response.Reply(w).Write(http.StatusCreated, []byte("Food item saved"))
 	}
 }

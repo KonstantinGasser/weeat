@@ -1,45 +1,105 @@
 <template>
-    <div class="main-frame" :class="{'blur': !(!isAddFood&&!isAddRecipe&&!isGenerateMeals&&!isSearchFood)}">
-        <div class="headline">
-            <h1><span>we</span>Eat</h1>
-        </div>
-        <div v-if="has_cookie" class="intake-today">
-            <h3>{{info_text()}}...<br> you have <span>1600</span> kcal today</h3>
-            <IntakeDoughnut v-bind:chartData="state.chartData" v-bind:chartOptions="state.chartOptions" />
-        </div>
-        <div v-if="!has_cookie">
-            <div class="nothing-there-yet">
-                <span class="text-center">
-                    You have rejected the cookie 🍪. Thereby you will be not able to track your intake for this day 🙁
-                </span>
-                <div>
-                    <button class="action-btn" @click="enableCookie()">enable 🍪</button>
-                </div> 
-            </div>
-        </div>
-        <div class="footer">
-            <div>
-                <a href="/#/questions">Questions <i class="bi bi-box-arrow-up-right"></i></a>
-            </div>
-            <div class="github">
-                <a href="https://github.com/KonstantinGasser/weeat-app" target="_blank">
-                    <img src="../assets/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="">
-                </a>
-                <a href="https://github.com/KonstantinGasser/weeat-app" target="_blank">
-                    <span>Made with ❤️</span>
-                </a>
-            </div>
-            <div>
-                <a href="/#/changelog">Changelog <i class="bi bi-box-arrow-up-right"></i></a>
-            </div>
-        </div> 
+  <div
+    class="main-frame"
+    :class="{
+      blur: !(
+        isHelloWorld &&
+        !isAddFood &&
+        !isAddRecipe &&
+        !isGenerateMeals &&
+        !isSearchFood
+      ),
+    }"
+  >
+    <div class="headline">
+      <h1><span>we</span>Eat</h1>
     </div>
-    <MenuBar @clicked_item="openWidget" :clickable="!isAddFood&&!isAddRecipe&&!isGenerateMeals&&!isSearchFood"/>
-    <WidgetHelloFriend :class="{'widget-active': !isHelloWorld}" @widget_close_hello_friend="cookie_check_resp"/>
-    <WidgetAddFood :class="{'widget-active':isAddFood}" @widget_close_new_food="isAddFood=!isAddFood"/>
-    <WidgetAddRecipe :class="{'widget-active':isAddRecipe}" @widget_close_new_recipe="isAddRecipe=!isAddRecipe"/>
-    <WidgetGenerateMeals :class="{'widget-active':isGenerateMeals}" @widget_close_generate_meals="isGenerateMeals=!isGenerateMeals" />
-    <WidgetSearch :class="{'widget-active':isSearchFood}" @widget_close_search_food="isSearchFood=!isSearchFood" />
+    <div class="start-grid">
+      <div class="random-grid">
+        <h3>Item of the day 🚀</h3>
+        <div class="food-item singe">
+          <h5>
+            Avocado
+            <span>🍒</span>
+          </h5>
+          <div class="nutrition-labels">
+            <div class="nutrition_tag tag_kcal">150(kcal)</div>
+            <div class="nutrition_tag tag_carbs">2g (carbohydrates)</div>
+            <div class="nutrition_tag tag_sugar">0,1g (sugar)</div>
+            <div class="nutrition_tag tag_fats">14g (fat)</div>
+            <div class="nutrition_tag tag_protein">4g (protein)</div>
+          </div>
+        </div>
+      </div>
+      <div v-if="!has_cookie" class="track-grid">
+        <h3>Some more stats... 📊</h3>
+        <div class="nothing-there-yet">
+          <span class="text-center">
+            You have rejected the cookie 🍪. Thereby you will be not able to
+            track your intake for this day 🙁
+          </span>
+          <div>
+            <button class="action-btn" @click="enableCookie()">
+              enable 🍪
+            </button>
+          </div>
+        </div>
+      </div>
+      <div v-if="has_cookie" class="nutrition-grid">
+        <h3>Your day today 💪</h3>
+        <div class="nutrition-stats">
+          <div class="nutrition-group">
+            <div class="nutrition-box">
+              <div class="key">Calories</div>
+              <div class="value">1624</div>
+            </div>
+            <div class="nutrition-box">
+              <div class="key">Carbohydrates</div>
+              <div class="value">1624</div>
+            </div>
+          </div>
+          <div class="nutrition-group">
+            <div class="nutrition-box">
+              <div class="key">Sugar</div>
+              <div class="value">1624</div>
+            </div>
+            <div class="nutrition-box">
+              <div class="key">Protein</div>
+              <div class="value">1624</div>
+            </div>
+            <div class="nutrition-box">
+              <div class="key">Fats</div>
+              <div class="value">1624</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <MenuBar
+    @clicked_item="openWidget"
+    :clickable="!isAddFood && !isAddRecipe && !isGenerateMeals && !isSearchFood"
+  />
+  <WidgetHelloFriend
+    :class="{ 'widget-active': !isHelloWorld }"
+    @widget_close_hello_friend="cookie_check_resp"
+  />
+  <WidgetAddFood
+    :class="{ 'widget-active': isAddFood }"
+    @widget_close_new_food="isAddFood = !isAddFood"
+  />
+  <WidgetAddRecipe
+    :class="{ 'widget-active': isAddRecipe }"
+    @widget_close_new_recipe="isAddRecipe = !isAddRecipe"
+  />
+  <WidgetGenerateMeals
+    :class="{ 'widget-active': isGenerateMeals }"
+    @widget_close_generate_meals="isGenerateMeals = !isGenerateMeals"
+  />
+  <WidgetSearch
+    :class="{ 'widget-active': isSearchFood }"
+    @widget_close_search_food="isSearchFood = !isSearchFood"
+  />
 </template>
 
 <script lang="js">
@@ -54,7 +114,7 @@ import WidgetAddRecipe from "./WidgetAddRecipe.vue"
 import WidgetGenerateMeals from "./WidgetGenerateMeals.vue"
 import WidgetSearch from "./WidgetSearch.vue"
 
-import IntakeDoughnut from "./charts/IntakeDoughnut.vue"
+// import IntakeDoughnut from "./charts/IntakeDoughnut.vue"
 
 export default defineComponent({
     name: "Dashboard",
@@ -65,7 +125,7 @@ export default defineComponent({
         WidgetAddRecipe,
         WidgetGenerateMeals,
         WidgetSearch,
-        IntakeDoughnut,
+        // IntakeDoughnut,
     },
     setup(){
         const { cookies } = useCookies()
@@ -147,126 +207,124 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 hr {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .dashboard {
-    height: max-content;
-    display: grid;
-    gap: 15px;
-    margin-top: 15px;
+  height: max-content;
+  display: grid;
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .dashboard-options {
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 10px;
-    column-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 20px;
 
-    justify-content: center;
-    align-content: flex-start;
+  justify-content: center;
+  align-content: flex-start;
 }
 
 .dashboard-options .dashboard-option {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    height: 75px;
-    width: 145px;
+  height: 75px;
+  width: 145px;
 
-    border-radius: 10px;
-    background: #1fcf8025;
-    box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
+  border-radius: 10px;
+  background: #1fcf8025;
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
 }
 
 .dashboard-option span {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .dashboard-option .option-icon {
-    font-size: 30px;
-    height: 35px;
+  font-size: 30px;
+  height: 35px;
 }
 
 .dash-content-links {
-    display: flex;
-    justify-content: space-evenly;
-    /* border-bottom: 1px solid #000000; */
+  display: flex;
+  justify-content: space-evenly;
+  /* border-bottom: 1px solid #000000; */
 }
 
 .dash-content-links span {
-    font-size: 16px;
-    font-weight: bold;
-    padding: 5px 15px;
-    border-radius: 10px;
-    border: 1px solid black
-}
-.intake-today {
-    display: grid;
-    justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 10px;
+  border: 1px solid black;
 }
 
-.intake-today h3 > span {
-    color: #1fcf80;
-    font-weight: bold;
+.random-grid {
+  display: flex;
+  overflow: scroll;
+  flex-direction: column;
+  padding: 15px 10px;
+}
+
+.nutrition-grid {
+  padding: 15px 10px;
+}
+
+.nutrition-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 15px;
+}
+
+.nutrition-stats .nutrition-group {
+
+  display: flex;
+}
+
+.nutrition-group .nutrition-box {
+  width: max-content;
+  height: 50px;
+  background: var(--box-bg);
+
+  padding: 5px 10px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.track-grid {
+  padding: 15px 10px;
 }
 
 .nothing-there-yet {
-    margin: 25px 0;
-    background: #fff4f4;
-    border: 1px solid #cccccc;
-    border-radius: 14px;
-    height: max-content;
-    padding: 15px;
-    display: grid;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
+  padding: 15px 10px;
+  background: var(--box-bg);
+  box-shadow: 0 0 10px 10px rgb(0 0 0 / 5%);
+  border-radius: 14px;
+  height: max-content;
+  padding: 15px;
+  display: grid;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
 }
 
 .nothing-there-yet div {
   width: max-content;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-
-    padding: 0px 25px 10px 25px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
+.start-grid {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
 }
-
-.footer div {
-    width: 30%;
-    display: flex;
-    justify-content: center;
-}
-
-.footer .github {
-    display: grid;
-}
-
-.footer .github span {
-    font-size: 12px;
-    text-align: center;
-}
-
-.footer .github a {
-    margin: 0 auto;
-}
-
-.footer a {
-    color: #918f8f;
-    font-size: 14px;
-}
-
 </style>

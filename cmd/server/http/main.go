@@ -9,6 +9,7 @@ import (
 	"github.com/KonstantinGasser/weeat/core/services/categorysvc"
 	"github.com/KonstantinGasser/weeat/core/services/foodsvc"
 	"github.com/KonstantinGasser/weeat/core/services/recipesvc"
+	"github.com/KonstantinGasser/weeat/core/services/verify"
 	"github.com/KonstantinGasser/weeat/handler"
 	"github.com/KonstantinGasser/weeat/pkg/postgres"
 	"github.com/sirupsen/logrus"
@@ -48,12 +49,14 @@ func main() {
 	foodsvc := foodsvc.New(weeatDB)
 	recipesvc := recipesvc.New(weeatDB)
 	categorysvc := categorysvc.New(weeatDB)
+	verifysvc := verify.New(weeatDB)
 
 	// setting up routes
 	//
 	// routes: food
 	apihttp.Register("/api/v1/food", handler.HandleInsertFood(
 		foodsvc,
+		verifysvc,
 	), "POST")
 	apihttp.Register("/api/v1/food/search", handler.HandleSearchFood(
 		foodsvc,

@@ -50,7 +50,7 @@ export default {
 
 <style scoped>
 .menu-bar {
-    position: absolute;
+    position: sticky;
     bottom: 70px;
     left: 25px;
     right: 25px;

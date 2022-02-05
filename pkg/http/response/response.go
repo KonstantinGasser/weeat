@@ -52,7 +52,7 @@ func Reply(w http.ResponseWriter) RespReply {
 
 func (r reply) Write(code int, body []byte) {
 	r.w.WriteHeader(code)
-	if body != nil && len(body) > 0 {
+	if len(body) > 0 {
 		r.w.Write(body)
 	}
 }

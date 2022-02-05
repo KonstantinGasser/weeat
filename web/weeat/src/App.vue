@@ -1,11 +1,34 @@
 <template>
-  <router-view/>
+  <router-view />
+  <div class="footer">
+    <div>
+      <a href="/#/questions"
+        >Questions <i class="bi bi-box-arrow-up-right"></i
+      ></a>
+    </div>
+    <div class="github">
+      <a href="https://github.com/KonstantinGasser/weeat-app" target="_blank">
+        <img src="./assets/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="" />
+      </a>
+      <a href="https://github.com/KonstantinGasser/weeat-app" target="_blank">
+        <span>Made with ❤️</span>
+      </a>
+    </div>
+    <div>
+      <a href="/#/changelog"
+        >Changelog <i class="bi bi-box-arrow-up-right"></i
+      ></a>
+    </div>
+  </div>
 </template>
 
 <style>
-
 :root {
-  --box-bg: linear-gradient(26deg, rgb(255, 255, 255) 0%, rgb(249, 250, 255) 100%);
+  --box-bg: linear-gradient(
+    26deg,
+    rgb(255, 255, 255) 0%,
+    rgb(249, 250, 255) 100%
+  );
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -14,17 +37,18 @@
 }
 body {
   background: #fff4f4;
-  overflow: hidden;
   height: 100%;
+  overflow: hidden;
+  position: fixed;
+
 }
-@media only screen 
-and (min-device-width : 375px) 
-and (max-device-width : 812px)
-and (-webkit-device-pixel-ratio : 3) { 
+/* @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
   body {
     position: fixed;
+    overflow: hidden;
   }
-}
+} */
+
 a {
   color: #00a2ff;
   text-decoration: none;
@@ -41,6 +65,10 @@ a.small {
   font-weight: bold;
 }
 
+.space {
+  margin: 15px 0;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -50,24 +78,14 @@ a.small {
 .main-frame {
   /* position: relative; */
   background: #fff4f4;
-  display: grid;
-  grid-template-rows: 55px max-content max-content;
-  gap: 10px;
-  grid-template: repeat(100px, 100px);
-  
-  height: 100vh;
-  width: 95vw;
   margin: 0 auto;
-  padding: 15px 10px;
+  height: 100vh;
 }
 .main-frame.blur {
   filter: brightness(0.8);
   transition: brightness 300ms linear;
 }
-@media only screen 
-and (min-device-width : 375px) 
-and (max-device-width : 812px)
-and (-webkit-device-pixel-ratio : 3) { 
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
   .main-frame {
     width: 100vw;
   }
@@ -75,6 +93,7 @@ and (-webkit-device-pixel-ratio : 3) {
 .headline {
   display: flex;
   justify-content: center;
+  padding: 15px;
 }
 .headline h1 {
   font-size: 2.5rem;
@@ -82,12 +101,12 @@ and (-webkit-device-pixel-ratio : 3) {
   font-weight: bolder;
 }
 .headline h1 > span {
-  color: #1fcf80;
+  color: #ffd60a;
   font-weight: bolder;
 }
 
 .headline h1 a > span {
-  color: #1fcf80;
+  color: #ffd60a;
   font-weight: bolder;
 }
 .headline h1 a {
@@ -99,14 +118,53 @@ and (-webkit-device-pixel-ratio : 3) {
 }
 
 .inline-name span {
-  color: #1fcf80;
+  color: #ffd60a;
 }
 
 .action-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0px 25px 10px 25px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  background-color: #fff4f4;
+  border-top-right-radius: 14px;
+  border-top-left-radius: 14px;
+}
+
+.footer div {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.footer .github {
+  display: grid;
+}
+
+.footer .github span {
+  font-size: 12px;
+  text-align: center;
+}
+
+.footer .github a {
+  margin: 0 auto;
+}
+
+.footer a {
+  color: #918f8f;
+  font-size: 14px;
 }
 
 .action-row button {
@@ -114,13 +172,13 @@ and (-webkit-device-pixel-ratio : 3) {
 }
 
 .action-btn {
-  padding: 3px 15px;
+  padding: 7px 15px;
   width: 150px;
   font-size: 16px;
   font-weight: 600;
-  border: 2px solid #1fcf80;
+  border: 2px solid #ffd60a;
   border-radius: 10px;
-  color: #1fcf80;
+  color: #ffd60a;
   background: #ffffff;
 }
 .action-btn.append {
@@ -138,11 +196,11 @@ and (-webkit-device-pixel-ratio : 3) {
 }
 .action-btn:hover {
   color: #ffffff;
-  background: #1fcf80;
+  background: #ffd60a;
   transition: 200ms;
 }
 .btn-choice {
-  padding: 3px 15px;
+  padding: 7px 15px;
   width: 150px;
   font-size: 16px;
   font-weight: 600;
@@ -158,15 +216,28 @@ and (-webkit-device-pixel-ratio : 3) {
   background: #ef233c;
   transition: 200ms;
 }
+.btn-choice.yes {
+  border: 2px solid #1fcf80;
+  border-radius: 10px;
+  color: #1fcf80;
+}
+.btn-choice.yes:hover {
+  color: #ffffff;
+  background: #1fcf80;
+  transition: 200ms;
+}
 .form-grid {
   padding: 0 15px;
 }
+
 .widget {
   opacity: 1;
+  visibility: hidden;
+  z-index: 99;
   position: absolute;
   overflow: hidden;
   background: #ffffff;
-  
+
   width: 95%;
   height: max-content;
   max-height: 95vh;
@@ -177,13 +248,14 @@ and (-webkit-device-pixel-ratio : 3) {
   margin: auto;
   padding: 0 15px 5px 15px;
   border-radius: 14px 14px 14px 14px;
-  box-shadow: 0 0 6px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
   transition: 250ms ease-out;
 }
 .widget.widget-active {
-  transition: 500ms ease-out;
+  transition: 250ms ease-out;
   /* bottom: 0%; */
-  right: 0
+  visibility: visible;
+  right: 0;
 }
 .widget .widget-header {
   display: flex;
@@ -206,19 +278,33 @@ and (-webkit-device-pixel-ratio : 3) {
 .widget .widget-menu div {
   padding: 3px 15px;
   border-radius: 14px;
-  border: 1px solid #1fcf80;
-  background-color: #1fcf8025;
-  color: #1fcf80;
+  border: 1px solid #ffd60a;
+  background-color: #ffd60a25;
+  color: #ffd60a;
 }
 .widget .widget-menu div.selected {
-  background-color: #1fcf80;
+  background-color: #ffd60a;
   color: #ffffff;
 }
 .bi:hover {
   cursor: pointer;
 }
 .icon-medium {
-    font-size: 45px;
+  font-size: 45px;
+}
+
+.food-item {
+  padding: 15px 15px;
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
+  background: var(--box-bg);
+  border-radius: 14px;
+  height: min-content;
+}
+
+.nutrition-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .nutrition_tag {
   width: max-content;
@@ -242,9 +328,9 @@ and (-webkit-device-pixel-ratio : 3) {
   border: 1px solid #ffd6a5;
 }
 .nutrition_tag.tag_protein {
-  background: #1fcf8025;
-  color: #1fcf80;
-  border: 1px solid #1fcf80;
+  background: #ffd60a25;
+  color: #ffd60a;
+  border: 1px solid #ffd60a;
 }
 .nutrition_tag.tag_sugar {
   background: #f1c0e825;
@@ -263,9 +349,9 @@ and (-webkit-device-pixel-ratio : 3) {
   padding: 3px 5px;
   width: max-content;
   border-radius: 24px;
-  background: #1fcf8025;
-  color: #1fcf80;
-  border: 1px solid #1fcf80;
+  background: #ffd60a25;
+  color: #ffd60a;
+  border: 1px solid #ffd60a;
 }
 .item_ingredient .bi {
   padding-top: 2px;
@@ -282,7 +368,7 @@ and (-webkit-device-pixel-ratio : 3) {
   animation: load7 1.8s infinite ease-in-out;
 }
 .loader {
-  color: #1fcf80;
+  color: #ffd60a;
   font-size: 10px;
   margin: 80px auto;
   position: relative;
@@ -295,7 +381,7 @@ and (-webkit-device-pixel-ratio : 3) {
 }
 .loader:before,
 .loader:after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
 }

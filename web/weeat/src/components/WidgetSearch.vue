@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="search">
-      <div class="input-group">
+      <div class="">
         <input
           v-model="query_query"
           type="text"
@@ -26,15 +26,6 @@
           aria-label="Search for Food"
           aria-describedby="basic-addon2"
         />
-        <div class="input-group-append">
-          <button
-            class="action-btn append"
-            id="basic-addon2"
-            @click="searchFood"
-          >
-            go..
-          </button>
-        </div>
       </div>
     </div>
     <div class="content">
@@ -244,13 +235,7 @@ export default {
   height: 60vh;
   overflow-y: scroll;
 }
-.food-item {
-  padding: 15px 15px;
-  box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%);
-  background: var(--box-bg);
-  border-radius: 14px;
-  height: min-content;
-}
+
 .recipe_info {
   height: 0px;
   opacity: 0;
@@ -274,9 +259,5 @@ export default {
 }
 
 
-.nutrition-labels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+
 </style>

@@ -13,7 +13,7 @@
       </div>
       <div class="cookie-actions">
         <div class="btn-row">
-          <button class="action-btn yes" @click="acceptCookie()">Accept</button>
+          <button class="btn-choice yes" @click="acceptCookie()">Accept</button>
           <button class="btn-choice no" @click="rejectCookie()">Reject</button>
         </div>
         <div class="link-row">

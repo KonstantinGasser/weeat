@@ -4,14 +4,8 @@
         <span>We make your meals!</span>
         <i class="bi bi-x icon-medium" @click="closeWidget()"></i>
     </div>
-    <div class="">
-      <div class="generate-meals">
-        <i v-if="!isGenerating" class="bi bi-arrow-clockwise" @click="isGenerating=!isGenerating"></i>
-        <div v-if="isGenerating" class="loader"></div>
-      </div>
-      <div class="row g-2 d-flex justify-end my-2">
-        <button class="action-btn" @click="addFood()">Add</button>
-      </div>
+    <div class="widget-body">
+      Mhm sorry.. this feature is still under development 😅 - stay up to date and have a look at the <a href="/#/changelog">changelog</a>
     </div>
   </div>
 </template>

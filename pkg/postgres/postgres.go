@@ -291,3 +291,7 @@ func (conn *Conn) GetCategories(ctx context.Context, _type int) ([]dao.Category,
 	}
 	return cats, nil
 }
+
+func (conn *Conn) InitVerifyItem(ctx context.Context, item dao.VerifyItem) error {
+	return nil
+}

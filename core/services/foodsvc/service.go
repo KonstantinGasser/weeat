@@ -13,7 +13,9 @@ import (
 )
 
 const (
-	searchLimit = 10
+	// maxSearchLimit refers to the maximum number
+	// of items which can be search
+	maxSearchLimit = 10
 )
 
 type Service struct {
@@ -78,7 +80,7 @@ func (svc Service) Get(ctx context.Context, ID string, amount int) (dto.Food, re
 func (svc Service) Search(ctx context.Context, query string, limit int) ([]dto.FoodQuery, response.RespErr) {
 
 	// limit is the limit for the SQL-Statement, it should not be to big
-	if limit > searchLimit {
+	if limit > maxSearchLimit {
 		return nil, response.Err(fmt.Errorf("limit exceeds allows threshold"), http.StatusBadRequest, "Search limit must be lower 10")
 	}
 
