@@ -79,6 +79,8 @@ func main() {
 		categorysvc,
 	), "GET")
 
+	apihttp.Register("/sse/events", nil, "GET")
+
 	// start API Http server
 	if err := apihttp.Listen(); err != nil {
 		logrus.Panic(err)

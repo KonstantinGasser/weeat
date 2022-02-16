@@ -21,12 +21,22 @@ func New(repo VerifyRepo) *Service {
 	}
 }
 
+// Trigger pushes the an event to the processor stream
+//
+// an event can be anything which needs to be verified
 func (svc Service) Trigger(item verification.FoodEvent) {
 	svc.stream <- item
 }
 
 // Start spins up the listener, listening for
 // new events to be verified
+//
+// the verification process:
+// 1) a new food item which gets created initially will be caught by the stream
+// 2) the food item gets inserted in the database with the verification status :INIT: and default values for ack etc
+// 3) the food item will be queued to be serves through a SSE connection
+// 4)
+//
 func (svc Service) Start() {
 
 	for {
@@ -43,3 +53,5 @@ func (svc Service) Start() {
 		}
 	}
 }
+
+func (svc Service) 
