@@ -129,6 +129,13 @@ export default {
   },
   unmounted() {
     console.log("destroying: new.Food")
+    this.food_name = null
+    this.food_cat = 1
+    this.food_kcal = null
+    this.food_carbs = null
+    this.food_sugar = null 
+    this.foot_protein = null
+    this.food_fats = null
   },
   computed: {
     unitText() {

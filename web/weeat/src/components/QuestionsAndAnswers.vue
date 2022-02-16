@@ -5,7 +5,7 @@
         <a href="/"> <span>we</span>Eat </a>
       </h1>
     </div>
-    <div class="random-stats">
+    <!-- <div class="random-stats">
       <div class="stat foods">
         <span class="stat-name">#foods</span>
         <span class="stat-figure">1024</span>
@@ -14,7 +14,7 @@
         <span class="stat-name">#recipes</span>
         <span class="stat-figure">256</span>
       </div>
-    </div>
+    </div> -->
     <section>
       <div class="space"></div>
       <h2>
@@ -169,6 +169,7 @@ export default {
 section {
   width: 100vw;
   height: 100%;
+  max-height: 65vh;
   margin-bottom: 75px;
   overflow: scroll;
   margin-bottom: 0px;

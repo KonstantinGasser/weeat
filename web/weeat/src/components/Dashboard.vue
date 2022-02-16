@@ -323,7 +323,7 @@ hr {
 }
 
 .start-grid {
-  height: 50%;
+  /* height: 50%; */
   display: flex;
   flex-direction: column;
 }
